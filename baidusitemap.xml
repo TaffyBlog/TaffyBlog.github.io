@@ -4,8 +4,62 @@
 
     
   <url>
+    <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
+    <lastmod>2018-11-04T14:36:55.310Z</lastmod>
+    <data>
+        <display>
+        <title>工具及、知识点及外链收集</title>
+        <pubTime>2017-10-14T06:34:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/aspnetDockerError/</loc>
+    <lastmod>2018-11-04T14:30:50.827Z</lastmod>
+    <data>
+        <display>
+        <title>ASP.NET Core发布到Docker遇到的问题</title>
+        <pubTime>2018-11-04T12:42:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title=".Net Core" url="https://taffyblog.github.io/categories/Net-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/dockerImageDel/</loc>
+    <lastmod>2018-11-04T14:26:51.455Z</lastmod>
+    <data>
+        <display>
+        <title>Docker 容器镜像删除</title>
+        <pubTime>2018-11-04T13:42:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title=".Net Core" url="https://taffyblog.github.io/categories/Net-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://taffyblog.github.io/2018/10/11/aspnetPipleline/</loc>
-    <lastmod>2018-10-15T13:59:00.087Z</lastmod>
+    <lastmod>2018-10-27T12:32:44.908Z</lastmod>
     <data>
         <display>
         <title>ASP.NET管道模型</title>
@@ -1143,24 +1197,6 @@
            
              
               <breadCrumb title="设计模式" url="https://taffyblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
-    <lastmod>2018-09-05T11:25:51.737Z</lastmod>
-    <data>
-        <display>
-        <title>工具及、知识点及外链收集</title>
-        <pubTime>2017-10-14T06:34:26.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
           
         </display>
     </data>

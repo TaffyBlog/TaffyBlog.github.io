@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
+    
+    <lastmod>2018-11-04T14:36:55.310Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/aspnetDockerError/</loc>
+    
+    <lastmod>2018-11-04T14:30:50.827Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/dockerImageDel/</loc>
+    
+    <lastmod>2018-11-04T14:26:51.455Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://taffyblog.github.io/2018/10/11/aspnetPipleline/</loc>
     
-    <lastmod>2018-10-15T13:59:00.087Z</lastmod>
+    <lastmod>2018-10-27T12:32:44.908Z</lastmod>
     
   </url>
   
@@ -453,13 +474,6 @@
     <loc>https://taffyblog.github.io/2017/06/03/abstractFactory/</loc>
     
     <lastmod>2018-09-05T11:25:51.738Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.737Z</lastmod>
     
   </url>
   
