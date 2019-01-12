@@ -4,6 +4,42 @@
 
     
   <url>
+    <loc>https://taffyblog.github.io/2019/01/12/installNg/</loc>
+    <lastmod>2019-01-12T03:48:24.004Z</lastmod>
+    <data>
+        <display>
+        <title>Centos7安装nginx</title>
+        <pubTime>2019-01-12T10:37:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="https://taffyblog.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2019/01/12/nginxTurn/</loc>
+    <lastmod>2019-01-12T03:39:09.012Z</lastmod>
+    <data>
+        <display>
+        <title>nginx实现二级域名转发</title>
+        <pubTime>2019-01-12T09:37:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="https://taffyblog.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
     <lastmod>2018-11-04T14:36:55.310Z</lastmod>
     <data>
