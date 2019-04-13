@@ -306,24 +306,30 @@
 <li>将第一步得到的结果与第三步得到的结果进行或异运算并判断是否有进位。</li>
 <li>循环至第三步，直至没有进位为止。</li>
 </ol>
-<h5 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h5><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">int</span> <span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">int</span> num1<span class="token punctuation">,</span> <span class="token keyword">int</span> num2<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>num2 <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//进行异或运算</span>
-        sum <span class="token operator">=</span> num1 <span class="token operator">^</span> num2<span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">//使用与运算判断是否有进位，与运算的结果为0则没有进位。然后向左移一位。</span>
-        num2 <span class="token operator">=</span> <span class="token punctuation">(</span>num1 <span class="token operator">&amp;</span> num2<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">//将异或运算结果给第一个操作数进行进位后的运算</span>
-        num1 <span class="token operator">=</span> sum<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token keyword">while</span> <span class="token punctuation">(</span>num2 <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span> num1<span class="token punctuation">;</span>
+<h5 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h5><pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 递归写法</span>
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> num1<span class="token punctuation">,</span> <span class="token keyword">int</span> num2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>num2 <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> num1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> num1 <span class="token operator">^</span> num2<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> carry <span class="token operator">=</span> <span class="token punctuation">(</span>num1 <span class="token operator">&amp;</span> num2<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">add</span><span class="token punctuation">(</span>sum<span class="token punctuation">,</span> carry<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<span class="token comment" spellcheck="true">// 迭代写法</span>
+<span class="token keyword">int</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">int</span> num1<span class="token punctuation">,</span> <span class="token keyword">int</span> num2<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//进行异或运算</span>
+    <span class="token keyword">int</span> sum <span class="token operator">=</span> num1 <span class="token operator">^</span> num2<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//使用与运算判断是否有进位，与运算的结果为0则没有进位。然后向左移一位。</span>
+    <span class="token keyword">int</span> carry <span class="token operator">=</span> <span class="token punctuation">(</span>num1 <span class="token operator">&amp;</span> num2<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span>  
+    <span class="token keyword">while</span><span class="token punctuation">(</span>carry <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">int</span> a <span class="token operator">=</span> sum<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> b <span class="token operator">=</span> carry<span class="token punctuation">;</span>
+        sum <span class="token operator">=</span> a <span class="token operator">^</span> b<span class="token punctuation">;</span>
+        carry <span class="token operator">=</span> <span class="token punctuation">(</span>a <span class="token operator">&amp;</span> b<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> sum<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="减法运算"><a href="#减法运算" class="headerlink" title="减法运算"></a>减法运算</h3><h5 id="减法运算的原理"><a href="#减法运算的原理" class="headerlink" title="减法运算的原理"></a>减法运算的原理</h5><p>减法和运算可以转化为加法，如:4-5=4+(-5);<br>减法就是将减数取补码，然后和被减数相加。</p>
 <h5 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h5><pre class="line-numbers language-java"><code class="language-java"> <span class="token keyword">int</span> <span class="token function">Sub</span><span class="token punctuation">(</span><span class="token keyword">int</span> num1<span class="token punctuation">,</span><span class="token keyword">int</span> num2<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
@@ -457,6 +463,12 @@
             
             <li class="list-group-item">
                 <span class="post-title">
+                    <a href="/2019/04/13/fistAngular/">Angular初次尝试</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
                     <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
                 </span>
             </li>
@@ -509,12 +521,6 @@
                 </span>
             </li>
             
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
-                </span>
-            </li>
-            
         </ul>
     </div>
 </aside>
@@ -533,13 +539,31 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/05/14/httprequestheader/">Http请求头参数</a>
+                    <a href="/2018/06/22/DestructuringAssignment/">Javascript解构赋值</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/06/26/jsPromise/">Promise 异步优化</a>
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/gethtmlimg/">从富文本(HTML字符串)中获取图片</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/lock/">浅谈lock关键字</a>
                 </span>
             </li>
             
@@ -551,43 +575,25 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/05/16/oracletrigger/">Oracle触发器及包创建</a>
+                    <a href="/2018/04/29/thisOfJs/">this关键字</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/04/29/jsSingleton/">Js单例模式</a>
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2017/10/22/validateImage/">JavaScript绘制图片验证码</a>
+                    <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
                 </span>
             </li>
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2017/10/14/Crawler/">爬虫初探</a>
-                </span>
-            </li>
-            
-            <li class="list-group-item">
-                <span class="post-title">
-                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
                 </span>
             </li>
             
@@ -612,41 +618,43 @@
             <div class="tab-content">
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/结构型设计模式/" style="font-size: 9.20579937010523px;" class="tag-cloud-link">结构型设计模式</a>
+    <a href="/tags/结构型设计模式/" style="font-size: 9.161706201472523px;" class="tag-cloud-link">结构型设计模式</a>
     
-    <a href="/tags/EF6/" style="font-size: 10.32667599410445px;" class="tag-cloud-link">EF6</a>
+    <a href="/tags/EF6/" style="font-size: 10.52087723672918px;" class="tag-cloud-link">EF6</a>
     
-    <a href="/tags/Javascript/" style="font-size: 13.39943935088627px;" class="tag-cloud-link">Javascript</a>
+    <a href="/tags/Javascript/" style="font-size: 12.477166527632551px;" class="tag-cloud-link">Javascript</a>
     
-    <a href="/tags/创建型设计模式/" style="font-size: 13.584626363905636px;" class="tag-cloud-link">创建型设计模式</a>
+    <a href="/tags/创建型设计模式/" style="font-size: 16.00351500664854px;" class="tag-cloud-link">创建型设计模式</a>
     
-    <a href="/tags/程序集/" style="font-size: 8.636278668223376px;" class="tag-cloud-link">程序集</a>
+    <a href="/tags/程序集/" style="font-size: 9.609438192328785px;" class="tag-cloud-link">程序集</a>
     
-    <a href="/tags/CSS/" style="font-size: 14.916244097522563px;" class="tag-cloud-link">CSS</a>
+    <a href="/tags/CSS/" style="font-size: 18.687470437697762px;" class="tag-cloud-link">CSS</a>
     
-    <a href="/tags/javascript/" style="font-size: 14.400145662204476px;" class="tag-cloud-link">javascript</a>
+    <a href="/tags/Angular/" style="font-size: 19.032497293812px;" class="tag-cloud-link">Angular</a>
     
-    <a href="/tags/正则表达式/" style="font-size: 16.323136674130776px;" class="tag-cloud-link">正则表达式</a>
+    <a href="/tags/javascript/" style="font-size: 19.75279768488643px;" class="tag-cloud-link">javascript</a>
     
-    <a href="/tags/WinForm/" style="font-size: 18.70690593670712px;" class="tag-cloud-link">WinForm</a>
+    <a href="/tags/正则表达式/" style="font-size: 18.482927255788603px;" class="tag-cloud-link">正则表达式</a>
     
-    <a href="/tags/Oracle/" style="font-size: 11.29615715236415px;" class="tag-cloud-link">Oracle</a>
+    <a href="/tags/WinForm/" style="font-size: 10.417253124951039px;" class="tag-cloud-link">WinForm</a>
     
-    <a href="/tags/多线程/" style="font-size: 14.830554516102888px;" class="tag-cloud-link">多线程</a>
+    <a href="/tags/多线程/" style="font-size: 16.51829545565102px;" class="tag-cloud-link">多线程</a>
     
-    <a href="/tags/加密/" style="font-size: 8.407174693634627px;" class="tag-cloud-link">加密</a>
+    <a href="/tags/Oracle/" style="font-size: 11.964348812829737px;" class="tag-cloud-link">Oracle</a>
     
-    <a href="/tags/ES6/" style="font-size: 13.613228305423892px;" class="tag-cloud-link">ES6</a>
+    <a href="/tags/ES6/" style="font-size: 14.216250376591791px;" class="tag-cloud-link">ES6</a>
     
-    <a href="/tags/VueJs/" style="font-size: 12.887694300945377px;" class="tag-cloud-link">VueJs</a>
+    <a href="/tags/VueJs/" style="font-size: 13.688487138400463px;" class="tag-cloud-link">VueJs</a>
     
-    <a href="/tags/代码段/" style="font-size: 14.087816885172918px;" class="tag-cloud-link">代码段</a>
+    <a href="/tags/加密/" style="font-size: 12.090272357066386px;" class="tag-cloud-link">加密</a>
     
-    <a href="/tags/ASP-NET/" style="font-size: 9.444321616601714px;" class="tag-cloud-link">ASP.NET</a>
+    <a href="/tags/代码段/" style="font-size: 18.105756698713716px;" class="tag-cloud-link">代码段</a>
     
-    <a href="/tags/XML/" style="font-size: 13.884467413759129px;" class="tag-cloud-link">XML</a>
+    <a href="/tags/ASP-NET/" style="font-size: 18.933170693503357px;" class="tag-cloud-link">ASP.NET</a>
     
-    <a href="/tags/数据库/" style="font-size: 14.647537917277837px;" class="tag-cloud-link">数据库</a>
+    <a href="/tags/XML/" style="font-size: 14.38428611218498px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/数据库/" style="font-size: 13.697444082239443px;" class="tag-cloud-link">数据库</a>
     
 </div>
                 <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">

@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://taffyblog.github.io/2019/04/13/fistAngular/</loc>
+    
+    <lastmod>2019-04-13T11:30:31.987Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/10/assemblies/</loc>
+    
+    <lastmod>2019-03-07T13:12:10.507Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/12/aspdownbigfile/</loc>
+    
+    <lastmod>2019-03-07T13:08:14.854Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/26/locationgit/</loc>
+    
+    <lastmod>2019-03-07T13:01:53.004Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/24/bitoperator/</loc>
+    
+    <lastmod>2019-03-07T12:48:48.336Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/29/linuxInstallOracle/</loc>
+    
+    <lastmod>2019-03-07T12:41:18.772Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://taffyblog.github.io/2019/01/12/installNg/</loc>
     
     <lastmod>2019-01-12T03:48:24.004Z</lastmod>
@@ -303,20 +345,6 @@
   </url>
   
   <url>
-    <loc>https://taffyblog.github.io/2017/09/26/locationgit/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.796Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://taffyblog.github.io/2017/05/29/linuxInstallOracle/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.792Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://taffyblog.github.io/2018/04/29/jsSingleton/</loc>
     
     <lastmod>2018-09-05T11:25:51.790Z</lastmod>
@@ -460,27 +488,6 @@
     <loc>https://taffyblog.github.io/2018/04/09/closureScope/</loc>
     
     <lastmod>2018-09-05T11:25:51.748Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://taffyblog.github.io/2017/05/24/bitoperator/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.746Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://taffyblog.github.io/2017/05/10/assemblies/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.743Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://taffyblog.github.io/2017/05/12/aspdownbigfile/</loc>
-    
-    <lastmod>2018-09-05T11:25:51.741Z</lastmod>
     
   </url>
   
