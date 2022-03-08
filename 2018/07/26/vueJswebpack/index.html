@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>VueJs通过webpack启服务运行VUE模块文件 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>VueJs通过webpack启服务运行VUE模块文件</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/07/26/vueJswebpack/">VueJs通过webpack启服务运行VUE模块文件</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/VueJs/">VueJs</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-07-26
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/07/26/vueJswebpack/">VueJs通过webpack启服务运行VUE模块文件</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-07-26
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/VueJs/">VueJs</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装依赖"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装依赖</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#安装命令"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">安装命令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置package-json"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">配置package.json</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置webpack-webpack-config-js"><span class="post-toc-number">2.</span> <span class="post-toc-text">配置webpack  webpack.config.js</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编写-babelrc"><span class="post-toc-number">3.</span> <span class="post-toc-text">编写.babelrc</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编写入口文件-main-js"><span class="post-toc-number">4.</span> <span class="post-toc-text">编写入口文件 main.js</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建立-index-html-引用-build-js"><span class="post-toc-number">5.</span> <span class="post-toc-text">建立 index.html 引用 build.js</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建立Vue模块文件"><span class="post-toc-number">6.</span> <span class="post-toc-text">建立Vue模块文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行测试"><span class="post-toc-number">7.</span> <span class="post-toc-text">运行测试</span></a></li></ol>
+    <div class="content-article">
+        <h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><h3 id="安装命令"><a href="#安装命令" class="headerlink" title="安装命令"></a>安装命令</h3><pre class="line-numbers language-bash"><code class="language-bash">cnpm init
+
+cnpm i vue –s   
+
+cnpm i -g webpack-cli
+
+<span class="token function">npm</span> i -D webpack webpack-cli 
+
+cnpm i -D webpack webpack-dev-server 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>I install    -s –save</p>
+</blockquote>
+<p>预编译模板：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">cnpm i -D vue-loader vue-html-loader vue-style-loader　vue-template-compiler
+
+cnpm i -D css-loader file-loader style-loader
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash"><code class="language-bash">cnpm i -D babel-loader babel-core babel-preset-env
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>使用<code>-D</code>会安装到<code>devDependencies</code>,使用<code>-S</code>会安装到<code>dependencies</code>，分别表示生产环境和开发环境的依赖。例如<code>jquery</code>，<code>vue</code>属于项目运行的依赖插件，需要放入<code>dependencies</code>中，像<code>gulp</code>，<code>webpack</code>等打包工具，在开发时发挥作用，存在开发环境即可。</p>
+</blockquote>
+<h3 id="配置package-json"><a href="#配置package-json" class="headerlink" title="配置package.json"></a>配置package.json</h3><pre class="line-numbers language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"vue"</span><span class="token operator">:</span> <span class="token string">"^2.5.16"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"babel-core"</span><span class="token operator">:</span> <span class="token string">"^6.26.3"</span><span class="token punctuation">,</span>
+    <span class="token property">"babel-loader"</span><span class="token operator">:</span> <span class="token string">"^7.1.5"</span><span class="token punctuation">,</span>
+    <span class="token property">"babel-preset-env"</span><span class="token operator">:</span> <span class="token string">"^1.7.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"css-loader"</span><span class="token operator">:</span> <span class="token string">"^1.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"file-loader"</span><span class="token operator">:</span> <span class="token string">"^1.1.11"</span><span class="token punctuation">,</span>
+    <span class="token property">"style-loader"</span><span class="token operator">:</span> <span class="token string">"^0.21.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"vue-html-loader"</span><span class="token operator">:</span> <span class="token string">"^1.2.4"</span><span class="token punctuation">,</span>
+    <span class="token property">"vue-loader"</span><span class="token operator">:</span> <span class="token string">"^15.2.6"</span><span class="token punctuation">,</span>
+    <span class="token property">"vue-style-loader"</span><span class="token operator">:</span> <span class="token string">"^4.1.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"vue-template-compiler"</span><span class="token operator">:</span> <span class="token string">"^2.5.16"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack"</span><span class="token operator">:</span> <span class="token string">"^4.16.3"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack-cli"</span><span class="token operator">:</span> <span class="token string">"^3.1.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"webpack-dev-server"</span><span class="token operator">:</span> <span class="token string">"^3.1.5"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"webpack-vue"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"1.0.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"main.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"webpack-dev-server --open"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">""</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>注意<code>main</code>节点配置了入口;<code>scripts</code>的<code>dev</code>配置了服务启动的快捷命令(可以不叫<code>dev</code>);</p>
+</blockquote>
+<blockquote>
+<p><code>dependencies</code>是开发时需要依赖的模块，<code>devDependencies</code>是部署到生产环境需要的模块。</p>
+</blockquote>
+<h2 id="配置webpack-webpack-config-js"><a href="#配置webpack-webpack-config-js" class="headerlink" title="配置webpack  webpack.config.js"></a>配置<code>webpack</code>  webpack.config.js</h2><pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">const</span> VueLoaderPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'vue-loader/lib/plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+module<span class="token punctuation">.</span>exports<span class="token operator">=</span><span class="token punctuation">{</span>       <span class="token comment" spellcheck="true">//模块</span>
+    entry<span class="token punctuation">:</span> <span class="token string">'./main.js'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">//入口文件</span>
+
+    output<span class="token punctuation">:</span><span class="token punctuation">{</span>              <span class="token comment" spellcheck="true">//将VUE文件编译输出</span>
+        path<span class="token punctuation">:</span> __dirname<span class="token punctuation">,</span> <span class="token comment" spellcheck="true">//项目根路径 是node.js中的一个全局变量,它指向当前执行脚本所在的目录</span>
+        filename<span class="token punctuation">:</span> <span class="token string">'build.js'</span>   <span class="token comment" spellcheck="true">//所有的JS放入build.js</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token comment" spellcheck="true">// make sure to include the plugin for the magic</span>
+        <span class="token keyword">new</span> <span class="token class-name">VueLoaderPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    module<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        rules<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span>                  <span class="token comment" spellcheck="true">//加载规则</span>
+            test<span class="token punctuation">:</span><span class="token regex">/\.vue$/</span><span class="token punctuation">,</span>         <span class="token comment" spellcheck="true">//vue文件</span>
+            loader<span class="token punctuation">:</span><span class="token string">'vue-loader'</span>    <span class="token comment" spellcheck="true">//加载器</span>
+
+        <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>
+            test<span class="token punctuation">:</span><span class="token regex">/\.js$/</span><span class="token punctuation">,</span>
+            loader<span class="token punctuation">:</span><span class="token string">'babel-loader'</span><span class="token punctuation">,</span>       <span class="token comment" spellcheck="true">//ES6转换，所有的ES6文件加载及转换</span>
+            exclude<span class="token punctuation">:</span> <span class="token operator">/</span>node_modules<span class="token operator">/</span>     <span class="token comment" spellcheck="true">//排除这个目录</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span>
+            test<span class="token punctuation">:</span> <span class="token regex">/\.css$/</span><span class="token punctuation">,</span>                       <span class="token comment" spellcheck="true">//vue-loader@15.*之后除了必须带有VueLoaderPlugin 之外，还需另外单独配置css-loader。</span>
+            use<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'style-loader'</span><span class="token punctuation">,</span><span class="token string">'css-loader'</span><span class="token punctuation">]</span>
+          <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="编写-babelrc"><a href="#编写-babelrc" class="headerlink" title="编写.babelrc"></a>编写<code>.babelrc</code></h2><p>babel是什么?</p>
+<blockquote>
+<p>babel官网正中间一行黄色大字写着“babel is a javascript compiler”，翻译一下就是babel是一个javascript转译器。为什么会有babel存在呢？原因是javascript在不断的发展，但是浏览器的发展速度跟不上。以es6为例，es6中为javascript增加了箭头函数、块级作用域等新的语法和Symbol、Promise等新的数据类型，但是这些语法和数据类型并不能够马上被现在的浏览器全部支持，为了能在现有的浏览器上使用js新的语法和新的数据类型，就需要使用一个转译器，将javascript中新增的特性转为现代浏览器能理解的形式。babel就是做这个方面的转化工作。</p>
+</blockquote>
+<pre class="line-numbers language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"presets"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token string">"env"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token property">"module"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="编写入口文件-main-js"><a href="#编写入口文件-main-js" class="headerlink" title="编写入口文件 main.js"></a>编写入口文件 <code>main.js</code></h2><blockquote>
+<p>main.js是入口文件 webpack编译会通过根目录文件打包到build.js</p>
+</blockquote>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
+
+
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+    render<span class="token punctuation">:</span> h <span class="token operator">=</span><span class="token operator">></span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//渲染App.vue</span>
+    <span class="token comment" spellcheck="true">//render:function(createElement) {</span>
+        <span class="token comment" spellcheck="true">//return createElement(App);</span>
+    <span class="token comment" spellcheck="true">//}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="建立-index-html-引用-build-js"><a href="#建立-index-html-引用-build-js" class="headerlink" title="建立 index.html 引用 build.js"></a>建立 index.html 引用 build.js</h2><pre class="line-numbers language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>vue-demo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>build.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时<code>webpack</code> 将<code>js/vue</code>打包到<code>build.js</code>。<br>先执行<code>npm install</code> 或者<code>cnpm install</code>。</p>
+<h2 id="建立Vue模块文件"><a href="#建立Vue模块文件" class="headerlink" title="建立Vue模块文件"></a>建立Vue模块文件</h2><ol>
+<li>App.vue</li>
+</ol>
+<pre class="line-numbers language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Welcome to<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>{{name}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>change<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>update name<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- &lt;user-list>&lt;/user-list> --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>User</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>User</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>
+  import User from './components/User.vue'
+  export default {
+    data(){
+      return {
+        name: 'jack'
+      }
+    },
+    methods:{
+      change(){
+        this.name = 'tom';
+      }
+    },
+    components:{
+      // 'user-list':User
+      User  //相当于User:User
+    }
+  }
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token punctuation">></span></span><span class="token style language-css">
+   <span class="token selector"><span class="token id">#app</span></span><span class="token punctuation">{</span>
+     <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token hexcode">#ccc</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>User.vue</li>
+</ol>
+<pre class="line-numbers language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>用户列表<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>v in users<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>{{v}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>
+  console.log(111);
+  export default {
+    data(){
+      return {
+        users:['tom', 'jack', 'mike']
+      }
+    }
+  }
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- scoped表示该样式只在当前组件中有效 --></span>
+<span class="token comment" spellcheck="true">&lt;!-- 加了scoped后，就不影响app.vue中的h1，否则影响 --></span>
+<span class="token comment" spellcheck="true">&lt;!-- 注意：修改style后，页面热加载有问题，需手动刷新 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">scoped</span><span class="token punctuation">></span></span><span class="token style language-css">
+   <span class="token selector">h1</span><span class="token punctuation">{</span>
+     <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>代码结构如下：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/webpack.png" alt="图片"></p>
+<h2 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h2><p>执行<code>npm run dev</code></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'VueJs通过webpack启服务运行VUE模块文件'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/datawidth/">汇编学习(二)--数据宽度</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httpclient/">HttpClient类的使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/26/jsPromise/">Promise 异步优化</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/16/oracletrigger/">Oracle触发器及包创建</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/20/serializable/">对象序列化</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/25/vueAttr/">VueJs实例属性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2018/07/26/vueJswebpack/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2018/07/26/vueJswebpack/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2018/07/26/vueJswebpack/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 19.585218619282927px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 16.25109180550218px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 13.265514206894029px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 11.420578289757646px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 18.515801211688643px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 12.117687222350968px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 18.83627650496651px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 19.409694095774476px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 8.65552630492272px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 15.921549326269483px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 8.638378131814822px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 15.337033595321191px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 16.676678881091263px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 16.995830922189207px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 18.940354255550567px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 17.072147259663215px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 11.587132538155554px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 11.377800611856767px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Thu Jul 26 2018 20:13:16 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Thu Jul 26 2018 20:13:16 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

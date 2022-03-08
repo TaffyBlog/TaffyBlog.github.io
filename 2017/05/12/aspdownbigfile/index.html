@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>ASP.NET断点续传大文件 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>ASP.NET断点续传大文件</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/代码段/">代码段</a>, 
+                
+                <a href="/tags/ASP-NET/">ASP.NET</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-12
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-12
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/代码段/">代码段</a>, 
+                
+                <a href="/tags/ASP-NET/">ASP.NET</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    
+    <div class="content-article">
+        <blockquote>
+<p>转载而来，但忘了从哪转的了</p>
+</blockquote>
+<p>IE的自带下载功能中没有断点续传功能，要实现断点续传功能，需要用到HTTP协议中鲜为人知的几个响应头和请求头。<br>一. 两个必要响应头Accept-Ranges、ETag<br>        客户端每次提交下载请求时，服务端都要添加这两个响应头，以保证客户端和服务端将此下载识别为可以断点续传的下载：<br>Accept-Ranges：告知下载客户端这是一个可以恢复续传的下载，存放本次下载的开始字节位置、文件的字节大小；<br>ETag：保存文件的唯一标识（我在用的文件名+文件最后修改时间，以便续传请求时对文件进行验证）；<br>Last-Modified：可选响应头，存放服务端文件的最后修改时间，用于验证</p>
+<p>二. 一个重要请求头Range<br>Range：首次下载时，Range头为null，此时服务端的响应头中必须添加响应头Accept-Ranges、ETag；<br>              续传请求时，其值表示客户端已经收到的字节数，即本次下载的开始字节位置，服务端依据这个 值从相应位置读取数据发送到客户端。</p>
+<p>三. 用于验证的请求头If-Range、<br>       当响应头中包含有Accept-Ranges、ETag时，续传请求时，将包含这些请求头：<br>If-Range：对应响应头ETag的值；<br>Unless-Modified-Since：对应响应头Last-Modified的值。<br>        续传请求时，为了保证客户端与服务端的文件的一致性和正确性，有必要对文件进行验证，验证需要自己写验证代码，就根据解析这两个请求头的值，将客户端已下载的部分与服务端的文件进行对比，如果不吻合，则从头开始下载，如果吻合，则断点续传。</p>
+<p>四.  速度限制<br>        程序中加入了速度限制，用于对客户端进行权限控制的流量限制。</p>
+<p>五. 其它注意事项<br>      如：文件名乱码的问题、文件名中空格变加号、强制客户端显示下载对话框等，详见源码注释：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">//// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// 下载文件，支持大文件、续传、速度限制。支持续传的响应头Accept-Ranges、ETag，请求头Range 。</span>
+<span class="token comment" spellcheck="true">/// Accept-Ranges：响应头，向客户端指明，此进程支持可恢复下载.实现后台智能传输服务（BITS），值为：bytes；</span>
+<span class="token comment" spellcheck="true">/// ETag：响应头，用于对客户端的初始（200）响应，以及来自客户端的恢复请求，</span>
+<span class="token comment" spellcheck="true">/// 必须为每个文件提供一个唯一的ETag值（可由文件名和文件最后被修改的日期组成），这使客户端软件能够验证它们已经下载的字节块是否仍然是最新的。</span>
+
+<span class="token comment" spellcheck="true">/// Range：续传的起始位置，即已经下载到客户端的字节数，值如：bytes=1474560- 。</span>
+<span class="token comment" spellcheck="true">/// 另外：UrlEncode编码后会把文件名中的空格转换中+（+转换为%2b），但是浏览器是不能理解加号为空格的，所以在浏览器下载得到的文件，空格就变成了加号；</span>
+
+<span class="token comment" spellcheck="true">/// 解决办法：UrlEncode 之后, 将 "+" 替换成 "%20"，因为浏览器将%20转换为空格</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="httpContext">当前请求的HttpContext&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="filePath">下载文件的物理路径，含路径、文件名&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="speed">下载速度：每秒允许下载的字节数&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;returns>true下载成功，false下载失败&lt;/returns></span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> bool <span class="token function">DownloadFile</span><span class="token punctuation">(</span>HttpContext httpContext<span class="token punctuation">,</span> string filePath<span class="token punctuation">,</span> <span class="token keyword">long</span> speed<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   bool ret <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+   <span class="token keyword">try</span>
+   <span class="token punctuation">{</span>
+       <span class="token operator">--</span>验证：HttpMethod，请求的文件是否存在#region<span class="token operator">--</span>验证：HttpMethod，请求的文件是否存在
+       <span class="token keyword">switch</span> <span class="token punctuation">(</span>httpContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>HttpMethod<span class="token punctuation">.</span><span class="token function">ToUpper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//目前只支持GET和HEAD方法</span>
+          <span class="token keyword">case</span> <span class="token string">"GET"</span><span class="token operator">:</span>
+           <span class="token keyword">case</span> <span class="token string">"HEAD"</span><span class="token operator">:</span>
+               <span class="token keyword">break</span><span class="token punctuation">;</span>
+           <span class="token keyword">default</span><span class="token operator">:</span>
+               httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>StatusCode <span class="token operator">=</span> <span class="token number">501</span><span class="token punctuation">;</span>
+               <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>File<span class="token punctuation">.</span><span class="token function">Exists</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">)</span>
+       <span class="token punctuation">{</span>
+           httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>StatusCode <span class="token operator">=</span> <span class="token number">404</span><span class="token punctuation">;</span>
+           <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+       <span class="token punctuation">}</span>
+       #endregion
+
+       定义局部变量#region 定义局部变量
+       <span class="token keyword">long</span> startBytes <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+       <span class="token keyword">int</span> packSize <span class="token operator">=</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//分块读取，每块10K bytes</span>
+       string fileName <span class="token operator">=</span> Path<span class="token punctuation">.</span><span class="token function">GetFileName</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       FileStream myFile <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span>filePath<span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Open<span class="token punctuation">,</span> FileAccess<span class="token punctuation">.</span>Read<span class="token punctuation">,</span> FileShare<span class="token punctuation">.</span>ReadWrite<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       BinaryReader br <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BinaryReader</span><span class="token punctuation">(</span>myFile<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">long</span> fileLength <span class="token operator">=</span> myFile<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+
+       <span class="token keyword">int</span> sleep <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>Math<span class="token punctuation">.</span><span class="token function">Ceiling</span><span class="token punctuation">(</span><span class="token number">1000.0</span> <span class="token operator">*</span> packSize <span class="token operator">/</span> speed<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//毫秒数：读取下一数据块的时间间隔</span>
+       string lastUpdateTiemStr <span class="token operator">=</span> File<span class="token punctuation">.</span><span class="token function">GetLastWriteTimeUtc</span><span class="token punctuation">(</span>filePath<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       string eTag <span class="token operator">=</span> HttpUtility<span class="token punctuation">.</span><span class="token function">UrlEncode</span><span class="token punctuation">(</span>fileName<span class="token punctuation">,</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">)</span> <span class="token operator">+</span> lastUpdateTiemStr<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//便于恢复下载时提取请求头;</span>
+       #endregion
+
+ <span class="token operator">--</span>验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修改过<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>#region<span class="token operator">--</span>验证：文件是否太大，是否是续传，且在上次被请求的日期之后是否被修改过<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>myFile<span class="token punctuation">.</span>Length <span class="token operator">></span> Int32<span class="token punctuation">.</span>MaxValue<span class="token punctuation">)</span>
+ <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//-------文件太大了-------</span>
+     httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>StatusCode <span class="token operator">=</span> <span class="token number">413</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//请求实体太大</span>
+     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span>
+
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>httpContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Headers<span class="token punctuation">[</span><span class="token string">"If-Range"</span><span class="token punctuation">]</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//对应响应头ETag：文件名+文件最后修改时间</span>
+ <span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">//----------上次被请求的日期之后被修改过--------------</span>
+     <span class="token keyword">if</span> <span class="token punctuation">(</span>httpContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Headers<span class="token punctuation">[</span><span class="token string">"If-Range"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">Replace</span><span class="token punctuation">(</span><span class="token string">"\""</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token operator">!=</span> eTag<span class="token punctuation">)</span>
+     <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//文件修改过</span>
+         httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>StatusCode <span class="token operator">=</span> <span class="token number">412</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//预处理失败</span>
+         <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+ #endregion
+
+         <span class="token keyword">try</span>
+         <span class="token punctuation">{</span>
+             <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>添加重要响应头、解析请求头、相关验证<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>#region <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>添加重要响应头、解析请求头、相关验证<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">Clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>Buffer <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Content-MD5"</span><span class="token punctuation">,</span> <span class="token function">GetMD5Hash</span><span class="token punctuation">(</span>myFile<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//用于验证文件</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Accept-Ranges"</span><span class="token punctuation">,</span> <span class="token string">"bytes"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//重要：续传必须</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AppendHeader</span><span class="token punctuation">(</span><span class="token string">"ETag"</span><span class="token punctuation">,</span> <span class="token string">"\""</span> <span class="token operator">+</span> eTag <span class="token operator">+</span> <span class="token string">"\""</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//重要：续传必须</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AppendHeader</span><span class="token punctuation">(</span><span class="token string">"Last-Modified"</span><span class="token punctuation">,</span> lastUpdateTiemStr<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//把最后修改日期写入响应                </span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>ContentType <span class="token operator">=</span> <span class="token string">"application/octet-stream"</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//MIME类型：匹配任意文件类型</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Content-Disposition"</span><span class="token punctuation">,</span> <span class="token string">"attachment;filename="</span> <span class="token operator">+</span> HttpUtility<span class="token punctuation">.</span><span class="token function">UrlEncode</span><span class="token punctuation">(</span>fileName<span class="token punctuation">,</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Replace</span><span class="token punctuation">(</span><span class="token string">"+"</span><span class="token punctuation">,</span> <span class="token string">"%20"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Content-Length"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>fileLength <span class="token operator">-</span> startBytes<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Connection"</span><span class="token punctuation">,</span> <span class="token string">"Keep-Alive"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>ContentEncoding <span class="token operator">=</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">;</span>
+             <span class="token keyword">if</span> <span class="token punctuation">(</span>httpContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Headers<span class="token punctuation">[</span><span class="token string">"Range"</span><span class="token punctuation">]</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+             <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//------如果是续传请求，则获取续传的起始位置，即已经下载到客户端的字节数------</span>
+                 httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>StatusCode <span class="token operator">=</span> <span class="token number">206</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//重要：续传必须，表示局部范围响应。初始下载时默认为200</span>
+                 string<span class="token punctuation">[</span><span class="token punctuation">]</span> range <span class="token operator">=</span> httpContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Headers<span class="token punctuation">[</span><span class="token string">"Range"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">Split</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">'='</span><span class="token punctuation">,</span> <span class="token string">'-'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//"bytes=1474560-"</span>
+                 startBytes <span class="token operator">=</span> Convert<span class="token punctuation">.</span><span class="token function">ToInt64</span><span class="token punctuation">(</span>range<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//已经下载的字节数，即本次下载的开始位置  </span>
+                 <span class="token keyword">if</span> <span class="token punctuation">(</span>startBytes <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span> startBytes <span class="token operator">>=</span> fileLength<span class="token punctuation">)</span>
+                 <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//无效的起始位置</span>
+                     <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                 <span class="token punctuation">}</span>
+             <span class="token punctuation">}</span>
+             <span class="token keyword">if</span> <span class="token punctuation">(</span>startBytes <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+             <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//------如果是续传请求，告诉客户端本次的开始字节数，总长度，以便客户端将续传数据追加到startBytes位置后----------</span>
+                 httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">AddHeader</span><span class="token punctuation">(</span><span class="token string">"Content-Range"</span><span class="token punctuation">,</span> string<span class="token punctuation">.</span><span class="token function">Format</span><span class="token punctuation">(</span><span class="token string">" bytes {0}-{1}/{2}"</span><span class="token punctuation">,</span> startBytes<span class="token punctuation">,</span> fileLength <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> fileLength<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+             <span class="token punctuation">}</span>
+             #endregion
+
+             <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>向客户端发送数据块<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>#region <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>向客户端发送数据块<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
+             br<span class="token punctuation">.</span>BaseStream<span class="token punctuation">.</span><span class="token function">Seek</span><span class="token punctuation">(</span>startBytes<span class="token punctuation">,</span> SeekOrigin<span class="token punctuation">.</span>Begin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> maxCount <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>Math<span class="token punctuation">.</span><span class="token function">Ceiling</span><span class="token punctuation">(</span><span class="token punctuation">(</span>fileLength <span class="token operator">-</span> startBytes <span class="token operator">+</span> <span class="token number">0.0</span><span class="token punctuation">)</span> <span class="token operator">/</span> packSize<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//分块下载，剩余部分可分成的块数</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> maxCount <span class="token operator">&amp;&amp;</span> httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>IsClientConnected<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span><span class="token comment" spellcheck="true">//客户端中断连接，则暂停</span>
+                httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">BinaryWrite</span><span class="token punctuation">(</span>br<span class="token punctuation">.</span><span class="token function">ReadBytes</span><span class="token punctuation">(</span>packSize<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">Flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>sleep <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span> Thread<span class="token punctuation">.</span><span class="token function">Sleep</span><span class="token punctuation">(</span>sleep<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            #endregion
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span>
+        <span class="token punctuation">{</span>
+            ret <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">finally</span>
+        <span class="token punctuation">{</span>
+            br<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            myFile<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+   <span class="token keyword">catch</span>
+    <span class="token punctuation">{</span>
+        ret <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+   <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+httpContext<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">Flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//此句可以省略...</span>
+
+<span class="token comment" spellcheck="true">//调用惯例:</span>
+
+Page<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">Clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+bool success <span class="token operator">=</span> <span class="token function">ResponseFile</span><span class="token punctuation">(</span>Page<span class="token punctuation">.</span>Request<span class="token punctuation">,</span>
+
+Page<span class="token punctuation">.</span>Response<span class="token punctuation">,</span> <span class="token string">"filename"</span><span class="token punctuation">,</span> @<span class="token string">"C:\download.date"</span><span class="token punctuation">,</span> <span class="token number">1024000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>success<span class="token punctuation">)</span> Response<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span><span class="token string">"下载文件出错!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Page<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">End</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'ASP.NET断点续传大文件'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/31/Expression/">lambda表达式树拼装</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/19/dbUtility/">使用DbProviderFactory 打造一个通用的数据访问类库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/30/installCore/">在Ubuntu 16.04安装.Net Core</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsSingleton/">Js单例模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/prototypeAndInherit/">原型和继承</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/16/vueJsEvent/">VueJs事件操作</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/17/vueJsFilter/">VueJs过滤器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/10/vuejsInInstruct/">VueJs内置指令入门</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/12/aspdownbigfile/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/12/aspdownbigfile/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/12/aspdownbigfile/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 18.020854878794584px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 8.882541388903192px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 15.883317615238827px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 16.064314016876203px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 14.546275940808625px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 18.54543558883756px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 12.270277293066616px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 9.6867898857971px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 13.085537071876871px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 13.138889503450898px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 14.281687065228047px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 13.436606781620316px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 14.425657970430915px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 13.461840948566092px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 11.048502545414944px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 17.496142859197274px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 11.592214267223733px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 14.542080955519058px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Fri May 12 2017 10:42:19 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Fri May 12 2017 10:42:19 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

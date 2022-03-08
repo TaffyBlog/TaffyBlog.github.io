@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>使用DbProviderFactory 打造一个通用的数据访问类库 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>使用DbProviderFactory 打造一个通用的数据访问类库</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/19/dbUtility/">使用DbProviderFactory 打造一个通用的数据访问类库</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/数据库/">数据库</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-19
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/19/dbUtility/">使用DbProviderFactory 打造一个通用的数据访问类库</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-19
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/数据库/">数据库</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#类库结构"><span class="post-toc-number">1.</span> <span class="post-toc-text">类库结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ProviderFactory"><span class="post-toc-number">2.</span> <span class="post-toc-text">ProviderFactory</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DbUtility"><span class="post-toc-number">3.</span> <span class="post-toc-text">DbUtility</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#EntityReader"><span class="post-toc-number">4.</span> <span class="post-toc-text">EntityReader</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ColumnNameAttribute"><span class="post-toc-number">5.</span> <span class="post-toc-text">ColumnNameAttribute</span></a></li></ol>
+    <div class="content-article">
+        <p><a href="http://zhoufoxcn.blog.51cto.com/792419/832631/" target="_blank" rel="noopener">原文地址</a></p>
+<h4 id="类库结构"><a href="#类库结构" class="headerlink" title="类库结构"></a>类库结构</h4><p>此类库包括ProviderFactory，EntityReader，DbUtility，ColumnNameAttribute五个类。</p>
+<h4 id="ProviderFactory"><a href="#ProviderFactory" class="headerlink" title="ProviderFactory"></a>ProviderFactory</h4><p>工厂类</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// 数据库类型枚举</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token keyword">public</span> <span class="token keyword">enum</span> DbProviderType <span class="token operator">:</span> <span class="token keyword">byte</span>
+<span class="token punctuation">{</span>
+    SqlServer<span class="token punctuation">,</span>
+    MySql<span class="token punctuation">,</span>
+    SQLite<span class="token punctuation">,</span>
+    Oracle<span class="token punctuation">,</span>
+    ODBC<span class="token punctuation">,</span>
+    OleDb<span class="token punctuation">,</span>
+    Firebird<span class="token punctuation">,</span>
+    PostgreSql<span class="token punctuation">,</span>
+    DB2<span class="token punctuation">,</span>
+    Informix<span class="token punctuation">,</span>
+    SqlServerCe
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// DbProviderFactory工厂类</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ProviderFactory</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Dictionary<span class="token operator">&lt;</span>DbProviderType<span class="token punctuation">,</span> string<span class="token operator">></span> providerInvariantNames <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dictionary</span><span class="token operator">&lt;</span>DbProviderType<span class="token punctuation">,</span> string<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Dictionary<span class="token operator">&lt;</span>DbProviderType<span class="token punctuation">,</span> DbProviderFactory<span class="token operator">></span> providerFactoies <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dictionary</span><span class="token operator">&lt;</span>DbProviderType<span class="token punctuation">,</span> DbProviderFactory<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token function">ProviderFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//加载已知的数据库访问类的程序集</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>SqlServer<span class="token punctuation">,</span> <span class="token string">"System.Data.SqlClient"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>OleDb<span class="token punctuation">,</span> <span class="token string">"System.Data.OleDb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>ODBC<span class="token punctuation">,</span> <span class="token string">"System.Data.ODBC"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>Oracle<span class="token punctuation">,</span> <span class="token string">"Oracle.DataAccess.Client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>MySql<span class="token punctuation">,</span> <span class="token string">"MySql.Data.MySqlClient"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>SQLite<span class="token punctuation">,</span> <span class="token string">"System.Data.SQLite"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>Firebird<span class="token punctuation">,</span> <span class="token string">"FirebirdSql.Data.Firebird"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>PostgreSql<span class="token punctuation">,</span> <span class="token string">"Npgsql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>DB2<span class="token punctuation">,</span> <span class="token string">"IBM.Data.DB2.iSeries"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>Informix<span class="token punctuation">,</span> <span class="token string">"IBM.Data.Informix"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        providerInvariantNames<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>DbProviderType<span class="token punctuation">.</span>SqlServerCe<span class="token punctuation">,</span> <span class="token string">"System.Data.SqlServerCe"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 获取指定数据库类型对应的程序集名称</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="providerType">数据库类型枚举&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> string <span class="token function">GetProviderInvariantName</span><span class="token punctuation">(</span>DbProviderType providerType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> providerInvariantNames<span class="token punctuation">[</span>providerType<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 获取指定类型的数据库对应的DbProviderFactory</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="providerType">数据库类型枚举&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> DbProviderFactory <span class="token function">GetDbProviderFactory</span><span class="token punctuation">(</span>DbProviderType providerType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//如果还没有加载，则加载该DbProviderFactory</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>providerFactoies<span class="token punctuation">.</span><span class="token function">ContainsKey</span><span class="token punctuation">(</span>providerType<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            providerFactoies<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>providerType<span class="token punctuation">,</span> <span class="token function">ImportDbProviderFactory</span><span class="token punctuation">(</span>providerType<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> providerFactoies<span class="token punctuation">[</span>providerType<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 加载指定数据库类型的DbProviderFactory</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="providerType">数据库类型枚举&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> DbProviderFactory <span class="token function">ImportDbProviderFactory</span><span class="token punctuation">(</span>DbProviderType providerType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        string providerName <span class="token operator">=</span> providerInvariantNames<span class="token punctuation">[</span>providerType<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        DbProviderFactory factory <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">try</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//从全局程序集中查找</span>
+            factory <span class="token operator">=</span> DbProviderFactories<span class="token punctuation">.</span><span class="token function">GetFactory</span><span class="token punctuation">(</span>providerName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ArgumentException</span> e<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            factory <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> factory<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="DbUtility"><a href="#DbUtility" class="headerlink" title="DbUtility"></a>DbUtility</h4><p>通用数据库访问类</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> sealed <span class="token keyword">class</span> <span class="token class-name">DbUtility</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> string ConnectionString <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">private</span> DbProviderFactory providerFactory<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 构造函数</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="connectionString">数据库连接字符串&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="providerType">数据库类型枚举，参见&lt;paramref name="providerType"/>&lt;/param></span>
+    <span class="token keyword">public</span> <span class="token function">DbUtility</span><span class="token punctuation">(</span>string connectionString<span class="token punctuation">,</span> DbProviderType providerType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ConnectionString <span class="token operator">=</span> connectionString<span class="token punctuation">;</span>
+        providerFactory <span class="token operator">=</span> ProviderFactory<span class="token punctuation">.</span><span class="token function">GetDbProviderFactory</span><span class="token punctuation">(</span>providerType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>providerFactory <span class="token operator">==</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentException</span><span class="token punctuation">(</span><span class="token string">"Can't load DbProviderFactory for given value of providerType"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 对数据库执行增删改操作，返回受影响的行数。    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的增删改的SQL语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行增删改语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>   </span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 对数据库执行增删改操作，返回受影响的行数。    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的增删改的SQL语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行增删改语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">using</span> <span class="token punctuation">(</span>DbCommand command <span class="token operator">=</span> <span class="token function">CreateDbCommand</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            command<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> affectedRows <span class="token operator">=</span> command<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            command<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> affectedRows<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回一个关联的DataReader实例    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">public</span> DbDataReader <span class="token function">ExecuteReader</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">ExecuteReader</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回一个关联的DataReader实例    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">public</span> DbDataReader <span class="token function">ExecuteReader</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        DbCommand command <span class="token operator">=</span> <span class="token function">CreateDbCommand</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        command<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> command<span class="token punctuation">.</span><span class="token function">ExecuteReader</span><span class="token punctuation">(</span>CommandBehavior<span class="token punctuation">.</span>CloseConnection<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回一个包含查询结果的DataTable    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> DataTable <span class="token function">ExecuteDataTable</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">ExecuteDataTable</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回一个包含查询结果的DataTable    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> DataTable <span class="token function">ExecuteDataTable</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">using</span> <span class="token punctuation">(</span>DbCommand command <span class="token operator">=</span> <span class="token function">CreateDbCommand</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">using</span> <span class="token punctuation">(</span>DbDataAdapter adapter <span class="token operator">=</span> providerFactory<span class="token punctuation">.</span><span class="token function">CreateDataAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                adapter<span class="token punctuation">.</span>SelectCommand <span class="token operator">=</span> command<span class="token punctuation">;</span>
+                DataTable data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DataTable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                adapter<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> data<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回查询结果的第一行第一列    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>    </span>
+    <span class="token keyword">public</span> Object <span class="token function">ExecuteScalar</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">ExecuteScalar</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>    </span>
+    <span class="token comment" spellcheck="true">/// 执行一个查询语句，返回查询结果的第一行第一列    </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>    </span>
+    <span class="token keyword">public</span> Object <span class="token function">ExecuteScalar</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">using</span> <span class="token punctuation">(</span>DbCommand command <span class="token operator">=</span> <span class="token function">CreateDbCommand</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            command<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            object result <span class="token operator">=</span> command<span class="token punctuation">.</span><span class="token function">ExecuteScalar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            command<span class="token punctuation">.</span>Connection<span class="token punctuation">.</span><span class="token function">Close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 查询多个实体集合</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">返回的实体集合类型&lt;/typeparam></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> QueryForList<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> QueryForList<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">///  查询多个实体集合</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">返回的实体集合类型&lt;/typeparam></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> QueryForList<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        DataTable data <span class="token operator">=</span> <span class="token function">ExecuteDataTable</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> EntityReader<span class="token punctuation">.</span>GetEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 查询单个实体</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">返回的实体集合类型&lt;/typeparam></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> T QueryForObject<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> QueryForObject<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> CommandType<span class="token punctuation">.</span>Text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 查询单个实体</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">返回的实体集合类型&lt;/typeparam></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">public</span> T QueryForObject<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> QueryForList<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameters<span class="token punctuation">,</span> commandType<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> DbParameter <span class="token function">CreateDbParameter</span><span class="token punctuation">(</span>string name<span class="token punctuation">,</span> object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">CreateDbParameter</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> ParameterDirection<span class="token punctuation">.</span>Input<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> DbParameter <span class="token function">CreateDbParameter</span><span class="token punctuation">(</span>string name<span class="token punctuation">,</span> ParameterDirection parameterDirection<span class="token punctuation">,</span> object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        DbParameter parameter <span class="token operator">=</span> providerFactory<span class="token punctuation">.</span><span class="token function">CreateParameter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        parameter<span class="token punctuation">.</span>ParameterName <span class="token operator">=</span> name<span class="token punctuation">;</span>
+        parameter<span class="token punctuation">.</span>Value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        parameter<span class="token punctuation">.</span>Direction <span class="token operator">=</span> parameterDirection<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> parameter<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 创建一个DbCommand对象</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="sql">要执行的查询语句&lt;/param>    </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="parameters">执行SQL查询语句所需要的参数&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="commandType">执行的SQL语句的类型&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">private</span> DbCommand <span class="token function">CreateDbCommand</span><span class="token punctuation">(</span>string sql<span class="token punctuation">,</span> IList<span class="token operator">&lt;</span>DbParameter<span class="token operator">></span> parameters<span class="token punctuation">,</span> CommandType commandType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        DbConnection connection <span class="token operator">=</span> providerFactory<span class="token punctuation">.</span><span class="token function">CreateConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        DbCommand command <span class="token operator">=</span> providerFactory<span class="token punctuation">.</span><span class="token function">CreateCommand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        connection<span class="token punctuation">.</span>ConnectionString <span class="token operator">=</span> ConnectionString<span class="token punctuation">;</span>
+        command<span class="token punctuation">.</span>CommandText <span class="token operator">=</span> sql<span class="token punctuation">;</span>
+        command<span class="token punctuation">.</span>CommandType <span class="token operator">=</span> commandType<span class="token punctuation">;</span>
+        command<span class="token punctuation">.</span>Connection <span class="token operator">=</span> connection<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token punctuation">(</span>parameters <span class="token operator">==</span> null <span class="token operator">||</span> parameters<span class="token punctuation">.</span>Count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">foreach</span> <span class="token punctuation">(</span>DbParameter parameter in parameters<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                command<span class="token punctuation">.</span>Parameters<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>parameter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> command<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="EntityReader"><a href="#EntityReader" class="headerlink" title="EntityReader"></a>EntityReader</h4><p>实体转换器</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> sealed <span class="token keyword">class</span> <span class="token class-name">EntityReader</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">const</span> BindingFlags BindingFlag <span class="token operator">=</span> BindingFlags<span class="token punctuation">.</span>Public <span class="token operator">|</span> BindingFlags<span class="token punctuation">.</span>NonPublic <span class="token operator">|</span> BindingFlags<span class="token punctuation">.</span>Instance<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//将类型与该类型所有的可写且未被忽略属性之间建立映射  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Dictionary<span class="token operator">&lt;</span>Type<span class="token punctuation">,</span> Dictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">>></span> propertyMappings <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dictionary</span><span class="token operator">&lt;</span>Type<span class="token punctuation">,</span> Dictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">>></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//存储Nullable&lt;T>与T的对应关系  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Dictionary<span class="token operator">&lt;</span>Type<span class="token punctuation">,</span> Type<span class="token operator">></span> genericTypeMappings <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dictionary</span><span class="token operator">&lt;</span>Type<span class="token punctuation">,</span> Type<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> <span class="token function">EntityReader</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Byte<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Byte<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>SByte<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>SByte<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Char<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Char<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Boolean<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Guid<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Guid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Int16<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Int16<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>UInt16<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>UInt16<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Int32<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Int32<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Int32<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Int32<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>UInt32<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>UInt32<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Int64<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>UInt64<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>UInt64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Single<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Single<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Single<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Single<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Double<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Double<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Double<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Double<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Decimal<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Decimal<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>DateTime<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>DateTime<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>DateTime<span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>DateTime<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>TimeSpan<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        genericTypeMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Enum<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>Enum<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将DataTable中的所有数据转换成List&amp;gt;T&amp;lt;集合  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">DataTable中每条数据可以转换的数据类型&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="dataTable">包含有可以转换成数据类型T的数据集合&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DataTable dataTable<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dataTable <span class="token operator">==</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"dataTable"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//如果T的类型满足以下条件：字符串、ValueType或者是Nullable&lt;ValueType>  </span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">typeof</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">.</span>IsValueType<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> GetSimpleEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>dataTable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> GetComplexEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>dataTable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将DbDataReader中的所有数据转换成List&amp;gt;T&amp;lt;集合  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">DbDataReader中每条数据可以转换的数据类型&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="dataTable">包含有可以转换成数据类型T的DbDataReader实例&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DbDataReader reader<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>T<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>reader <span class="token operator">==</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"reader"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//如果T的类型满足以下条件：字符串、ValueType或者是Nullable&lt;ValueType>  </span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">typeof</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">.</span>IsValueType<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> GetSimpleEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>reader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> GetComplexEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>reader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 从DataTable中将每一行的第一列转换成T类型的数据  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">要转换的目标数据类型&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="dataTable">包含有可以转换成数据类型T的数据集合&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetSimpleEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DataTable dataTable<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>T<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">foreach</span> <span class="token punctuation">(</span>DataRow row in dataTable<span class="token punctuation">.</span>Rows<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            list<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token function">GetValueFromObject</span><span class="token punctuation">(</span>row<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="targetType">要转换的目标数据类型&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetValueFromObject</span><span class="token punctuation">(</span>object value<span class="token punctuation">,</span> Type targetType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>targetType <span class="token operator">==</span> <span class="token function">typeof</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//如果要将value转换成string类型  </span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">GetString</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>targetType<span class="token punctuation">.</span>IsGenericType<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//如果目标类型是泛型  </span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">GetGenericValueFromObject</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> targetType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span><span class="token comment" spellcheck="true">//如果是基本数据类型（包括数值类型、枚举和Guid）  </span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">GetNonGenericValueFromObject</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> targetType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 从DataTable中读取复杂数据类型集合  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">要转换的目标数据类型&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="dataTable">包含有可以转换成数据类型T的数据集合&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetComplexEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DataTable dataTable<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>propertyMappings<span class="token punctuation">.</span><span class="token function">ContainsKey</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token function">GenerateTypePropertyMapping</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        List<span class="token operator">&lt;</span>T<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Dictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span> properties <span class="token operator">=</span> propertyMappings<span class="token punctuation">[</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//Dictionary&lt;string, int> propertyColumnOrdinalMapping = GetPropertyColumnIndexMapping(dataTable.Columns, properties);  </span>
+        T t<span class="token punctuation">;</span>
+        <span class="token function">foreach</span> <span class="token punctuation">(</span>DataRow row in dataTable<span class="token punctuation">.</span>Rows<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">T</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">foreach</span> <span class="token punctuation">(</span>KeyValuePair<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span> item in properties<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//int ordinal = -1;  </span>
+                <span class="token comment" spellcheck="true">//if (propertyColumnOrdinalMapping.TryGetValue(item.Key, out ordinal))  </span>
+                <span class="token comment" spellcheck="true">//{  </span>
+                <span class="token comment" spellcheck="true">//    item.Value.SetValue(t, GetValueFromObject(row[ordinal], item.Value.PropertyType), null);  </span>
+                <span class="token comment" spellcheck="true">//}  </span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>dataTable<span class="token punctuation">.</span>Columns<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>Key<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    item<span class="token punctuation">.</span>Value<span class="token punctuation">.</span><span class="token function">SetValue</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> <span class="token function">GetValueFromObject</span><span class="token punctuation">(</span>row<span class="token punctuation">[</span>item<span class="token punctuation">.</span>Key<span class="token punctuation">]</span><span class="token punctuation">,</span> item<span class="token punctuation">.</span>Value<span class="token punctuation">.</span>PropertyType<span class="token punctuation">)</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            list<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 从DbDataReader的实例中读取复杂的数据类型  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">要转换的目标类&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="reader">DbDataReader的实例&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetComplexEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DbDataReader reader<span class="token punctuation">)</span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>propertyMappings<span class="token punctuation">.</span><span class="token function">ContainsKey</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//检查当前是否已经有该类与类的可写属性之间的映射  </span>
+        <span class="token punctuation">{</span>
+            <span class="token function">GenerateTypePropertyMapping</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        List<span class="token operator">&lt;</span>T<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Dictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span> properties <span class="token operator">=</span> propertyMappings<span class="token punctuation">[</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//Dictionary&lt;string, int> propertyColumnOrdinalMapping = GetPropertyColumnIndexMapping(reader, properties);  </span>
+        T t<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>reader<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">T</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">foreach</span> <span class="token punctuation">(</span>KeyValuePair<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span> item in properties<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//int ordinal = -1;  </span>
+                <span class="token comment" spellcheck="true">//if (propertyColumnOrdinalMapping.TryGetValue(item.Key, out ordinal))  </span>
+                <span class="token comment" spellcheck="true">//{  </span>
+                <span class="token comment" spellcheck="true">//    item.Value.SetValue(t, GetValueFromObject(reader[ordinal], item.Value.PropertyType), null);  </span>
+                <span class="token comment" spellcheck="true">//}  </span>
+                item<span class="token punctuation">.</span>Value<span class="token punctuation">.</span><span class="token function">SetValue</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> <span class="token function">GetValueFromObject</span><span class="token punctuation">(</span>reader<span class="token punctuation">[</span>item<span class="token punctuation">.</span>Key<span class="token punctuation">]</span><span class="token punctuation">,</span> item<span class="token punctuation">.</span>Value<span class="token punctuation">.</span>PropertyType<span class="token punctuation">)</span><span class="token punctuation">,</span> null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            list<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 从DbDataReader的实例中读取简单数据类型（String,ValueType)  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;typeparam name="T">目标数据类型&lt;/typeparam>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="reader">DbDataReader的实例&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> GetSimpleEntities<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>DbDataReader reader<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>T<span class="token operator">></span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>reader<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            list<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token function">GetValueFromObject</span><span class="token punctuation">(</span>reader<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将Object转换成字符串类型  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">object类型的实例&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetString</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Convert<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="targetType">&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetEnum</span><span class="token punctuation">(</span>object value<span class="token punctuation">,</span> Type targetType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Enum<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>targetType<span class="token punctuation">,</span> value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetBoolean</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Boolean<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">byte</span> byteValue <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">byte</span><span class="token punctuation">)</span><span class="token function">GetByte</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>byteValue <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetByte</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Byte<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">byte</span><span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetSByte</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is SByte<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> SByte<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetChar</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Char<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Char<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetGuid</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Guid<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Guid</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetInt16</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Int16<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Int16<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetUInt16</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is UInt16<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> UInt16<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetInt32</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Int32<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Int32<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetUInt32</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is UInt32<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> UInt32<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetInt64</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Int64<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Int64<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetUInt64</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is UInt64<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> UInt64<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetSingle</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Single<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Single<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetDouble</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Double<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Double<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetDecimal</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is Decimal<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Decimal<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetDateTime</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is DateTime<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> DateTime<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定枚举类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetTimeSpan</span><span class="token punctuation">(</span>object value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value is TimeSpan<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> TimeSpan<span class="token punctuation">.</span><span class="token function">Parse</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将Object类型数据转换成对应的可空数值类型表示  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="targetType">可空数值类型&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetGenericValueFromObject</span><span class="token punctuation">(</span>object value<span class="token punctuation">,</span> Type targetType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">==</span> DBNull<span class="token punctuation">.</span>Value<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//获取可空数值类型对应的基本数值类型，如int?->int,long?->long  </span>
+            Type nonGenericType <span class="token operator">=</span> genericTypeMappings<span class="token punctuation">[</span>targetType<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token function">GetNonGenericValueFromObject</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> nonGenericType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 将指定的 Object 的值转换为指定类型的值。  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="value">实现 IConvertible 接口的 Object，或者为 null&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="targetType">目标对象的类型&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object <span class="token function">GetNonGenericValueFromObject</span><span class="token punctuation">(</span>object value<span class="token punctuation">,</span> Type targetType<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>targetType<span class="token punctuation">.</span>IsEnum<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//因为  </span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">GetEnum</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> targetType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span>targetType<span class="token punctuation">.</span>Name<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">case</span> <span class="token string">"Byte"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetByte</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"SByte"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetSByte</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Char"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetChar</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Boolean"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetBoolean</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Guid"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetGuid</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Int16"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetInt16</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"UInt16"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetUInt16</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Int32"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetInt32</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"UInt32"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetUInt32</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Int64"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetInt64</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"UInt64"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetUInt64</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Single"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetSingle</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Double"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetDouble</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"Decimal"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetDecimal</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"DateTime"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetDateTime</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> <span class="token string">"TimeSpan"</span><span class="token operator">:</span> <span class="token keyword">return</span> <span class="token function">GetTimeSpan</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">default</span><span class="token operator">:</span> <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 获取该类型中属性与数据库字段的对应关系映射  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="type">&lt;/param>  </span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">GenerateTypePropertyMapping</span><span class="token punctuation">(</span>Type type<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            PropertyInfo<span class="token punctuation">[</span><span class="token punctuation">]</span> properties <span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">GetProperties</span><span class="token punctuation">(</span>BindingFlag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Dictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span> propertyColumnMapping <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Dictionary</span><span class="token operator">&lt;</span>string<span class="token punctuation">,</span> PropertyInfo<span class="token operator">></span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span>Length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            string description <span class="token operator">=</span> string<span class="token punctuation">.</span>Empty<span class="token punctuation">;</span>
+            Attribute<span class="token punctuation">[</span><span class="token punctuation">]</span> attibutes <span class="token operator">=</span> null<span class="token punctuation">;</span>
+            string columnName <span class="token operator">=</span> string<span class="token punctuation">.</span>Empty<span class="token punctuation">;</span>
+            bool ignorable <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token function">foreach</span> <span class="token punctuation">(</span>PropertyInfo p in properties<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                ignorable <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                columnName <span class="token operator">=</span> string<span class="token punctuation">.</span>Empty<span class="token punctuation">;</span>
+                attibutes <span class="token operator">=</span> Attribute<span class="token punctuation">.</span><span class="token function">GetCustomAttributes</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">foreach</span> <span class="token punctuation">(</span>Attribute attribute in attibutes<span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//检查是否设置了ColumnName属性  </span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>attribute<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token function">typeof</span><span class="token punctuation">(</span>ColumnNameAttribute<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">{</span>
+                        columnName <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ColumnNameAttribute<span class="token punctuation">)</span>attribute<span class="token punctuation">)</span><span class="token punctuation">.</span>ColumnName<span class="token punctuation">;</span>
+                        ignorable <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ColumnNameAttribute<span class="token punctuation">)</span>attribute<span class="token punctuation">)</span><span class="token punctuation">.</span>Ignorable<span class="token punctuation">;</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment" spellcheck="true">//如果该属性是可读并且未被忽略的，则有可能在实例化该属性对应的类时用得上  </span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">.</span>CanWrite <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>ignorable<span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//如果没有设置ColumnName属性，则直接将该属性名作为数据库字段的映射  </span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>string<span class="token punctuation">.</span><span class="token function">IsNullOrEmpty</span><span class="token punctuation">(</span>columnName<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">{</span>
+                        columnName <span class="token operator">=</span> p<span class="token punctuation">.</span>Name<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    propertyColumnMapping<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>columnName<span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            propertyMappings<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> propertyColumnMapping<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="ColumnNameAttribute"><a href="#ColumnNameAttribute" class="headerlink" title="ColumnNameAttribute"></a>ColumnNameAttribute</h4><p>给实体类的属性设置名称，用作实体转换，如不设置则为定义的属性名</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token punctuation">[</span><span class="token function">AttributeUsage</span><span class="token punctuation">(</span>AttributeTargets<span class="token punctuation">.</span>Property<span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ColumnNameAttribute</span> <span class="token operator">:</span> Attribute
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 类属性对应的列名  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token keyword">public</span> string ColumnName <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 指示在从DataTable或者DbDataReader中读取类的属性时是否可以忽略这个属性  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token keyword">public</span> bool Ignorable <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 构造函数  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="columnName">类属性对应的列名&lt;/param>  </span>
+    <span class="token keyword">public</span> <span class="token function">ColumnNameAttribute</span><span class="token punctuation">(</span>string columnName<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ColumnName <span class="token operator">=</span> columnName<span class="token punctuation">;</span>
+        Ignorable <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 构造函数  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="ignorable">指示在从DataTable或者DbDataReader中读取类的属性时是否可以忽略这个属性&lt;/param>  </span>
+    <span class="token keyword">public</span> <span class="token function">ColumnNameAttribute</span><span class="token punctuation">(</span>bool ignorable<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Ignorable <span class="token operator">=</span> ignorable<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary>  </span>
+    <span class="token comment" spellcheck="true">/// 构造函数  </span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="columnName">类属性对应的列名&lt;/param>  </span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="ignorable">指示在从DataTable或者DbDataReader中读取类的属性时是否可以忽略这个属性&lt;/param>  </span>
+    <span class="token keyword">public</span> <span class="token function">ColumnNameAttribute</span><span class="token punctuation">(</span>string columnName<span class="token punctuation">,</span> bool ignorable<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ColumnName <span class="token operator">=</span> columnName<span class="token punctuation">;</span>
+        Ignorable <span class="token operator">=</span> ignorable<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '使用DbProviderFactory 打造一个通用的数据访问类库'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/03/abstractFactory/">设计模式(三)--抽象工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/12/17/cssSelector/">CSS选择器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/factorymethod/">设计模式(二)--工厂方法模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/28/remotegit/">使用远程Git仓库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/20/serializable/">对象序列化</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/17/vueJsFilter/">VueJs过滤器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/10/vuejsInInstruct/">VueJs内置指令入门</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/19/dbUtility/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/19/dbUtility/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/19/dbUtility/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 10.226738480530479px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 15.719809193917767px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 13.223780000117864px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 15.811782017722642px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 15.369374749495432px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 16.99045922807681px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 19.743968265818346px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 18.492821126827927px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 18.54803910296831px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 12.538898993523558px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 16.90594134576313px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 11.87686857368465px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 17.610791398036262px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 17.973092977568125px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 18.339752346183293px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 8.149208132941373px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 14.207780874318212px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 17.10505285947565px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Fri May 19 2017 14:45:15 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Fri May 19 2017 14:45:15 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>简单使用NLog进行日志记录 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>简单使用NLog进行日志记录</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-22
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-22
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NLog安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">NLog安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NLog配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">NLog配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#配置元素"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">配置元素</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#日志输出类型"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">日志输出类型</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#路由规则"><span class="post-toc-number">2.0.3.</span> <span class="post-toc-text">路由规则</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#上下文信息"><span class="post-toc-number">2.0.4.</span> <span class="post-toc-text">上下文信息</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#参数"><span class="post-toc-number">2.0.5.</span> <span class="post-toc-text">参数</span></a></li></ol></li></ol></li></ol>
+    <div class="content-article">
+        <p><a href="http://www.cnblogs.com/dflying/archive/2006/12/15/593158.html" target="_blank" rel="noopener">参考链接</a></p>
+<h3 id="NLog安装"><a href="#NLog安装" class="headerlink" title="NLog安装"></a>NLog安装</h3><p>在Visual Studio的NuGet包管理器中搜索NLog安装即可</p>
+<h3 id="NLog配置"><a href="#NLog配置" class="headerlink" title="NLog配置"></a>NLog配置</h3><p>NLog的配置文件可以嵌入到应用程序配置文件中也可单独配置成NLog.config或NLog.dll.nlog<br>此处介绍NLog.config配置,示例如下:</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8" ?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nlog</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.nlog-project.org/schemas/NLog.xsd<span class="token punctuation">"</span></span>
+      <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+      <span class="token attr-name">autoReload</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>targets</span><span class="token punctuation">></span></span>
+
+      <span class="token comment" spellcheck="true">&lt;!-- Log in a separate thread, possibly queueing up to
+messages. When the queue overflows, discard any
+        extra messages--></span>
+      <span class="token comment" spellcheck="true">&lt;!-- write logs to file --></span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>target</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xsi:</span>type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>AsyncWrapper<span class="token punctuation">"</span></span> <span class="token attr-name">queueLimit</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>5000<span class="token punctuation">"</span></span> <span class="token attr-name">overflowAction</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Discard<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>target</span> <span class="token attr-name"><span class="token namespace">xsi:</span>type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>File<span class="token punctuation">"</span></span> <span class="token attr-name">fileName</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${basedir}/logs/${shortdate}.log<span class="token punctuation">"</span></span> <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${longdate} ${level:uppercase<span class="token punctuation">=</span>true} ${message} ${stacktrace}<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>target</span><span class="token punctuation">></span></span>
+
+      <span class="token comment" spellcheck="true">&lt;!-- write log message to database --></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>target</span> <span class="token attr-name"><span class="token namespace">xsi:</span>type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Database<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>infomation<span class="token punctuation">"</span></span>
+                        <span class="token attr-name">dbProvider</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Pomelo.Data.MyCat<span class="token punctuation">"</span></span>
+                        <span class="token attr-name">useTransactions</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+              <span class="token attr-name">connectionString</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>server<span class="token punctuation">=</span>localhost;port<span class="token punctuation">=</span>3306;database<span class="token punctuation">=</span>TESTDB;uid<span class="token punctuation">=</span>root;pwd<span class="token punctuation">=</span>123456;<span class="token punctuation">"</span></span>
+              <span class="token attr-name">keepConnection</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>commandText</span><span class="token punctuation">></span></span>
+          INSERT INTO Log_Table(testDate,Level,Conent,StackMessage) VALUES(@time_stamp, @level, @message, @stacktrace);
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>commandText</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parameter</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>@time_stamp<span class="token punctuation">"</span></span> <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${date}<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parameter</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>@level<span class="token punctuation">"</span></span> <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${level:uppercase<span class="token punctuation">=</span>true}<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parameter</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>@message<span class="token punctuation">"</span></span> <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${message}<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parameter</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>@stacktrace<span class="token punctuation">"</span></span> <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${stacktrace}<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>target</span><span class="token punctuation">></span></span>
+      <span class="token comment" spellcheck="true">&lt;!--write log message to Visual Studio Output--></span>
+      <span class="token comment" spellcheck="true">&lt;!--&lt;target name="debugger" xsi:type="Debugger" layout="NLog: ${date:format=HH\:mm\:ss} | ${level:uppercase=true:padding=-5} | ${message}" />--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>targets</span><span class="token punctuation">></span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rules</span><span class="token punctuation">></span></span>
+      <span class="token comment" spellcheck="true">&lt;!--TRACE,DEBUG,INFO,WARN,ERROR,FATAL--></span>
+      <span class="token comment" spellcheck="true">&lt;!--&lt;logger name="*" minlevel="Trace" writeTo="debugger" />--></span>
+      <span class="token comment" spellcheck="true">&lt;!--INFO,WARN,ERROR,FATAL--></span>
+      &lt;logger name ="*" minlevel="TRACE" writeTo="file"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>logger</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>logger</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>*<span class="token punctuation">"</span></span> <span class="token attr-name">minlevel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Warn<span class="token punctuation">"</span></span> <span class="token attr-name">writeTo</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>infomation<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+      <span class="token comment" spellcheck="true">&lt;!--DEBUG,INFO,WARN,ERROR,FATAL--></span>
+      <span class="token comment" spellcheck="true">&lt;!--&lt;logger name="*" minlevel="Debug" writeTo="file" />--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rules</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nlog</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="配置元素"><a href="#配置元素" class="headerlink" title="配置元素"></a>配置元素</h5><ul>
+<li><targets> - 定义日志的目标/输出</targets></li>
+<li><rules> - 定义日志的路由规则</rules></li>
+<li><extensions> - 从*.dll加载NLog扩展</extensions></li>
+<li><include> - 导入外部配置文件</include></li>
+<li><variable> - 为配置变量赋值</variable></li>
+</ul>
+<p>此示例中，重要之处在两个targets配置节，和rules配置节。</p>
+<h5 id="日志输出类型"><a href="#日志输出类型" class="headerlink" title="日志输出类型"></a>日志输出类型</h5><ul>
+<li>Console        输出到控制台</li>
+<li>Debugger     输出到</li>
+<li>File        输出到文件</li>
+<li>Mail        输出为邮件发送</li>
+<li>Network        输出到网络地址</li>
+<li>Database        输出到数据库</li>
+<li>AsyncWrapper   异步操作</li>
+</ul>
+<h5 id="路由规则"><a href="#路由规则" class="headerlink" title="路由规则"></a>路由规则</h5><p><rules>区域定义了日志的路由规则。实际上它是一个简单的路由表，对每一个日志源/记录者的名称和记录等级的组合，定义了一个日志写入目标列表。 表中的规则是被顺序处理的。每当遇到匹配的规则时，日志信息就会被送到规则中定义的一个或多个目标去。如果一个规则被标识为最后一个，那么其后的规则都不会被执行。</rules></p>
+<p>每一个路由表项就是一个<logger>元素，它的可以接受的属性有：</logger></p>
+<ul>
+<li>name - 日志源/记录者的名字 (允许使用通配符*)</li>
+<li>minlevel - 该规则所匹配日志范围的最低级别</li>
+<li>maxlevel - 该规则所匹配日志范围的最高级别</li>
+<li>level - 该规则所匹配的单一日志级别</li>
+<li>levels - 该规则所匹配的一系列日志级别，由逗号分隔。</li>
+<li>writeTo - 规则匹配时日志应该被写入的一系列目标，由逗号分隔。</li>
+<li>final - 标记当前规则为最后一个规则。其后的规则即时匹配也不会被运行。</li>
+</ul>
+<h5 id="上下文信息"><a href="#上下文信息" class="headerlink" title="上下文信息"></a>上下文信息</h5><p>NLog最棒的功能之一就是使用布局（layouts）的能力。布局由被一个美元符号$加左大括弧“${”和一个右大括弧“}”为标记所包围的文本所组成。这个标记也就是所谓的“布局生成器（layout renderers），我们可以用它来把一些上下文相关的信息插入到日志信息中。布局可以应用在许多地方，比如可以被用在控制输出到屏幕或写入文件信息的格式，也可以用在控制文件名。接下来我们会更多的了解布局的强大。</p>
+<p>假设我们希望每个输出到控制台的信息都包含一些这些信息：</p>
+<p>当前的日期和时间<br>产生日志信息的类和方法的名字<br>日志等级<br>日志内容<br>利用Layout来实现很简单：</p>
+<p><target name="c" xsi:type="Console" layout="${longdate} ${callsite} ${level} ${message}"><br>或者我们可以把每一个日志记录者生成的日志信息输出到一个单独的文件里：</target></p>
+<p><target name="f" xsi:type="File" filename="${logger}.txt"><br>这里我们看到fileName属性的值被设置为布局生成器${logger}，从而使每一条日志信息被写到一个以日志生成者名字命名的一个文件里。上面这个例子将生成如下一系列文件：</target></p>
+<ol>
+<li>Name.Space.Class1.txt</li>
+<li>Name.Space.Class2.txt</li>
+<li>Name.Space.Class3.txt<br>Other.Name.Space.Class1.txt<br>Other.Name.Space.Class2.txt<br>Other.Name.Space.Class3.txt<br>…<br>有一个常见需求是能够用日期信息来区分日志文件。如果使用${shortdate}布局生成器，这简直太容易了：</li>
+</ol>
+<p><target name="f" xsi:type="File" filename="${shortdate}.txt"><br>那么可以给每一个职员生成一个日志文件吗？答案就是${windows-identity}布局生成器：</target></p>
+<p><target name="f" xsi:type="File" filename="${windows-identity:domain=false}.txt"><br>这样我们就能够给每一个职员生成一个日志文件了：</target></p>
+<ol>
+<li>Administrator.txt<br>MaryManager.txt<br>EdwardEmployee.txt<br>…<br>更复杂的场景也能做到。下面这个例子说明了如何为每个人每天生成一个日志文件。每天的日志文件存放在不同的文件夹里：</li>
+</ol>
+<p><target name="f" xsi:type="File" filename="${shortdate}/${windows-identity:domain=false}.txt"><br>这将创建如下文件：</target></p>
+<ol>
+<li>2006-01-01/Administrator.txt<br>2006-01-01/MaryManager.txt<br>2006-01-01/EdwardEmployee.txt<br>2006-01-02/Administrator.txt<br>2006-01-02/MaryManager.txt<br>2006-01-02/EdwardEmployee.txt<br>…</li>
+</ol>
+<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5>
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '简单使用NLog进行日志记录'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/01/22/EFAdvancedFeatures/">EF高级特性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/03/abstractFactory/">设计模式(三)--抽象工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/datawidth/">汇编学习(二)--数据宽度</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/easyfactory/">设计模式(一)--简单工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/factorymethod/">设计模式(二)--工厂方法模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/20/serializable/">对象序列化</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/task_async/">C#多线程</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/22/varPromote/">JS变量提升</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/22/nlog/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/22/nlog/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/22/nlog/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 8.012977013110563px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 10.219900500211624px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 12.836525366773504px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 9.686686639976163px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 8.04762354766035px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 10.506266248587654px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 11.469215622776382px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 15.540463266874276px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 15.114668114669396px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 18.03970558126541px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 15.970201857004852px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 11.628260888017817px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 11.800528115315398px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 9.92214709590871px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 14.315526477967321px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 10.996247144334628px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 8.00120981785145px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 18.998106717888792px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Mon May 22 2017 17:37:16 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Mon May 22 2017 17:37:16 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>关于WebAPI的创建、调用、权限验证和跨域问题 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>关于WebAPI的创建、调用、权限验证和跨域问题</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-09-20
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-09-20
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#路由配置"><span class="post-toc-number">1.</span> <span class="post-toc-text">路由配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JS调用WebApi"><span class="post-toc-number">2.</span> <span class="post-toc-text">JS调用WebApi</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Get请求"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Get请求</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#普通方法调用"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">普通方法调用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#传递对象调用"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">传递对象调用</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Post请求"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Post请求</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意事项"><span class="post-toc-number">3.</span> <span class="post-toc-text">注意事项</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#权限验证"><span class="post-toc-number">4.</span> <span class="post-toc-text">权限验证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#basic认证步骤"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">basic认证步骤</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义一个特性继承自AuthorizeAttribute-并覆写两个方法"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">定义一个特性继承自AuthorizeAttribute,并覆写两个方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#在需要权限验证的类或者方法上加上此特性"><span class="post-toc-number">4.1.2.</span> <span class="post-toc-text">在需要权限验证的类或者方法上加上此特性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#定义用户登录方法"><span class="post-toc-number">4.1.3.</span> <span class="post-toc-text">定义用户登录方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#对于不需要权限验证的方法加上-AllowAnonymous-特性。"><span class="post-toc-number">4.1.4.</span> <span class="post-toc-text">对于不需要权限验证的方法加上[AllowAnonymous]特性。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#测试调用"><span class="post-toc-number">4.1.5.</span> <span class="post-toc-text">测试调用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#不登陆直接调用方法"><span class="post-toc-number">4.1.5.1.</span> <span class="post-toc-text">不登陆直接调用方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#登录后调用"><span class="post-toc-number">4.1.5.2.</span> <span class="post-toc-text">登录后调用</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置跨域访问"><span class="post-toc-number">5.</span> <span class="post-toc-text">配置跨域访问</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#前台"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">前台</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#后台"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">后台</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h2 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h2><p>WebApi的路由配置位于项目文件夹App_Start下的WebApiConfig文件中,以下是默认的配置:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">WebApiConfig</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Register</span><span class="token punctuation">(</span>HttpConfiguration config<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// Web API 配置和服务</span>
+
+        <span class="token comment" spellcheck="true">// Web API 路由</span>
+        config<span class="token punctuation">.</span><span class="token function">MapHttpAttributeRoutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        config<span class="token punctuation">.</span>Routes<span class="token punctuation">.</span><span class="token function">MapHttpRoute</span><span class="token punctuation">(</span>
+            name<span class="token operator">:</span> <span class="token string">"DefaultApi"</span><span class="token punctuation">,</span>
+            routeTemplate<span class="token operator">:</span> <span class="token string">"api/{controller}/{id}"</span><span class="token punctuation">,</span>
+            defaults<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token punctuation">{</span> id <span class="token operator">=</span> RouteParameter<span class="token punctuation">.</span>Optional <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看出，WebApi默认的路由配置和MVC默认的路由配置有所不同，没有了<code>{action}</code>配置节点，这是因为WebApi默认遵循Restfull风格，例如默认的<code>ValuesController</code>:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ValuesController</span> <span class="token operator">:</span> ApiController
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// GET api/values</span>
+    <span class="token keyword">public</span> IEnumerable<span class="token operator">&lt;</span>string<span class="token operator">></span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"value1"</span><span class="token punctuation">,</span> <span class="token string">"value2"</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// GET api/values/5</span>
+    <span class="token keyword">public</span> string <span class="token function">Get</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"value"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// POST api/values</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Post</span><span class="token punctuation">(</span><span class="token punctuation">[</span>FromBody<span class="token punctuation">]</span>string value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// PUT api/values/5</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Put</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">,</span> <span class="token punctuation">[</span>FromBody<span class="token punctuation">]</span>string value<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// DELETE api/values/5</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Delete</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此控制器有:<code>Get</code>、<code>Post</code>、<code>Put</code>、<code>Delete</code>方法，也正好对应了Http请求的这四种谓词，以及数据的查询、修改、新增、删除。因此在默认配置中也就将其省略了，不过我们也可以按照自己的习惯修改配置。</p>
+<h2 id="JS调用WebApi"><a href="#JS调用WebApi" class="headerlink" title="JS调用WebApi"></a>JS调用WebApi</h2><h3 id="Get请求"><a href="#Get请求" class="headerlink" title="Get请求"></a>Get请求</h3><h4 id="普通方法调用"><a href="#普通方法调用" class="headerlink" title="普通方法调用"></a>普通方法调用</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> string <span class="token function">Get</span><span class="token punctuation">(</span>string userName<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"返回结果:"</span><span class="token operator">+</span>userName<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>前台代码:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnGet1"</span>  type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"button"</span> <span class="token operator">/</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnGet1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                url<span class="token punctuation">:</span> <span class="token string">"/api/mywebapi/"</span><span class="token punctuation">,</span>
+                type<span class="token punctuation">:</span> <span class="token string">"get"</span><span class="token punctuation">,</span>
+                data<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"userName"</span><span class="token punctuation">:</span> <span class="token string">"这是名字"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                dataType<span class="token punctuation">:</span> <span class="token string">"json"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">jscommon.js:1 Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For <span class="token function">more</span> help, check https://xhr.spec.whatwg.org/.
+send @ jscommon.js:1
+ajax @ jscommon.js:1
+<span class="token punctuation">(</span>anonymous<span class="token punctuation">)</span> @ content.js:10
+返回结果:这是名字
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="传递对象调用"><a href="#传递对象调用" class="headerlink" title="传递对象调用"></a>传递对象调用</h4><p>后台代码:</p>
+<pre class="line-numbers language-java"><code class="language-java"> <span class="token keyword">public</span> string <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">[</span>FromUri<span class="token punctuation">]</span>User user<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"返回结果:"</span> <span class="token operator">+</span> user<span class="token punctuation">.</span>UserId<span class="token operator">+</span><span class="token string">"\n"</span><span class="token operator">+</span>user<span class="token punctuation">.</span>UserName<span class="token operator">+</span><span class="token string">"\n"</span><span class="token operator">+</span>user<span class="token punctuation">.</span>Age<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>js:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript">
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> user <span class="token operator">=</span> <span class="token punctuation">{</span> UserName<span class="token punctuation">:</span> <span class="token string">"张三"</span><span class="token punctuation">,</span> UserId<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span>Age<span class="token punctuation">:</span><span class="token number">18</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnGet1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                url<span class="token punctuation">:</span> <span class="token string">"/api/mywebapi/"</span><span class="token punctuation">,</span>
+                type<span class="token punctuation">:</span> <span class="token string">"get"</span><span class="token punctuation">,</span>
+                data<span class="token punctuation">:</span> <span class="token punctuation">{</span> user <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                dataType<span class="token punctuation">:</span> <span class="token string">"json"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. For <span class="token function">more</span> help, check https://xhr.spec.whatwg.org/.
+send @ jscommon.js:1
+ajax @ jscommon.js:1
+<span class="token punctuation">(</span>anonymous<span class="token punctuation">)</span> @ content.js:10
+返回结果:1
+张三
+18
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>后台除了用<code>FromUri</code>，也可以用<code>Request.QueryString</code>接收。</p>
+</blockquote>
+<h3 id="Post请求"><a href="#Post请求" class="headerlink" title="Post请求"></a>Post请求</h3><p>后台方法:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token punctuation">[</span>HttpPost<span class="token punctuation">]</span>
+<span class="token keyword">public</span> string <span class="token function">Post</span><span class="token punctuation">(</span><span class="token punctuation">[</span>FromBody<span class="token punctuation">]</span><span class="token keyword">int</span> id<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">"传入的Id值为:"</span><span class="token operator">+</span>id<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>前台调用:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"~/Scripts/jquery-1.10.2.min.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnGet1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                url<span class="token punctuation">:</span> <span class="token string">"/api/mywebapi/"</span><span class="token punctuation">,</span>
+                type<span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
+                data<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">""</span><span class="token punctuation">:</span><span class="token number">5</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                dataType<span class="token punctuation">:</span> <span class="token string">"json"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+
+
+
+<span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnGet1"</span>  type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"调用"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>对于Get请求，要么方法名以Get开头，要么给方法加上<code>HttpGet</code>特性，否则方法不会被识别为Get请求方法。</li>
+<li>对于Post请求，如果只有一个参数传入，那么在构造传入参数时不能设置Key（示例在上面）,在后台接收时也必须加上<code>FromBody</code>才能自动匹配接收，否则就只能通过<code>Request.Form</code>来接收。</li>
+</ol>
+<h2 id="权限验证"><a href="#权限验证" class="headerlink" title="权限验证"></a>权限验证</h2><h3 id="basic认证步骤"><a href="#basic认证步骤" class="headerlink" title="basic认证步骤"></a>basic认证步骤</h3><h4 id="定义一个特性继承自AuthorizeAttribute-并覆写两个方法"><a href="#定义一个特性继承自AuthorizeAttribute-并覆写两个方法" class="headerlink" title="定义一个特性继承自AuthorizeAttribute,并覆写两个方法"></a>定义一个特性继承自<code>AuthorizeAttribute</code>,并覆写两个方法</h4><pre class="line-numbers language-java"><code class="language-java">
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyAuthorizeAttribute</span><span class="token operator">:</span>AuthorizeAttribute
+<span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">//</span>
+    <span class="token comment" spellcheck="true">// 摘要:</span>
+    <span class="token comment" spellcheck="true">//     为操作授权时调用。</span>
+    <span class="token comment" spellcheck="true">//</span>
+    <span class="token comment" spellcheck="true">// 参数:</span>
+    <span class="token comment" spellcheck="true">//   actionContext:</span>
+    <span class="token comment" spellcheck="true">//     上下文。</span>
+    <span class="token comment" spellcheck="true">//</span>
+    <span class="token comment" spellcheck="true">// 异常:</span>
+    <span class="token comment" spellcheck="true">//   T:System.ArgumentNullException:</span>
+    <span class="token comment" spellcheck="true">//     上下文参数为 null。</span>
+    <span class="token keyword">public</span> override <span class="token keyword">void</span> <span class="token function">OnAuthorization</span><span class="token punctuation">(</span>HttpActionContext actionContext<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        var authorization <span class="token operator">=</span> actionContext<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>Headers<span class="token punctuation">.</span>Authorization<span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>actionContext<span class="token punctuation">.</span>ActionDescriptor<span class="token punctuation">.</span>GetCustomAttributes<span class="token operator">&lt;</span>AllowAnonymousAttribute<span class="token operator">></span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Count <span class="token operator">!=</span> <span class="token number">0</span>
+            <span class="token operator">||</span> actionContext<span class="token punctuation">.</span>ActionDescriptor<span class="token punctuation">.</span>ControllerDescriptor<span class="token punctuation">.</span>GetCustomAttributes<span class="token operator">&lt;</span>AllowAnonymousAttribute<span class="token operator">></span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Count <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            base<span class="token punctuation">.</span><span class="token function">OnAuthorization</span><span class="token punctuation">(</span>actionContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>authorization <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> authorization<span class="token punctuation">.</span>Parameter <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">//用户验证逻辑</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">ValidateTicket</span><span class="token punctuation">(</span>authorization<span class="token punctuation">.</span>Parameter<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                base<span class="token punctuation">.</span><span class="token function">IsAuthorized</span><span class="token punctuation">(</span>actionContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">HandleUnauthorizedRequest</span><span class="token punctuation">(</span>actionContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">HandleUnauthorizedRequest</span><span class="token punctuation">(</span>actionContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//</span>
+    <span class="token comment" spellcheck="true">// 摘要:</span>
+    <span class="token comment" spellcheck="true">//     处理授权失败的请求。</span>
+    <span class="token comment" spellcheck="true">//</span>
+    <span class="token comment" spellcheck="true">// 参数:</span>
+    <span class="token comment" spellcheck="true">//   actionContext:</span>
+    <span class="token comment" spellcheck="true">//     上下文。</span>
+    <span class="token keyword">protected</span> override <span class="token keyword">void</span> <span class="token function">HandleUnauthorizedRequest</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>Web<span class="token punctuation">.</span>Http<span class="token punctuation">.</span>Controllers<span class="token punctuation">.</span>HttpActionContext actionContext<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        var challengeMessage <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>Http<span class="token punctuation">.</span>HttpResponseMessage</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>HttpStatusCode<span class="token punctuation">.</span>Unauthorized<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//告诉浏览器要验证</span>
+        challengeMessage<span class="token punctuation">.</span>Headers<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token string">"WWW-Authenticate"</span><span class="token punctuation">,</span> <span class="token string">"Basic"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//权限信息放在basic</span>
+        <span class="token comment" spellcheck="true">//throw new System.Web.Http.HttpResponseException(challengeMessage);</span>
+
+        base<span class="token punctuation">.</span><span class="token function">HandleUnauthorizedRequest</span><span class="token punctuation">(</span>actionContext<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//返回没有授权</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> bool <span class="token function">ValidateTicket</span><span class="token punctuation">(</span>string encryptTicket<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//解密Ticket</span>
+        var strTicket <span class="token operator">=</span> FormsAuthentication<span class="token punctuation">.</span><span class="token function">Decrypt</span><span class="token punctuation">(</span>encryptTicket<span class="token punctuation">)</span><span class="token punctuation">.</span>UserData<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> string<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span>strTicket<span class="token punctuation">,</span> string<span class="token punctuation">.</span><span class="token function">Format</span><span class="token punctuation">(</span><span class="token string">"{0}&amp;{1}"</span><span class="token punctuation">,</span> <span class="token string">"Admin"</span><span class="token punctuation">,</span> <span class="token string">"123456"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//应该分拆后去数据库验证</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="在需要权限验证的类或者方法上加上此特性"><a href="#在需要权限验证的类或者方法上加上此特性" class="headerlink" title="在需要权限验证的类或者方法上加上此特性"></a>在需要权限验证的类或者方法上加上此特性</h4><p>每次调用此类的方法时就会进入<code>MyAuthorizeAttribute</code>的<code>OnAuthorization</code>方法。</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token punctuation">[</span>MyAuthorize<span class="token punctuation">]</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWebApiController</span> <span class="token operator">:</span> ApiController
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> string <span class="token function">Get</span><span class="token punctuation">(</span>string userName<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token string">"返回结果:"</span><span class="token operator">+</span>userName<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">public</span> string <span class="token function">Get</span><span class="token punctuation">(</span><span class="token punctuation">[</span>FromUri<span class="token punctuation">]</span>User user<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token string">"返回结果:"</span> <span class="token operator">+</span> user<span class="token punctuation">.</span>UserId<span class="token operator">+</span><span class="token string">"\n"</span><span class="token operator">+</span>user<span class="token punctuation">.</span>UserName<span class="token operator">+</span><span class="token string">"\n"</span><span class="token operator">+</span>user<span class="token punctuation">.</span>Age<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">[</span>HttpPost<span class="token punctuation">]</span>
+        <span class="token keyword">public</span> string <span class="token function">Post</span><span class="token punctuation">(</span><span class="token punctuation">[</span>FromBody<span class="token punctuation">]</span><span class="token keyword">int</span> id<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token string">"传入的Id值为:"</span><span class="token operator">+</span>id<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="定义用户登录方法"><a href="#定义用户登录方法" class="headerlink" title="定义用户登录方法"></a>定义用户登录方法</h4><pre class="line-numbers language-java"><code class="language-java"> #region 用户登陆
+<span class="token punctuation">[</span>AllowAnonymous<span class="token punctuation">]</span>
+<span class="token punctuation">[</span>HttpGet<span class="token punctuation">]</span>
+<span class="token keyword">public</span> string <span class="token function">Login</span><span class="token punctuation">(</span>string account<span class="token punctuation">,</span> string password<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>account<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token string">"Admin"</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> password<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token string">"123456"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        FormsAuthenticationTicket ticketObject <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FormsAuthenticationTicket</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> account<span class="token punctuation">,</span> DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">,</span>
+                    DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">.</span><span class="token function">AddHours</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> string<span class="token punctuation">.</span><span class="token function">Format</span><span class="token punctuation">(</span><span class="token string">"{0}&amp;{1}"</span><span class="token punctuation">,</span> account<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    FormsAuthentication<span class="token punctuation">.</span>FormsCookiePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        var result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token punctuation">{</span> Result <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span> Ticket <span class="token operator">=</span> FormsAuthentication<span class="token punctuation">.</span><span class="token function">Encrypt</span><span class="token punctuation">(</span>ticketObject<span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> JsonConvert<span class="token punctuation">.</span><span class="token function">SerializeObject</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span>
+    <span class="token punctuation">{</span>
+        var result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token punctuation">{</span> Result <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> JsonConvert<span class="token punctuation">.</span><span class="token function">SerializeObject</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+#endregion
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="对于不需要权限验证的方法加上-AllowAnonymous-特性。"><a href="#对于不需要权限验证的方法加上-AllowAnonymous-特性。" class="headerlink" title="对于不需要权限验证的方法加上[AllowAnonymous]特性。"></a>对于不需要权限验证的方法加上<code>[AllowAnonymous]</code>特性。</h4><h4 id="测试调用"><a href="#测试调用" class="headerlink" title="测试调用"></a>测试调用</h4><h5 id="不登陆直接调用方法"><a href="#不登陆直接调用方法" class="headerlink" title="不登陆直接调用方法"></a>不登陆直接调用方法</h5><p>结果如下:</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/falt.jpg" alt="image"></p>
+<h5 id="登录后调用"><a href="#登录后调用" class="headerlink" title="登录后调用"></a>登录后调用</h5><p>前台登录代码:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">var</span> ticket <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnLogin"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                url<span class="token punctuation">:</span> <span class="token string">"/api/mywebapi/Login"</span><span class="token punctuation">,</span>
+                type<span class="token punctuation">:</span> <span class="token string">"get"</span><span class="token punctuation">,</span>
+                data<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">"Account"</span><span class="token punctuation">:</span> <span class="token string">"Admin"</span><span class="token punctuation">,</span> <span class="token string">"Password"</span><span class="token punctuation">:</span> <span class="token string">"123456"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">var</span> result <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>Result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        ticket <span class="token operator">=</span> result<span class="token punctuation">.</span>Ticket<span class="token punctuation">;</span>
+                        <span class="token function">alert</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>Ticket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">else</span>
+                    <span class="token punctuation">{</span>
+                        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"failed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                dataType<span class="token punctuation">:</span> <span class="token string">"json"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnGet1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                url<span class="token punctuation">:</span> <span class="token string">"/api/mywebapi/"</span><span class="token punctuation">,</span>
+                type<span class="token punctuation">:</span> <span class="token string">"post"</span><span class="token punctuation">,</span>
+                data<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token string">""</span><span class="token punctuation">:</span> <span class="token number">5</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                beforeSend<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>XHR<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment" spellcheck="true">//注意BasicAuth后面有空格，在后台被拆分为AuthorizationHeaderValue的两个属性</span>
+                    XHR<span class="token punctuation">.</span><span class="token function">setRequestHeader</span><span class="token punctuation">(</span><span class="token string">"Authorization"</span><span class="token punctuation">,</span> <span class="token string">"BasicAuth "</span> <span class="token operator">+</span> ticket<span class="token punctuation">)</span>
+
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                dataType<span class="token punctuation">:</span> <span class="token string">"json"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+
+
+<span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnLogin"</span> type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"登录"</span> <span class="token operator">/</span><span class="token operator">></span>
+
+<span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnGet1"</span>  type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"调用"</span> <span class="token operator">/</span><span class="token operator">></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>登录的效果：</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/apilogin.jpg" alt="image"></p>
+<p>登录后调用的效果:</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/apiok.jpg" alt="image"></p>
+<h2 id="配置跨域访问"><a href="#配置跨域访问" class="headerlink" title="配置跨域访问"></a>配置跨域访问</h2><h3 id="前台"><a href="#前台" class="headerlink" title="前台"></a>前台</h3><p>前台只需加上一个标识即可:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//允许跨域</span>
+jQuery<span class="token punctuation">.</span>support<span class="token punctuation">.</span>cors <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="后台"><a href="#后台" class="headerlink" title="后台"></a>后台</h3><p>在配置WebApi路由的地方加上如下配置:</p>
+<pre class="line-numbers language-java"><code class="language-java">
+<span class="token comment" spellcheck="true">//表示允许所有的跨域访问</span>
+ config<span class="token punctuation">.</span><span class="token function">EnableCors</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">EnableCorsAttribute</span><span class="token punctuation">(</span><span class="token string">"*"</span><span class="token punctuation">,</span><span class="token string">"*"</span><span class="token punctuation">,</span><span class="token string">"*"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>需要引用命名空间：<code>System.Web.Http.Cors</code>。</p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '关于WebAPI的创建、调用、权限验证和跨域问题'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/31/Expression/">lambda表达式树拼装</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/26/GitErrors/">Git使用过程中遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/easyfactory/">设计模式(一)--简单工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httprequestheader/">Http请求头参数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/jinzhi/">汇编学习(一)--简单理解进制</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsRegExp/">正则表达式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/lock/">浅谈lock关键字</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/30/vueJsComponentSendData/">VueJs组件插槽、动态组件、缓存组件</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/09/20/webapi/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/20/webapi/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/20/webapi/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 16.394657401472642px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 13.258195203467565px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 13.71804437102045px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 16.996419017593894px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 12.242947976542837px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 16.71565775123352px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 13.952535079374893px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 14.086346068044627px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 11.095946891950188px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 18.93213772898909px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 10.635449277470997px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 13.047140210926774px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 16.36972362416386px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 11.356967859352368px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 19.699453900714882px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 8.13930140222158px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 15.653158203691337px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 13.611670259644532px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Wed Sep 20 2017 16:16:13 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Wed Sep 20 2017 16:16:13 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

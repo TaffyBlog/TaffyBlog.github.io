@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>lambda表达式树解析并拼装Sql | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>lambda表达式树解析并拼装Sql</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-09-02
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-09-02
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自定义解析器"><span class="post-toc-number">1.</span> <span class="post-toc-text">自定义解析器</span></a></li></ol>
+    <div class="content-article">
+        <h2 id="自定义解析器"><a href="#自定义解析器" class="headerlink" title="自定义解析器"></a>自定义解析器</h2><p>在ef中，我们可以使用lambda表达式进行数据库操作，但是最后到数据库执行的一定是sql语句，而表达式树解析正好可以满足这个需求。</p>
+<p>示例如下:</p>
+<p>解析器需要继承<code>ExpressionVisitor</code>,这是一个抽象类，定义了许多虚方法以供我们重写，本例中重写了<code>VisitBinary</code>、<code>VisitMember</code>、<code>VisitMethodCall</code>方法；每个表达式解析完成后自动解析下一个表达式，直到遍历解析完整个表达式树。</p>
+<pre class="line-numbers language-java"><code class="language-java">
+ <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ConditionBuilderVisitor</span> <span class="token operator">:</span> ExpressionVisitor
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> Stack<span class="token operator">&lt;</span>string<span class="token operator">></span> _StringStack <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span>string<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> string <span class="token function">Condition</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        string condition <span class="token operator">=</span> string<span class="token punctuation">.</span><span class="token function">Concat</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">ToArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> condition<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 如果是二元表达式</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="node">&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">protected</span> override Expression <span class="token function">VisitBinary</span><span class="token punctuation">(</span>BinaryExpression node<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"BinaryExpression"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">")"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        base<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Right<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//解析右边</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">" "</span> <span class="token operator">+</span> node<span class="token punctuation">.</span>NodeType<span class="token punctuation">.</span><span class="token function">ToSqlOperator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        base<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>Left<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//解析左边</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">"("</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 如果是属性或字段</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="node">&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">protected</span> override Expression <span class="token function">VisitMember</span><span class="token punctuation">(</span>MemberExpression node<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"MemberExpression"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">" ["</span> <span class="token operator">+</span> node<span class="token punctuation">.</span>Member<span class="token punctuation">.</span>Name <span class="token operator">+</span> <span class="token string">"] "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 常量表达式</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="node">&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">protected</span> override Expression <span class="token function">VisitConstant</span><span class="token punctuation">(</span>ConstantExpression node<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"ConstantExpression"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span><span class="token string">" '"</span> <span class="token operator">+</span> node<span class="token punctuation">.</span>Value <span class="token operator">+</span> <span class="token string">"' "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 方法表达式</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="m">&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    <span class="token keyword">protected</span> override Expression <span class="token function">VisitMethodCall</span><span class="token punctuation">(</span>MethodCallExpression m<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>m <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ArgumentNullException</span><span class="token punctuation">(</span><span class="token string">"MethodCallExpression"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        string format<span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>m<span class="token punctuation">.</span>Method<span class="token punctuation">.</span>Name<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token string">"StartsWith"</span><span class="token operator">:</span>
+                format <span class="token operator">=</span> <span class="token string">"({0} LIKE {1}+'%')"</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">case</span> <span class="token string">"Contains"</span><span class="token operator">:</span>
+                format <span class="token operator">=</span> <span class="token string">"({0} LIKE '%'+{1}+'%')"</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">case</span> <span class="token string">"EndsWith"</span><span class="token operator">:</span>
+                format <span class="token operator">=</span> <span class="token string">"({0} LIKE '%'+{1})"</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token string">"Equals"</span><span class="token operator">:</span>
+                    format <span class="token operator">=</span> <span class="token string">"({0} =  '{1}')"</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NotSupportedException</span><span class="token punctuation">(</span>m<span class="token punctuation">.</span>NodeType <span class="token operator">+</span> <span class="token string">" is not supported!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>m<span class="token punctuation">.</span>Object<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>m<span class="token punctuation">.</span>Arguments<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        string right <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        string left <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_StringStack<span class="token punctuation">.</span><span class="token function">Push</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">Format</span><span class="token punctuation">(</span>format<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> m<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>扩展方法类:</p>
+<pre class="line-numbers language-java"><code class="language-java"> internal <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">SqlOperator</span>
+<span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 扩展方法 转换运算符</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token comment" spellcheck="true">/// &lt;param name="type">&lt;/param></span>
+    <span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+    internal <span class="token keyword">static</span> string <span class="token function">ToSqlOperator</span><span class="token punctuation">(</span><span class="token keyword">this</span> ExpressionType type<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>AndAlso<span class="token punctuation">)</span><span class="token operator">:</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>And<span class="token punctuation">)</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"AND"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>OrElse<span class="token punctuation">)</span><span class="token operator">:</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>Or<span class="token punctuation">)</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"OR"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>Not<span class="token punctuation">)</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"NOT"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>NotEqual<span class="token punctuation">)</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"&lt;>"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>GreaterThan<span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">">"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>GreaterThanOrEqual<span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">">="</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>LessThan<span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"&lt;"</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> ExpressionType<span class="token punctuation">.</span>LessThanOrEqual<span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"&lt;="</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token punctuation">(</span>ExpressionType<span class="token punctuation">.</span>Equal<span class="token punctuation">)</span><span class="token operator">:</span>
+                <span class="token keyword">return</span> <span class="token string">"="</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span><span class="token punctuation">(</span><span class="token string">"不支持该方法"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>测试一下:</p>
+<pre class="line-numbers language-java"><code class="language-java">Expression<span class="token operator">&lt;</span>Func<span class="token operator">&lt;</span>StudentInfo<span class="token punctuation">,</span> bool<span class="token operator">>></span> stuExpression <span class="token operator">=</span> <span class="token punctuation">(</span>stu<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> stu<span class="token punctuation">.</span>StuId <span class="token operator">></span> <span class="token number">10</span> <span class="token operator">&amp;&amp;</span> stu<span class="token punctuation">.</span>Address<span class="token punctuation">.</span><span class="token function">Equals</span><span class="token punctuation">(</span><span class="token string">"北京"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ConditionBuilderVisitor myVisitor <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConditionBuilderVisitor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myVisitor<span class="token punctuation">.</span><span class="token function">Visit</span><span class="token punctuation">(</span>stuExpression<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+Console<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span>myVisitor<span class="token punctuation">.</span><span class="token function">Condition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token punctuation">((</span> <span class="token punctuation">[</span>StuId<span class="token punctuation">]</span>  <span class="token operator">></span>  10 <span class="token punctuation">)</span> AND <span class="token punctuation">(</span> <span class="token punctuation">[</span>Address<span class="token punctuation">]</span>  <span class="token operator">=</span>  <span class="token string">' 北京 '</span><span class="token punctuation">))</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'lambda表达式树解析并拼装Sql'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/07/10/DecoratorPattern/">装饰器模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/14/ToolsNotes/">工具及、知识点及外链收集</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsSingleton/">Js单例模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/prototypeAndInherit/">原型和继承</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/28/remotegit/">使用远程Git仓库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/17/vueJsFilter/">VueJs过滤器</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/09/02/ExpressionVisitor/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/02/ExpressionVisitor/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/02/ExpressionVisitor/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 19.874183965053977px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 15.507660221126343px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 8.596706847277424px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 15.534629889846473px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 16.523855830431156px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 9.372215316672676px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 8.937655548940517px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 11.1228999561676px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 10.772713797489907px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 9.171818323099416px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 15.709406180395458px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 8.815767306471653px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 9.19042826700452px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 8.381035328665462px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 11.059422463204157px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 17.55163027324957px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 8.693944716660368px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 12.509807079490066px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat Sep 02 2017 15:54:26 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sat Sep 02 2017 15:54:26 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>反射的简单使用 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>反射的简单使用</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/14/reflection/">反射的简单使用</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-14
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/14/reflection/">反射的简单使用</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-14
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反射的用途"><span class="post-toc-number">1.</span> <span class="post-toc-text">反射的用途</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反射加载泛型类"><span class="post-toc-number">2.</span> <span class="post-toc-text">反射加载泛型类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反射调用方法"><span class="post-toc-number">3.</span> <span class="post-toc-text">反射调用方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用普通实例方法"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">调用普通实例方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用私有实例方法"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">调用私有实例方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用私有构造方法"><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">调用私有构造方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用重载方法"><span class="post-toc-number">3.0.4.</span> <span class="post-toc-text">调用重载方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用泛型方法"><span class="post-toc-number">3.0.5.</span> <span class="post-toc-text">调用泛型方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#调用静态方法"><span class="post-toc-number">3.0.6.</span> <span class="post-toc-text">调用静态方法</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反射的优缺点"><span class="post-toc-number">4.</span> <span class="post-toc-text">反射的优缺点</span></a></li></ol>
+    <div class="content-article">
+        <h3 id="反射的用途"><a href="#反射的用途" class="headerlink" title="反射的用途"></a>反射的用途</h3><ol>
+<li>使用 Assembly 定义和加载程序集，加载在程序集清单中列出的模块，以及从此程序集中查找类型并创建该类型的实例。<br><code>`</code>java<br>Assembly ass = Assembly.Load(“程序集完全限定名”);</li>
+</ol>
+<p>Assembly ass = Assembly.LoadFile(“程序集绝对路径”);</p>
+<pre><code>2. 使用 Module 了解如下的类似信息:包含模块的程序集以及模块中的类等。您还可以获取在模块上定义的所有全局方法或其他特定的非全局方法。
+
+3. 使用 ConstructorInfo 了解如下的类似信息:构造函数的名称、参数、访问修饰符(如 public 或 private)和实现详细信息(如 abstract 或 virtual)等。
+
+4. 使用 Type 的 GetConstructors 或 GetConstructor 方法来调用特定的构造函数。
+
+5. 使用 MethodInfo 来了解如下的类似信息:方法的名称、返回类型、参数、访问修饰符(如 public 或 private)和实现详细信 息(如 abstract 或 virtual)等。使用 Type 的 GetMethods 或 GetMethod 方法来调用特定的方法。
+
+6. 使用 FieldInfo 来了解如下的类似信息:字段的名称、访问修饰符(如 public 或 private)和实现详细信息(如 static)等;并获取或设置字段值。
+
+7. 使用 EventInfo 来了解如下的类似信息:事件的名称、事件处理程序数据类型、自定义属性、声明类型和反射类型等;并添加或移除事件处理程序。
+
+8. 使用 PropertyInfo 来了解如下的类似信息:属性的名称、数据类型、声明类型、反射类型和只读或可写状态等;并获取或设置属性值。
+
+9. 使用 ParameterInfo 来了解如下的类似信息:参数的名称、数据类型、参数是输入参数还是输出参数，以及参数在方法签名中的位置等。
+
+### 反射获取属性
+
+关键代码如下:
+```java
+static void Main(string[] args)
+{
+    Type type = typeof(Person);
+    object person = Activator.CreateInstance(type);//创建对象
+
+    //GetProperties()
+    // 摘要:
+    //     返回当前 System.Type 的所有公共属性。
+    //
+    // 返回结果:
+    //     表示当前 System.Type 的所有公共属性的 System.Reflection.PropertyInfo 对象数组。- 或 -如果当前 System.Type
+    //     没有公共属性，则为 System.Reflection.PropertyInfo 类型的空数组。
+    foreach (var prop in type.GetProperties())
+    {
+        if (prop.Name.Equals(&quot;name&quot;))
+        {
+            //
+            // 摘要:
+            //     设置指定对象的属性值。
+            //
+            // 参数:
+            //   obj:
+            //     将设置其属性值的对象。
+            //
+            //   value:
+            //     新的属性值。
+            prop.SetValue(person,&quot;李四&quot;);
+
+        }
+        if (prop.Name.Equals(&quot;age&quot;))
+        {
+            prop.SetValue(person,12);
+        }
+        Console.WriteLine(&quot;属性名为:&quot;+prop.Name+&quot;值为:&quot;+prop.GetValue(person));
+    }
+    Console.ReadKey();
+}
+</code></pre><p>Person类的代码如下:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> string name <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> age <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"My name is "</span><span class="token operator">+</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Show</span><span class="token punctuation">(</span>string par<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Show方法的重载"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">privateShow</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"This is privateShow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> GenericShow<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span>
+     <span class="token punctuation">{</span>
+         Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"This is GenericShow "</span><span class="token operator">+</span>t<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">属性名为:name值为:李四
+属性名为:age值为:12
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="反射加载泛型类"><a href="#反射加载泛型类" class="headerlink" title="反射加载泛型类"></a>反射加载泛型类</h3><p>使用反射加载泛型类时必须在后面加上”`1”,示例如下：</p>
+<p>用于反射加载的程序集：MyReflection.dll,在此dll中定义了一个泛型类：</p>
+<pre class="line-numbers language-java"><code class="language-java">namespace MyReflection
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DbHelper</span><span class="token operator">&lt;</span>T<span class="token operator">></span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">public</span> <span class="token function">DbHelper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>加载泛型类示例：</p>
+<pre class="line-numbers language-java"><code class="language-java">Assembly ass <span class="token operator">=</span> Assembly<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"MyReflection"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Type type<span class="token operator">=</span> ass<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token string">"MyReflection.DbHelper`1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>type<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">DbHelper`1
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>当需要创建泛型类型的实例时则需要使用MakeGenericMethod指定泛型的类型</p>
+</blockquote>
+<h3 id="反射调用方法"><a href="#反射调用方法" class="headerlink" title="反射调用方法"></a>反射调用方法</h3><h5 id="调用普通实例方法"><a href="#调用普通实例方法" class="headerlink" title="调用普通实例方法"></a>调用普通实例方法</h5><p>关键代码如下:</p>
+<pre class="line-numbers language-java"><code class="language-java">var show<span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"Show"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+show<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>person<span class="token punctuation">,</span>null<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">My name is 李四
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="调用私有实例方法"><a href="#调用私有实例方法" class="headerlink" title="调用私有实例方法"></a>调用私有实例方法</h5><pre class="line-numbers language-java"><code class="language-java">Assembly ass <span class="token operator">=</span> Assembly<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"MyReflection"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Type type<span class="token operator">=</span> ass<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token string">"MyReflection.Person"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+var person <span class="token operator">=</span>  Activator<span class="token punctuation">.</span><span class="token function">CreateInstance</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+var method <span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"privateShow"</span><span class="token punctuation">,</span>BindingFlags<span class="token punctuation">.</span>Instance<span class="token operator">|</span> BindingFlags<span class="token punctuation">.</span>NonPublic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>method<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>person<span class="token punctuation">,</span>null<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">This is privateShow
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="调用私有构造方法"><a href="#调用私有构造方法" class="headerlink" title="调用私有构造方法"></a>调用私有构造方法</h5><pre class="line-numbers language-java"><code class="language-java">Activator<span class="token punctuation">.</span><span class="token function">CreateInstance</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="调用重载方法"><a href="#调用重载方法" class="headerlink" title="调用重载方法"></a>调用重载方法</h5><pre class="line-numbers language-C#"><code class="language-C#">Assembly ass = Assembly.Load("MyReflection");
+Type type= ass.GetType("MyReflection.Person");
+
+var person =  Activator.CreateInstance(type);
+var method1 = type.GetMethod("Show",new Type[] { });
+
+var method2 = type.GetMethod("Show", new Type[] { typeof(string) });
+
+Console.WriteLine(method1.Invoke(person,null));
+
+Console.WriteLine(method2.Invoke(person,new object[] { "d"}));
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">My name is
+Show方法的重载
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>即调用有重载的方法时，必须指定方法的参数列表对应的Type数组。即使是无参也必须指定，不能写null。</p>
+<h5 id="调用泛型方法"><a href="#调用泛型方法" class="headerlink" title="调用泛型方法"></a>调用泛型方法</h5><pre class="line-numbers language-java"><code class="language-java">Assembly ass <span class="token operator">=</span> Assembly<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"MyReflection"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Type type<span class="token operator">=</span> ass<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token string">"MyReflection.Person"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+var person <span class="token operator">=</span>  Activator<span class="token punctuation">.</span><span class="token function">CreateInstance</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+var method <span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"GenericShow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+method <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">MakeGenericMethod</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>method<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>person<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">object</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token string">"哈哈哈"</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">This is GenericShow 哈哈哈
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>即调用泛型方法需要使用Method的<code>MakeGenericMethod</code>指定泛型的类型。</p>
+</blockquote>
+<h5 id="调用静态方法"><a href="#调用静态方法" class="headerlink" title="调用静态方法"></a>调用静态方法</h5><pre class="line-numbers language-java"><code class="language-java">Assembly ass <span class="token operator">=</span> Assembly<span class="token punctuation">.</span><span class="token function">Load</span><span class="token punctuation">(</span><span class="token string">"MyReflection"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Type type<span class="token operator">=</span> ass<span class="token punctuation">.</span><span class="token function">GetType</span><span class="token punctuation">(</span><span class="token string">"MyReflection.Person"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+var method <span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">GetMethod</span><span class="token punctuation">(</span><span class="token string">"staticShow"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>method<span class="token punctuation">.</span><span class="token function">Invoke</span><span class="token punctuation">(</span>null<span class="token punctuation">,</span>null<span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果为:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">This is staticShow
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<blockquote>
+<p>调用静态方法就是在Invoke时将类型实例指定为null即可。</p>
+</blockquote>
+<h3 id="反射的优缺点"><a href="#反射的优缺点" class="headerlink" title="反射的优缺点"></a>反射的优缺点</h3><p>优点：</p>
+<ol>
+<li>反射提高了程序的灵活性和扩展性。</li>
+<li>降低耦合性，提高自适应能力。</li>
+<li>它允许程序创建和控制任何类的对象，无需提前硬编码目标类。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>性能问题：使用反射基本上是一种解释操作，用于字段和方法接入时要远慢于直接代码。因此反射机制主要应用在对灵活性和拓展性要求很高的系统框架上，普通程序不建议使用。</li>
+<li>使用反射会模糊程序内部逻辑；程序员希望在源代码中看到程序的逻辑，反射却绕过了源代码的技术，因而会带来维护的问题，反射代码比相应的直接代码更复杂。</li>
+</ol>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '反射的简单使用'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/21/DotNetCommonFramework/">.NET平台常用的框架整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/01/16/Orm/">ORM概念</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/06/03/abstractFactory/">设计模式(三)--抽象工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/26/locationgit/">创建本地版本库及新增、修改、提交和回退</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/25/vueAttr/">VueJs实例属性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/20/vueLifeCycle/">VueJs生命周期、计算属性和侦听器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/14/reflection/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/14/reflection/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/14/reflection/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 12.639720859189147px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 15.688300168586206px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 15.751669009941974px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 13.226763391064097px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 11.757692726089914px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 9.30562659600648px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 8.443619146155015px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 18.138758362669822px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 10.424051597023759px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 14.25638832816669px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 11.025472127907154px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 8.762773175957816px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 17.167942870549034px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 8.153537962137257px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 13.727933497443551px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 11.44451883468435px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 12.893046411695144px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 19.335758899166184px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sun May 14 2017 21:26:13 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sun May 14 2017 21:26:13 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

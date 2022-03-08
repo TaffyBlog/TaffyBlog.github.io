@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>Centos7安装nginx | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>Centos7安装nginx</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2019-01-12
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2019-01-12
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装所需环境"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装所需环境</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一-gcc-安装"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">一. gcc 安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二-PCRE-pcre-devel-安装"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">二. PCRE pcre-devel 安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三-zlib-安装"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">三. zlib 安装</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四-OpenSSL-安装"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">四. OpenSSL 安装</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#官网下载"><span class="post-toc-number">2.</span> <span class="post-toc-text">官网下载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解压"><span class="post-toc-number">3.</span> <span class="post-toc-text">解压</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置"><span class="post-toc-number">4.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编译安装"><span class="post-toc-number">5.</span> <span class="post-toc-text">编译安装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#启动、停止nginx"><span class="post-toc-number">6.</span> <span class="post-toc-text">启动、停止nginx</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查找安装路径"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">查找安装路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#停启"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">停启</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查询nginx进程"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">查询nginx进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重启-nginx"><span class="post-toc-number">6.4.</span> <span class="post-toc-text">重启 nginx</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开机自启动"><span class="post-toc-number">7.</span> <span class="post-toc-text">开机自启动</span></a></li></ol>
+    <div class="content-article">
+        <p>原文链接<a href="https://www.linuxidc.com/Linux/2016-09/134907.htm" target="_blank" rel="noopener">mafly</a></p>
+<h2 id="安装所需环境"><a href="#安装所需环境" class="headerlink" title="安装所需环境"></a>安装所需环境</h2><p>Nginx 是 C语言 开发，建议在 Linux 上运行，当然，也可以安装 Windows 版本，本篇则使用 CentOS 7 作为安装环境。</p>
+<h3 id="一-gcc-安装"><a href="#一-gcc-安装" class="headerlink" title="一. gcc 安装"></a>一. gcc 安装</h3><p>安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境，如果没有 gcc 环境，则需要安装：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">yum <span class="token function">install</span> gcc-c++
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="二-PCRE-pcre-devel-安装"><a href="#二-PCRE-pcre-devel-安装" class="headerlink" title="二. PCRE pcre-devel 安装"></a>二. PCRE pcre-devel 安装</h3><p>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库，pcre-devel 是使用 pcre 开发的一个二次开发库。nginx也需要此库。命令：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">yum <span class="token function">install</span> -y pcre pcre-devel
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="三-zlib-安装"><a href="#三-zlib-安装" class="headerlink" title="三. zlib 安装"></a>三. zlib 安装</h3><p>zlib 库提供了很多种压缩和解压缩的方式， nginx 使用 zlib 对 http 包的内容进行 gzip ，所以需要在 Centos 上安装 zlib 库。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">yum <span class="token function">install</span> -y zlib zlib-devel
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="四-OpenSSL-安装"><a href="#四-OpenSSL-安装" class="headerlink" title="四. OpenSSL 安装"></a>四. OpenSSL 安装</h3><p>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及 SSL 协议，并提供丰富的应用程序供测试或其它目的使用。<br>nginx 不仅支持 http 协议，还支持 https（即在ssl协议上传输http），所以需要在 Centos 安装 OpenSSL 库。</p>
+<pre class="line-numbers language-bash"><code class="language-bash">yum <span class="token function">install</span> -y openssl openssl-devel
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="官网下载"><a href="#官网下载" class="headerlink" title="官网下载"></a>官网下载</h2><ol>
+<li>直接下载.tar.gz安装包，地址：<a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">https://nginx.org/en/download.html</a></li>
+</ol>
+<ol start="2">
+<li>使用wget命令下载（推荐）。</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">wget</span> -c https://nginx.org/download/nginx-1.10.1.tar.gz
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>我下载的是1.10.1版本，这个是目前的稳定版。</p>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>依然是直接命令：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">tar</span> -zxvf nginx-1.10.1.tar.gz
+<span class="token function">cd</span> nginx-1.10.1
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>其实在 nginx-1.10.1 版本中你就不需要去配置相关东西，默认就可以了。当然，如果你要自己配置目录也是可以的。</p>
+<ol>
+<li>使用默认配置<pre class="line-numbers language-bash"><code class="language-bash">./configure
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>自定义配置（不推荐）</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash">./configure \
+--prefix<span class="token operator">=</span>/usr/local/nginx \
+--conf-path<span class="token operator">=</span>/usr/local/nginx/conf/nginx.conf \
+--pid-path<span class="token operator">=</span>/usr/local/nginx/conf/nginx.pid \
+--lock-path<span class="token operator">=</span>/var/lock/nginx.lock \
+--error-log-path<span class="token operator">=</span>/var/log/nginx/error.log \
+--http-log-path<span class="token operator">=</span>/var/log/nginx/access.log \
+--with-http_gzip_static_module \
+--http-client-body-temp-path<span class="token operator">=</span>/var/temp/nginx/client \
+--http-proxy-temp-path<span class="token operator">=</span>/var/temp/nginx/proxy \
+--http-fastcgi-temp-path<span class="token operator">=</span>/var/temp/nginx/fastcgi \
+--http-uwsgi-temp-path<span class="token operator">=</span>/var/temp/nginx/uwsgi \
+--http-scgi-temp-path<span class="token operator">=</span>/var/temp/nginx/scgi
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注：将临时文件目录指定为/var/temp/nginx，需要在/var下创建temp及nginx目录</p>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">make</span>
+<span class="token function">make</span> <span class="token function">install</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="启动、停止nginx"><a href="#启动、停止nginx" class="headerlink" title="启动、停止nginx"></a>启动、停止nginx</h2><h3 id="查找安装路径"><a href="#查找安装路径" class="headerlink" title="查找安装路径"></a>查找安装路径</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">whereis</span> nginx
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="停启"><a href="#停启" class="headerlink" title="停启"></a>停启</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">cd</span> /usr/local/nginx/sbin/
+./nginx 
+./nginx -s stop
+./nginx -s quit
+./nginx -s reload
+./nginx -s quit:此方式停止步骤是待nginx进程处理任务完毕进行停止。
+./nginx -s stop:此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="查询nginx进程"><a href="#查询nginx进程" class="headerlink" title="查询nginx进程"></a>查询nginx进程</h3><pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">ps</span> aux<span class="token operator">|</span><span class="token function">grep</span> nginx
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="重启-nginx"><a href="#重启-nginx" class="headerlink" title="重启 nginx"></a>重启 nginx</h3><ol>
+<li>先停止再启动（推荐）：<br>对 nginx 进行重启相当于先停止再启动，即先执行停止命令再执行启动命令。如下：</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash">./nginx -s quit
+./nginx
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>重新加载配置文件：<br>当 ngin x的配置文件 nginx.conf 修改后，要想让配置生效需要重启 nginx，使用-s reload不用先停止 ngin x再启动 nginx 即可将配置信息在 nginx 中生效，如下：</li>
+</ol>
+<pre class="line-numbers language-bash"><code class="language-bash">./nginx -s reload
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h2><p>即在rc.local增加启动代码就可以了。</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">vi</span> /etc/rc.local
+增加一行 /usr/local/nginx/sbin/nginx
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>设置执行权限：</p>
+<pre class="line-numbers language-bash"><code class="language-bash"><span class="token function">chmod</span> 755 rc.local
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>到这里，nginx就安装完毕了，启动、停止、重启操作也都完成了，当然，你也可以添加为系统服务，我这里就不在演示了。</p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'Centos7安装nginx'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/22/DestructuringAssignment/">Javascript解构赋值</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/Ioc/">控制反转/依赖注入（Unity容器使用）</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httprequestheader/">Http请求头参数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/30/installCore/">在Ubuntu 16.04安装.Net Core</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/20/serializable/">对象序列化</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/thisOfJs/">this关键字</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/20/vueLifeCycle/">VueJs生命周期、计算属性和侦听器</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2019/01/12/installNg/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2019/01/12/installNg/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2019/01/12/installNg/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 12.635807883794412px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 10.562654423446055px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 9.955831754765377px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 14.760578001861655px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 15.331407281970197px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 18.5072654586658px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 18.897386902359127px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 18.05224256693276px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 19.431155401288397px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 19.624102814115027px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 8.290074836952504px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 12.176821221487904px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 17.46113623114348px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 18.07414427858134px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 18.448452602250445px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 13.348512854912752px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 14.465780465366777px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 11.929362759828352px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat Jan 12 2019 18:37:16 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sat Jan 12 2019 18:37:16 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

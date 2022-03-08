@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>VueJs生命周期、计算属性和侦听器 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>VueJs生命周期、计算属性和侦听器</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/07/20/vueLifeCycle/">VueJs生命周期、计算属性和侦听器</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/VueJs/">VueJs</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-07-20
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/07/20/vueLifeCycle/">VueJs生命周期、计算属性和侦听器</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-07-20
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/VueJs/">VueJs</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#VUE生命周期"><span class="post-toc-number">1.</span> <span class="post-toc-text">VUE生命周期</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生命周期说明"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">生命周期说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#计算属性"><span class="post-toc-number">2.</span> <span class="post-toc-text">计算属性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#简单使用示例-反转字符串"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">简单使用示例(反转字符串)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用getter-setter"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">使用getter setter</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#计算属性缓存-vs-方法"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">计算属性缓存 vs 方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#watch侦听器"><span class="post-toc-number">3.</span> <span class="post-toc-text">watch侦听器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#外部定义watch"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">外部定义watch</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#watch-VS-computed"><span class="post-toc-number">4.</span> <span class="post-toc-text">watch VS computed</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#watch监视对象变化"><span class="post-toc-number">5.</span> <span class="post-toc-text">watch监视对象变化</span></a></li></ol>
+    <div class="content-article">
+        <h2 id="VUE生命周期"><a href="#VUE生命周期" class="headerlink" title="VUE生命周期"></a>VUE生命周期</h2><h3 id="生命周期说明"><a href="#生命周期说明" class="headerlink" title="生命周期说明"></a>生命周期说明</h3><pre class="line-numbers language-javascript"><code class="language-javascript">
+<span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    el<span class="token punctuation">:</span><span class="token string">'#my'</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">// 2.0不允许挂载到html,body元素上</span>
+    data<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        msg<span class="token punctuation">:</span><span class="token string">'welcome'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    methods<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>msg<span class="token operator">=</span><span class="token string">"欢迎"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//销毁实例</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">beforeCreate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'loading'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'组件实例刚刚创建，还未进行数据观测和事件配置'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//创建前状态  el和data并未初始化</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//常用  创建完毕状态   完成了data数据的初始化  el没有</span>
+
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"实例已经创建完成，并且已经进行数据观测和事件配置"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">beforeMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">//挂载前状态 完成了el和data初始化</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>msg<span class="token operator">=</span><span class="token string">"112233"</span><span class="token punctuation">;</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"模板编译之前，还没挂载"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//常用  挂载结束状态  完成挂载</span>
+
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"模板编译之后，已经挂载，此时才会有渲染页面，才能看到页面上数据的显示"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">beforeUpdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>   <span class="token comment" spellcheck="true">//更新前状态</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"组件更新之前"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">updated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>   <span class="token comment" spellcheck="true">//更新完成状态   由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"组件更新之后"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">beforeDestroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>   <span class="token comment" spellcheck="true">//销毁前状态</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"组件销毁之前"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">destroyed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  <span class="token comment" spellcheck="true">//销毁完成状态</span>
+        <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'组件销毁之后'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a href="https://cn.vuejs.org/v2/api/#%E9%80%89%E9%A1%B9-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90" target="_blank" rel="noopener">API地址</a></p>
+<p>图示：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/life.png" alt="图片"></p>
+<h2 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h2><blockquote>
+<p>计算属性可用于存储和处理数据。对于任何复杂逻辑，都应当使用计算属性。</p>
+</blockquote>
+<h3 id="简单使用示例-反转字符串"><a href="#简单使用示例-反转字符串" class="headerlink" title="简单使用示例(反转字符串)"></a>简单使用示例(反转字符串)</h3><pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+    el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+    data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        message<span class="token punctuation">:</span> <span class="token string">'Hello Vue!'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    computed<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        reverseMsg<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>message<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ message }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{ reverseMsg }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/computed1.png" alt="图片"></p>
+<blockquote>
+<p>计算属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算。注意，如果某个依赖 (比如非响应式属性) 在该实例范畴之外，则计算属性是不会被更新的。也就是说，<strong>如果需要更改计算属性的值，则必须使用<code>getter</code>和<code>setter</code>的方式，不能直接更改计算属性</strong>。</p>
+</blockquote>
+<h3 id="使用getter-setter"><a href="#使用getter-setter" class="headerlink" title="使用getter setter"></a>使用getter setter</h3><pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">var</span> vm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  computed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 仅读取</span>
+    aDouble<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">*</span> <span class="token number">2</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 读取和设置</span>
+    aPlus<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">+</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token keyword">set</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>a <span class="token operator">=</span> v <span class="token operator">-</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+vm<span class="token punctuation">.</span>aPlus   <span class="token comment" spellcheck="true">// => 2</span>
+vm<span class="token punctuation">.</span>aPlus <span class="token operator">=</span> <span class="token number">3</span>
+vm<span class="token punctuation">.</span>a       <span class="token comment" spellcheck="true">// => 2</span>
+vm<span class="token punctuation">.</span>aDouble <span class="token comment" spellcheck="true">// => 4</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="计算属性缓存-vs-方法"><a href="#计算属性缓存-vs-方法" class="headerlink" title="计算属性缓存 vs 方法"></a>计算属性缓存 vs 方法</h3><blockquote>
+<p>你可能已经注意到我们可以通过在表达式中调用方法来达到同样的效果;我们可以将同一函数定义为一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。然而，不同的是<strong>计算属性是基于它们的依赖进行缓存的</strong>。计算属性只有在它的相关依赖发生改变时才会重新求值。这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而不必再次执行函数。</p>
+</blockquote>
+<blockquote>
+<p>相比之下，每当触发重新渲染时，调用方法将总会再次执行函数。我们为什么需要缓存？假设我们有一个性能开销比较大的计算属性 A，它需要遍历一个巨大的数组并做大量的计算。然后我们可能有其他的计算属性依赖于 A 。如果没有缓存，我们将不可避免的多次执行 A 的 getter！<strong>如果你不希望有缓存，请用方法来替代</strong>。</p>
+</blockquote>
+<p><a href="https://cn.vuejs.org/v2/guide/computed.html#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7" target="_blank" rel="noopener">API地址</a></p>
+<h2 id="watch侦听器"><a href="#watch侦听器" class="headerlink" title="watch侦听器"></a>watch侦听器</h2><blockquote>
+<p>虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。这就是为什么 <code>Vue</code> 通过 <code>watch</code> 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。</p>
+</blockquote>
+<p>官方示例:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">var</span> vm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    b<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    c<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    d<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    e<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      f<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        g<span class="token punctuation">:</span> <span class="token number">5</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  watch<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'new: %s, old: %s'</span><span class="token punctuation">,</span> val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 方法名</span>
+    b<span class="token punctuation">:</span> <span class="token string">'someMethod'</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 深度 watcher</span>
+    c<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      handler<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      deep<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// 该回调将会在侦听开始之后被立即调用</span>
+    d<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      handler<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      immediate<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    e<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token keyword">function</span> handle1 <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token keyword">function</span> handle2 <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">// watch vm.e.f's value: {g: 5}</span>
+    <span class="token string">'e.f'</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>val<span class="token punctuation">,</span> oldVal<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+vm<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">// => new: 2, old: 1</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意事项：</p>
+<blockquote>
+<p>注意，<em>不应该使用箭头函数来定义 watcher 函数</em> (例如 <code>searchQuery: newValue =&gt; this.updateAutocomplete(newValue))</code>。理由是箭头函数绑定了父级作用域的上下文，所以 <code>this</code> 将不会按照期望指向 <code>Vue</code> 实例，<code>this.updateAutocomplete</code> 将是 <code>undefined</code>。</p>
+</blockquote>
+<h3 id="外部定义watch"><a href="#外部定义watch" class="headerlink" title="外部定义watch"></a>外部定义<code>watch</code></h3><pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//方式2</span>
+vm<span class="token punctuation">.</span><span class="token function">$watch</span><span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>newValue<span class="token punctuation">,</span> oldValue<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'name被修改了'</span><span class="token punctuation">,</span> newValue<span class="token punctuation">,</span> oldValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="watch-VS-computed"><a href="#watch-VS-computed" class="headerlink" title="watch VS computed"></a><code>watch</code> VS <code>computed</code></h2><p>在vue的 模板内（{{}}）是可以写一些简单的js表达式的 ，很便利。但是如果在页面中使用大量或是复杂的表达式去处理数据，对页面的维护会有很大的影响。这个时候就需要用到<code>computed</code> 计算属性来处理复杂的逻辑运算。</p>
+<p><code>computed</code>优点： </p>
+<ul>
+<li>在数据未发生变化时，优先读取缓存。<code>computed</code> 计算属性只有在相关的<strong>数据发生变化时</strong>才会改变要计算的属性，当相关数据没有变化是，它会<strong>读取缓存</strong>。而不必像 <code>motheds</code>方法 和 <code>watch</code> 方法是的每次都去执行函数。</li>
+</ul>
+<p>demo:</p>
+<pre class="line-numbers language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>名字：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>年龄：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>age<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{text}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>{{computedAge}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-js"><code class="language-js"><span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+    el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+    data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        message<span class="token punctuation">:</span> <span class="token string">'Hello Vue!'</span><span class="token punctuation">,</span>
+        name<span class="token punctuation">:</span><span class="token string">"sdf"</span><span class="token punctuation">,</span>
+        age<span class="token punctuation">:</span><span class="token number">18</span><span class="token punctuation">,</span>
+        text<span class="token punctuation">:</span><span class="token string">""</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    watch<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>newvalue<span class="token punctuation">,</span>oldvalue<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>text<span class="token operator">=</span><span class="token string">'watch》》》'</span><span class="token operator">+</span><span class="token string">"我的名字改成了："</span><span class="token operator">+</span>newvalue<span class="token operator">+</span><span class="token string">",原来的名字叫："</span><span class="token operator">+</span>oldvalue<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    computed<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        computedAge<span class="token punctuation">:</span><span class="token punctuation">{</span>
+            <span class="token keyword">get</span><span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                 <span class="token keyword">return</span> <span class="token string">'computed》》》'</span><span class="token operator">+</span><span class="token string">'我的年龄'</span><span class="token operator">+</span><span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">+</span> <span class="token string">'我的姓名'</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>初次加载效果：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/wc1.png" alt="图片"></p>
+<p>更改<code>age</code>值之后：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/wc2.png" alt="图片"></p>
+<p>更改<code>name</code>值之后:</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/wc3.png" alt="图片"></p>
+<h2 id="watch监视对象变化"><a href="#watch监视对象变化" class="headerlink" title="watch监视对象变化"></a><code>watch</code>监视对象变化</h2><pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span> 
+    el<span class="token punctuation">:</span> <span class="token string">'#app'</span><span class="token punctuation">,</span>
+    data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        message<span class="token punctuation">:</span> <span class="token string">'Hello Vue!'</span><span class="token punctuation">,</span>
+        user<span class="token punctuation">:</span><span class="token punctuation">{</span>
+             name<span class="token punctuation">:</span><span class="token string">"sdf"</span><span class="token punctuation">,</span>
+             age<span class="token punctuation">:</span><span class="token number">18</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        text<span class="token punctuation">:</span><span class="token string">""</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    watch<span class="token punctuation">:</span><span class="token punctuation">{</span>
+        user<span class="token punctuation">:</span><span class="token punctuation">{</span>
+            <span class="token function">handler</span><span class="token punctuation">(</span>newvalue<span class="token punctuation">,</span>oldvalue<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                 <span class="token keyword">this</span><span class="token punctuation">.</span>text<span class="token operator">=</span><span class="token string">'watch》》》'</span><span class="token operator">+</span><span class="token string">"我的名字改成了："</span><span class="token operator">+</span>newvalue<span class="token punctuation">.</span>name<span class="token operator">+</span><span class="token string">",原来的名字叫："</span><span class="token operator">+</span>oldvalue<span class="token punctuation">.</span>age<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            deep<span class="token punctuation">:</span><span class="token boolean">true</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li><p>handler表示默认执行的函数。</p>
+</li>
+<li><p>表示监视对象的属性变化,false则handler函数不执行,但此时看不到<code>newValue</code>与<code>oldValue</code>区别, 为了发现对象内部值的变化，可以在选项参数中指定 <code>deep: true</code> 。注意:监听数组的变动不需要这么做。</p>
+</li>
+</ol>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'VueJs生命周期、计算属性和侦听器'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/01/16/EntityFramework/">EntityFramework建立的三种方式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/08/19/Ioc/">控制反转/依赖注入（Unity容器使用）</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/19/dbUtility/">使用DbProviderFactory 打造一个通用的数据访问类库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/factorymethod/">设计模式(二)--工厂方法模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httpclient/">HttpClient类的使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/13/varAndletDifference/">var和let的作用域区别</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/26/vueJswebpack/">VueJs通过webpack启服务运行VUE模块文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2018/07/20/vueLifeCycle/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2018/07/20/vueLifeCycle/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2018/07/20/vueLifeCycle/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 19.79596547005346px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 11.681537991724968px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 9.64100635524456px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 8.644826473412994px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 15.949029725099379px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 14.325663283388412px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 14.222826009519299px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 14.045639768951602px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 16.52612833231237px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 14.731626122411031px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 17.33084438802458px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 15.36086535611264px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 16.418288105555288px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 8.71639890507538px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 17.06227801857696px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 8.777707389803329px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 19.391241744636705px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 9.64908898283348px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Fri Jul 20 2018 21:13:16 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Fri Jul 20 2018 21:13:16 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

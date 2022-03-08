@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>.NET平台常用的框架整理 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>.NET平台常用的框架整理</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/05/21/DotNetCommonFramework/">.NET平台常用的框架整理</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-05-21
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/05/21/DotNetCommonFramework/">.NET平台常用的框架整理</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-05-21
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分布式缓存框架"><span class="post-toc-number">1.</span> <span class="post-toc-text">分布式缓存框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开源的-NET系统推荐"><span class="post-toc-number">2.</span> <span class="post-toc-text">开源的.NET系统推荐</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自动任务调度框架"><span class="post-toc-number">3.</span> <span class="post-toc-text">自动任务调度框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#依赖注入IOC容器框架"><span class="post-toc-number">4.</span> <span class="post-toc-text">依赖注入IOC容器框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#常用的几个ORM框架"><span class="post-toc-number">5.</span> <span class="post-toc-text">常用的几个ORM框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#格式和数据类型转换"><span class="post-toc-number">6.</span> <span class="post-toc-text">格式和数据类型转换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反射和动态语言"><span class="post-toc-number">7.</span> <span class="post-toc-text">反射和动态语言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#跨平台和运行时解决方案"><span class="post-toc-number">8.</span> <span class="post-toc-text">跨平台和运行时解决方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WEB开发和设计"><span class="post-toc-number">9.</span> <span class="post-toc-text">WEB开发和设计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#移动互联网和云计算"><span class="post-toc-number">10.</span> <span class="post-toc-text">移动互联网和云计算</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#网络通信和网络协议"><span class="post-toc-number">11.</span> <span class="post-toc-text">网络通信和网络协议</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#图形和图像处理框架"><span class="post-toc-number">12.</span> <span class="post-toc-text">图形和图像处理框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#桌面应用程序框架"><span class="post-toc-number">13.</span> <span class="post-toc-text">桌面应用程序框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试和性能评估方面"><span class="post-toc-number">14.</span> <span class="post-toc-text">测试和性能评估方面</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#事务和分布式事务支持"><span class="post-toc-number">15.</span> <span class="post-toc-text">事务和分布式事务支持</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分词、全文检索和搜索引擎"><span class="post-toc-number">16.</span> <span class="post-toc-text">分词、全文检索和搜索引擎</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据验证组件整理"><span class="post-toc-number">17.</span> <span class="post-toc-text">数据验证组件整理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开源图表统计控件："><span class="post-toc-number">18.</span> <span class="post-toc-text">开源图表统计控件：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#消息队列"><span class="post-toc-number">19.</span> <span class="post-toc-text">消息队列</span></a></li></ol>
+    <div class="content-article">
+        <h2 id="分布式缓存框架"><a href="#分布式缓存框架" class="headerlink" title="分布式缓存框架"></a>分布式缓存框架</h2><p><code>Microsoft Velocity</code>：微软自家分布式缓存服务框架。</p>
+<p><code>Memcahed</code>：一套分布式的高速缓存系统，目前被许多网站使用以提升网站的访问速度。</p>
+<p><code>Redis</code>：是一个高性能的KV数据库。 它的出现很大程度补偿了Memcached在某些方面的不足。</p>
+<p><code>EnyimMemcached</code>：访问Memcached最优秀的.NET客户端，集成不错的分布式均衡算法。</p>
+<h2 id="开源的-NET系统推荐"><a href="#开源的-NET系统推荐" class="headerlink" title="开源的.NET系统推荐"></a>开源的.NET系统推荐</h2><p><code>OXITE</code>：微软ASP.NET MVC案例演示框架。</p>
+<p><code>PetShop</code>：微软ASP.Net宠物商店。</p>
+<p><code>Orchard</code>：国外一个MVC开源的博客系统。</p>
+<p><code>SSCLI</code>：微软在NET Framework 2.0时代的开源代码。</p>
+<p><code>DasBlog</code>：国外一个基于ASP.NET的博客系统。</p>
+<p><code>BlogEngine.NET</code>：国外一款免费开源的博客系统。</p>
+<p><code>Dotnetnuke.NET</code>：一套非常优秀的基于ASP.NET的开源门户网站程序。</p>
+<p><code>Discuz.NET</code>：国内开源的论坛社区系统。</p>
+<p><code>nopCommerce</code>和<code>Aspxcommerce</code>：国外一套高质量的开源B2C网站系统。</p>
+<p><code>JumboTCMS和DTCMS</code>：国内两款开源的网站管理系统：</p>
+<p>##日志记录异常处理 </p>
+<p><code>Log4Net.dll</code>：轻量级的免费开源.NET日志记录框架。</p>
+<p><code>Enterprise Library Log Application Black</code>：微软企业库日志记录。</p>
+<p><code>Elmah</code>：实现最流行的ASP.NET应用异常日志记录框架。</p>
+<p><code>NLog</code>：是一个简单灵活的日志记录类库，性能比Log4Net高，使用和维护难度低。</p>
+<p>##关于NoSQL数据库</p>
+<p><code>MongoDB</code>：分布式文件存储数据库。</p>
+<p><code>Membase</code>：家族的一个新的重量级的成员。</p>
+<h2 id="自动任务调度框架"><a href="#自动任务调度框架" class="headerlink" title="自动任务调度框架"></a>自动任务调度框架</h2><p><code>Quartz.NET</code>：开源的作业调度和自动任务框架。</p>
+<p><code>Topshelf</code>：另一种创建Windows服务的开源框架</p>
+<h2 id="依赖注入IOC容器框架"><a href="#依赖注入IOC容器框架" class="headerlink" title="依赖注入IOC容器框架"></a>依赖注入IOC容器框架</h2><p><code>Unity</code>：微软patterns&amp;practicest团队开发的IOC依赖注入框架，支持AOP横切关注点。</p>
+<p><code>MEF（Managed Extensibility Framework）</code>：是一个用来扩展.NET应用程序的框架，可开发插件系统。</p>
+<p><code>spring.NET</code>：依赖注入、面向方面编程(AOP)、数据访问抽象,、以及ASP.NET集成。</p>
+<p><code>Autofac</code>：最流行的依赖注入和IOC框架，轻量且高性能，对项目代码几乎无任何侵入性。</p>
+<p><code>PostSharp</code>：实现静态AOP横切关注点，使用简单，功能强大，对目标拦截的方法无需任何改动。</p>
+<p><code>Ninject</code>：基于.NET轻量级开源的依赖注入IOC框架</p>
+<h2 id="常用的几个ORM框架"><a href="#常用的几个ORM框架" class="headerlink" title="常用的几个ORM框架"></a>常用的几个ORM框架</h2><p><code>EF（ADO.NET Entity Framework）</code>：微软基于ADO.NET开发的ORM框架。</p>
+<p><code>Nhibernate</code>：面向.NET环境的轻量级的ORM框架。</p>
+<p><code>SqlMapper.cs</code>：用于小项目的通用的C#数据库访问类。</p>
+<p><code>AutoMapper</code>：流行的对象映射框架，可减少大量硬编码，很小巧灵活，性能表现也可接受。</p>
+<p><code>SubSonic</code>：优秀的开源的ORM映射框架，同时提供符合自身需要的代码生成器。</p>
+<p><code>FluentData</code>：开源的基于Fluent API的链式查询ORM轻量级框架。</p>
+<p><code>Dapper</code>：轻量级高性能基于EMIT生成的ORM框架。</p>
+<p><code>EmitMapper</code>：性能较高的ORM框架，运行时通过EMIT动态生成IL代码，并非采用反射机制。</p>
+<h2 id="格式和数据类型转换"><a href="#格式和数据类型转换" class="headerlink" title="格式和数据类型转换"></a>格式和数据类型转换</h2><p><code>Newtonsoft.Json</code>：目前.NET开发中最流行的JSON序列化库，为新版的WebApi库提供基础。</p>
+<p><code>System.JSON.dll</code>：微软自己开发的JSON序列化组件（需要单独下载）</p>
+<p><code>DataContractJsonSerializer</code> 和 <code>DataContractXmlSerializer</code>：微软在WCF中使用的序列化器。</p>
+<p><code>JavaScriptSerializer</code>：微软默认针对WEB开发者提供的JSON格式化器。</p>
+<p><code>iTextSharp、PDFsharp</code> 和 <code>PDF.NET</code>：通过.NET处理和生成PDF文档的组件。</p>
+<p><code>SharpZipLib.dll</code>：免费开源的ZIP和GZIP文件解压缩组件。</p>
+<p><code>Math.NET</code>：强大的数学运算、微积分、解方程和科学运算。</p>
+<p><code>DocX</code>：不需要安装word软件，通过C#操作word文件。</p>
+<p><code>SharpSerializer</code>：开源XML和、二进制、JSON、压缩和优化框架。</p>
+<h2 id="反射和动态语言"><a href="#反射和动态语言" class="headerlink" title="反射和动态语言"></a>反射和动态语言</h2><p><code>Clay dynamic</code>：开源的动态语言dynamic框架让您形如JavaScript的方式创建对象。</p>
+<p><code>ExposedObject</code>：在类的外部通过动态语言dynamic的方式访问私有成员。</p>
+<p><code>PrivateObject</code>：微软单元测试框架中便捷在外部调用类内部私有成员的一个类。</p>
+<h2 id="跨平台和运行时解决方案"><a href="#跨平台和运行时解决方案" class="headerlink" title="跨平台和运行时解决方案"></a>跨平台和运行时解决方案</h2><p><code>MONO.NET</code>：跨平台的.NET运行环境，让.NET跨平台运行成为可能。</p>
+<p><code>DotGnu Portable.NET</code>：类似于MONO.NET的跨平台运行时。</p>
+<p><code>Phalanger</code>：将PHP编译成.NET，可实现PHP与.NET互操作。</p>
+<p><code>VMDotNet</code>：中国移动飞信所使用过的.NET运行时。</p>
+<p><code>Unity3D</code>：微软大力支持的机遇C#和JavaScript的跨平台游戏开发框架。</p>
+<p><code>Cassini、IIS Express</code>和<code>C</code>assinidev`：开源的ASP.NET执行环境。</p>
+<p><code>Katana</code>：微软基于OWIN规范实现的非IIS寄宿ASP.NET和MVC等。</p>
+<p><code>IKVM.NET</code>：基于.NET的Java虚拟机，让JAVA运行在.NET之上。</p>
+<h2 id="WEB开发和设计"><a href="#WEB开发和设计" class="headerlink" title="WEB开发和设计"></a>WEB开发和设计</h2><p><code>Jumony Core</code>：基于.NET开发的HTML引擎。</p>
+<p><code>Microsoft.mshtml.dll、Winista.HtmlParser.dll</code> 和 <code>HtmlAgilityPack.dll</code>：解析处理HTML文档的框架。</p>
+<p><code>JavaScript.NET</code>和<code>ClearScript（微软出品）</code>：基于.NET开发的JavaScript引擎。</p>
+<p><code>NCrawler</code>：其HTML处理引擎htmlagilitypack的的开源网络爬虫软件。</p>
+<p><code>AntiXSS</code>：微软官方预防跨站XSS脚本入侵攻击的开源类库，它通过白名单机制进行内容编码。</p>
+<p><code>YUICompressor.NET、Microsoft Ajax Minifier</code> 和 <code>Google Closure Compiler：JavaScrip</code>和CSS压缩器。</p>
+<p><code>NancyFx</code>：是一个不错的轻量级开源.NET WEB框架。如果想快速做个简单的WEB应用 官网：<a href="http://nancyfx.org/。" target="_blank" rel="noopener">http://nancyfx.org/。</a></p>
+<p><code>AspNetPager</code>：国内知名的ASP.NET分页控件，支持多种分页方式。</p>
+<p><code>NOPI.dll</code>：导出Excel报表的插件（基于微软OpenXml实现）（nopi.css.dl通过css设置样式）</p>
+<p><code>Enterprise Library</code>：微软针对企业级应用开发的最佳实践组件。</p>
+<p><code>PowerCollections</code>：国外一个牛人写的高级开源集合。</p>
+<h2 id="移动互联网和云计算"><a href="#移动互联网和云计算" class="headerlink" title="移动互联网和云计算"></a>移动互联网和云计算</h2><p><code>PushSharp</code>：通过.NET向各种移动平台推送消息。</p>
+<p><code>mono for Android</code>：用.NET语言开发安卓应用：</p>
+<p><code>MonoTouch</code>：用.NET语言开发iOS应用。</p>
+<p><code>PhoneGap</code>和<code>AppCan</code>：跨平台基于HTML5的移动开发平台。</p>
+<p><code>Cordova</code>：PhoneGap贡献给Apache后的开源项目，是驱动PhoneGap的核心引擎。</p>
+<h2 id="网络通信和网络协议"><a href="#网络通信和网络协议" class="headerlink" title="网络通信和网络协议"></a>网络通信和网络协议</h2><p><code>SuperSocket</code>：基于.NET轻量级的可扩展的Socket开发框架。</p>
+<p><code>SuperWebSocket</code>：通过.NET实现TML5 WebSocket框架。</p>
+<p><code>XProxy</code>：支持插件的基础代理程序集，内置NAT、加解密、反向、直接和间接代理。</p>
+<h2 id="图形和图像处理框架"><a href="#图形和图像处理框架" class="headerlink" title="图形和图像处理框架"></a>图形和图像处理框架</h2><p><code>Paint.NET</code>：基于.NET小巧灵活强大的图形处理开源项目。</p>
+<p><code>Imagemagick.NET</code>：用C#对开源图像处理组件Imagemagick的封装。</p>
+<p><code>Skimpt</code>：基于.NET开源的屏幕截图软件。</p>
+<p><code>ImageGlue.NET</code>：商业的图像处理组件，支持的格式列了一大堆。</p>
+<p><code>Sprite and Image Optimization Framework</code>：微软CSS精灵，多图合成一张大图和CSS样式。</p>
+<h2 id="桌面应用程序框架"><a href="#桌面应用程序框架" class="headerlink" title="桌面应用程序框架"></a>桌面应用程序框架</h2><p><code>DevExpress</code>：一个全球知名的桌面应用程序UI控件库。</p>
+<p><code>Prism</code>：微软开发的针对WPF和Silverlight的MVVM框架，通过功能模块化的思想，来讲复杂的业务功能和UI耦合性进行分离。</p>
+<p><code>WPFToolkit</code> 和 <code>Fluent Ribbon Control Suite</code>：开发类似于Office风格的Ribbon菜单。</p>
+<h2 id="测试和性能评估方面"><a href="#测试和性能评估方面" class="headerlink" title="测试和性能评估方面"></a>测试和性能评估方面</h2><p><code>Faker.Net</code>：方便生成大批量测试数据的框架。</p>
+<p><code>Nunit</code>：一个轻量级的单元测试框架。</p>
+<p><code>Moq</code>：非常流行的Mock框架，支持LINQ，灵活且高性能。</p>
+<p><code>xUnit</code>：比NUnit更好的单元测试框架，升级改进版的Nunit框架。</p>
+<p><code>MiniProfiler</code>和<code>Glimpse</code>：基于MVC的两款性能事件监控框架。</p>
+<h2 id="事务和分布式事务支持"><a href="#事务和分布式事务支持" class="headerlink" title="事务和分布式事务支持"></a>事务和分布式事务支持</h2><p><code>KtmIntegration</code>：一个支持NTFS文件系统的事务开源类。</p>
+<p><code>NET Transactional File Manager</code>：对文件系统操作（复制、移动和删除）加入事务支持。</p>
+<h2 id="分词、全文检索和搜索引擎"><a href="#分词、全文检索和搜索引擎" class="headerlink" title="分词、全文检索和搜索引擎"></a>分词、全文检索和搜索引擎</h2><p><code>Lucene.net</code>：流行高性能的全文索引库，可用于为各类信息提供强大的搜索功能。</p>
+<p><code>Lucene.Net.Analysis.PanGu</code>：支持Lucene.Net最新版的盘古中文分词扩展库。</p>
+<h2 id="数据验证组件整理"><a href="#数据验证组件整理" class="headerlink" title="数据验证组件整理"></a>数据验证组件整理</h2><p><code>FluentValidation for .NET</code>：基于LINQ表达式方法链Fluent接口验证组件。</p>
+<p><code>Microsoft.Practices.EnterpriseLibrary.Validation.dll</code>：微软企业库验证程序块。</p>
+<p><code>CuttingEdge.Conditions</code>：基于Fluent接口方法练接口的契约编程组件。</p>
+<p><code>DotNetOpenAuth</code>：让网站具备支持OpenID、OAuth、InfoCard等身份验证的能力。</p>
+<h2 id="开源图表统计控件："><a href="#开源图表统计控件：" class="headerlink" title="开源图表统计控件："></a>开源图表统计控件：</h2><p><code>Visifire</code>：一套效果非常好的WPF图表控件，支持3D绘制、曲线、折线、扇形、环形和梯形。</p>
+<p><code>SparrowToolkit</code>：一套WPF图表控件集，支持绘制动态曲线，可绘制示波器、CPU使用率和波形。</p>
+<p><code>DynamicDataDisplay</code>：微软开源的WPF动态曲线图，线图、气泡图和热力图。</p>
+<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><p><code>Kafka</code></p>
+<p><code>Kafka</code>是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：</p>
+<p>以时间复杂度为O(1)的方式提供消息持久化能力，即使对TB级以上数据也能保证常数时间复杂度的访问性能。</p>
+<p>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条以上消息的传输。</p>
+<p>支持Kafka Server间的消息分区，及分布式消费，同时保证每个Partition内的消息顺序传输。</p>
+<p>同时支持离线数据处理和实时数据处理。</p>
+<p>Scale out：支持在线水平扩展。</p>
+<p><code>RabbitMQ</code></p>
+<p>RabbitMQ是使用Erlang编写的一个开源的消息队列，本身支持很多的协议：AMQP，XMPP, SMTP, STOMP，也正因如此，它非常重量级，更适合于企业级的开发。同时实现了Broker构架，这意味着消息在发送给客户端时先在中心队列排队。对路由，负载均衡或者数据持久化都有很好的支持。</p>
+<p><code>Redis</code></p>
+<p>Redis是一个基于Key-Value对的NoSQL数据库，开发维护很活跃。虽然它是一个Key-Value数据库存储系统，但它本身支持MQ功能，所以完全可以当做一个轻量级的队列服务来使用。对于RabbitMQ和Redis的入队和出队操作，各执行100万次，每10万次记录一次执行时间。测试数据分为128Bytes、512Bytes、1K和10K四个不同大小的数据。实验表明：入队时，当数据比较小时Redis的性能要高于RabbitMQ，而如果数据大小超过了10K，Redis则慢的无法忍受；出队时，无论数据大小，Redis都表现出非常好的性能，而RabbitMQ的出队性能则远低于Redis。</p>
+<p><code>ZeroMQ</code></p>
+<p>ZeroMQ号称最快的消息队列系统，尤其针对大吞吐量的需求场景。ZeroMQ能够实现RabbitMQ不擅长的高级/复杂的队列，但是开发人员需要自己组合多种技术框架，技术上的复杂度是对这MQ能够应用成功的挑战。ZeroMQ具有一个独特的非中间件的模式，你不需要安装和运行一个消息服务器或中间件，因为你的应用程序将扮演这个服务器角色。你只需要简单的引用ZeroMQ程序库，可以使用NuGet安装，然后你就可以愉快的在应用程序之间发送消息了。但是ZeroMQ仅提供非持久性的队列，也就是说如果宕机，数据将会丢失。其中，Twitter的Storm 0.9.0以前的版本中默认使用ZeroMQ作为数据流的传输（Storm从0.9版本开始同时支持ZeroMQ和Netty作为传输模块）。</p>
+<p><code>ActiveMQ</code></p>
+<p>ActiveMQ是Apache下的一个子项目。 类似于ZeroMQ，它能够以代理人和点对点的技术实现队列。同时类似于RabbitMQ，它少量代码就可以高效地实现高级应用场景。</p>
+<p><code>Kafka/Jafka</code></p>
+<p>Kafka是Apache下的一个子项目，是一个高性能跨语言分布式发布/订阅消息队列系统，而Jafka是在Kafka之上孵化而来的，即Kafka的一个升级版。具有以下特性：快速持久化，可以在O(1)的系统开销下进行消息持久化；高吞吐，在一台普通的服务器上既可以达到10W/s的吞吐速率；完全的分布式系统，Broker、Producer、Consumer都原生自动支持分布式，自动实现负载均衡；支持Hadoop数据并行加载，对于像Hadoop的一样的日志数据和离线分析系统，但又要求实时处理的限制，这是一个可行的解决方案。Kafka通过Hadoop的并行加载机制统一了在线和离线的消息处理。Apache Kafka相对于ActiveMQ是一个非常轻量级的消息系统，除了性能非常好之外，还是一个工作良好的分布式系统。</p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '.NET平台常用的框架整理'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/datawidth/">汇编学习(二)--数据宽度</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/07/02/encryption/">加密和解密</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsRegExp/">正则表达式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/28/remotegit/">使用远程Git仓库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/22/validateImage/">JavaScript绘制图片验证码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2018/05/21/DotNetCommonFramework/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2018/05/21/DotNetCommonFramework/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2018/05/21/DotNetCommonFramework/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 8.569929512262668px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 18.14898797759901px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 16.318263146310585px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 13.030960097768528px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 8.38734219814106px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 14.236720894150881px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 8.58260799087838px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 9.265871865907968px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 17.94261660128786px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 16.593007283071465px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 11.935745034765368px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 11.225267829805281px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 12.531071377370345px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 14.331828077058454px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 17.353189171519496px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 14.773204063347535px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 12.719396401260582px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 14.61909886765175px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Mon May 21 2018 20:13:16 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Mon May 21 2018 20:13:16 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

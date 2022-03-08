@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>ASP.NET管道模型 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>ASP.NET管道模型</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-10-11
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-10-11
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#访问一个网页的全过程"><span class="post-toc-number">1.</span> <span class="post-toc-text">访问一个网页的全过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#域名解析"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">域名解析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#与目的主机进行TCP连接（三次握手）"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">与目的主机进行TCP连接（三次握手）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#发送与收取数据（浏览器与目的主机开始HTTP访问过程）"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">发送与收取数据（浏览器与目的主机开始HTTP访问过程）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#与目的主机断开TCP连接（四次挥手）"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">与目的主机断开TCP连接（四次挥手）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Http请求到达管道模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">Http请求到达管道模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#请求到达管道模型之前"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">请求到达管道模型之前</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HttpApplication类的请求处理流程"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">HttpApplication类的请求处理流程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HttpModule"><span class="post-toc-number">3.</span> <span class="post-toc-text">HttpModule</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#系统自带的HttpModule"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">系统自带的HttpModule</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义HttpModule"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">自定义HttpModule</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h2 id="访问一个网页的全过程"><a href="#访问一个网页的全过程" class="headerlink" title="访问一个网页的全过程"></a>访问一个网页的全过程</h2><p><a href="https://blog.csdn.net/u012862311/article/details/78753232?utm_source=copy" target="_blank" rel="noopener">参考toumingren527</a></p>
+<h3 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h3><blockquote>
+<p>从浏览器输入一个网址，首先要做的是域名解析，将网址解析成IP+端口，定位到网站所在的服务器。</p>
+</blockquote>
+<ul>
+<li><p>域名解析是把域名指向网站空间IP，让人们通过注册的域名可以方便地访问到网站的一种服务。IP地址是网络上标识站点的数字地址，为了方便记忆，采用域名来代替IP地址标识站点地址。域名解析就是域名到IP地址的转换过程。域名的解析工作由DNS服务器完成。</p>
+</li>
+<li><p>域名解析也叫域名指向、服务器设置、域名配置以及反向IP登记等等。说得简单点就是将好记的域名解析成IP，服务由DNS服务器完成，是把域名解析到一个IP地址，然后在此IP地址的主机上将一个子目录与域名绑定。</p>
+</li>
+<li><p>互联网中的地址是数字的IP地址，域名解析的作用主要就是为了便于记忆。</p>
+</li>
+</ul>
+<p>DNS域名解析时用的是UDP协议。整个域名解析的过程如下：</p>
+<ol>
+<li><p>浏览器向本机DNS模块发出DNS请求，DNS模块生成相关的DNS报文；</p>
+</li>
+<li><p>DNS模块将生成的DNS报文传递给传输层的UDP协议单元；</p>
+</li>
+<li>UDP协议单元将该数据封装成UDP数据报，传递给网络层的IP协议单元；</li>
+<li><p>IP协议单元将该数据封装成IP数据包，其目的IP地址为DNS服务器的IP地址；</p>
+</li>
+<li><p>封装好的IP数据包将传递给数据链路层的协议单元进行发送；</p>
+</li>
+<li>发送时在ARP缓存中查询相关数据，如果没有，就发送ARP广播（包含待查询的IP地址，收到广播的主机检查自己的IP，符合条件的主机将含有自己MAC地址的ARP包发送给ARP广播的主机）请求，等待ARP回应；</li>
+<li>得到ARP回应后，将IP地址与路由的下一跳MAC地址对应的信息写入ARP缓存表；</li>
+<li>写入缓存后，以路由下一跳的地址填充目的MAC地址，以数据帧形式转发；转发可能进行多次；</li>
+<li>DNS请求到达DNS服务器的数据链路层协议单元；</li>
+<li>DNS服务器的数据链路层协议单元解析数据帧，将内部的IP数据包传递给网络层IP协议单元；</li>
+<li>DNS服务器的IP协议单元解析IP数据包，将内部的UDP数据报传递给传输层UDP协议单元；</li>
+<li>DNS服务器的UDP协议单元解析收到的UDP数据报，将内部的DNS报文传递给DNS服务单元；</li>
+<li>DNS服务单元将域名解析成对应IP地址，产生DNS回应报文；</li>
+<li>DNS回应报文-&gt;UDP-&gt;IP-&gt;MAC-&gt;我的主机；</li>
+<li>我的主机收到数据帧，将数据帧-&gt;IP-&gt;UDP-&gt;浏览器；</li>
+<li>将域名解析结果以域名和IP地址对应的形式写入DNS缓存表。</li>
+</ol>
+<hr>
+<h3 id="与目的主机进行TCP连接（三次握手）"><a href="#与目的主机进行TCP连接（三次握手）" class="headerlink" title="与目的主机进行TCP连接（三次握手）"></a>与目的主机进行TCP连接（三次握手）</h3><ol>
+<li><p>向目的主机发送TCP连接请求报文；</p>
+</li>
+<li><p>该TCP报文中SYN标志位设为1，表示连接请求；</p>
+</li>
+<li>该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；</li>
+<li>目的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应请求应答报文；</li>
+<li>该报文中SYN和ACK标志设为1，表示连接请求应答；</li>
+<li>该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；</li>
+<li>我的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应请求确认报文；</li>
+<li>该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；</li>
+<li>目的主机收到数据帧，通过IP-&gt;TCP，连接建立完成。</li>
+</ol>
+<h3 id="发送与收取数据（浏览器与目的主机开始HTTP访问过程）"><a href="#发送与收取数据（浏览器与目的主机开始HTTP访问过程）" class="headerlink" title="发送与收取数据（浏览器与目的主机开始HTTP访问过程）"></a>发送与收取数据（浏览器与目的主机开始HTTP访问过程）</h3><p>只有建立连接后才能开始传输数据。</p>
+<ol>
+<li>浏览器向域名发出GET方法报文（HTTP请求）；</li>
+<li>该GET方法报文通过TCP-&gt;IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；</li>
+<li><p>目的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP，HTTP协议单元会回应HTTP协议格式封装好的HTML形式数据（HTTP响应）；[从请求信息中获得客户机想访问的主机名。从请求信息中获取客户机想要访问的web应用（web应用程序指提供浏览器访问的程序，简称web应用）。从请求信息中获取客户机要访问的web资源。（web资源，即各种文件，图片，视频，文本等）读取相应的主机下的web应用，web资源。用读取到的web资源数据，创建一个HTTP响应。]</p>
+</li>
+<li><p>该HTML数据通过TCP-&gt;IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；</p>
+</li>
+<li>我的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP-&gt;浏览器，浏览器以网页形式显示HTML内容。</li>
+</ol>
+<hr>
+<h3 id="与目的主机断开TCP连接（四次挥手）"><a href="#与目的主机断开TCP连接（四次挥手）" class="headerlink" title="与目的主机断开TCP连接（四次挥手）"></a>与目的主机断开TCP连接（四次挥手）</h3><p>TCP连接释放过程：</p>
+<ol>
+<li>浏览器向目的主机发出TCP连接结束请求报文，此时进入FIN WAIT状态；</li>
+<li>该报文FIN标志位设为1，表示结束请求；</li>
+<li>TCP结束请求报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；</li>
+<li>目的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应结束应答报文；</li>
+<li>当前只是进行回应，因为目的主机可能还有数据要传，并不急着断开连接；</li>
+<li>该报文中ACK标志位设为1，表示收到结束请求；</li>
+<li>目的数据发送完所有数据后，向我的主机发出TCP连接结束请求报文；</li>
+<li>该报文FIN标志位设为1，表示结束请求；</li>
+<li>TCP结束请求报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；</li>
+<li>我的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应结束应答报文，此时进入TIME WAIT状态，因为不相信网络是可靠的，如果目的主机没收到还可以重发；</li>
+<li>该报文中的FIN标志位均设为1，表示结束应答；</li>
+<li>该TCP回应报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；</li>
+<li>目的主机关闭连接；</li>
+<li>TIME WAIT等待结束后，没有收到回复，说明目的正常关闭了，我的主机也关闭连接。</li>
+</ol>
+<hr>
+<h2 id="Http请求到达管道模型"><a href="#Http请求到达管道模型" class="headerlink" title="Http请求到达管道模型"></a>Http请求到达管道模型</h2><h3 id="请求到达管道模型之前"><a href="#请求到达管道模型之前" class="headerlink" title="请求到达管道模型之前"></a>请求到达管道模型之前</h3><p>图示如下：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/pip1.png" alt="图片"></p>
+<p>经过域名解析和三次握手之后，便开始正式发送Http请求数据，请求到达IIS服务器后:</p>
+<ol>
+<li>首先是<code>HTTP.SYS</code>接收到请求，转发给<code>ISAPI</code>扩展器<code>aspnet_isapi</code>;</li>
+<li><code>aspnet_isapi</code>将请求包装成<code>HttpWorkerRequest</code>对象。</li>
+<li>调用<code>HttpRuntime</code>类的<code>ProcessRequest</code>方法并将封装的<code>HttpWorkerRequest</code>对象传入。</li>
+<li><code>HttpRuntime</code>中将请求放入队列。</li>
+<li>从队列中取出第一个请求并创建<code>HttpContext</code>对象。</li>
+<li><code>HttpApplicationFactory</code>从对象池中创建<code>HttpApplication</code>对象&lt;每次请求都创建一次&gt;</li>
+</ol>
+<p>反编译代码如下：</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/pip2.png" alt="图片"></p>
+<blockquote>
+<p><code>HttpApplication</code>便是Asp.Net管道模型的核心，我们在网站程序中最常用的便是扩展它，<code>HttpModule</code>便是专门用于扩展<code>HttpApplication</code>的。</p>
+</blockquote>
+<h3 id="HttpApplication类的请求处理流程"><a href="#HttpApplication类的请求处理流程" class="headerlink" title="HttpApplication类的请求处理流程"></a><code>HttpApplication</code>类的请求处理流程</h3><p>在<code>HttpApplication</code>类中定义了一系列处理Http请求的事件，按照<code>.Net Framework</code>既定的顺序处理逻辑，并按此顺序触发事件。</p>
+<p>所有事件如下：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs just before ASP.NET sends HTTP headers to the client.</span>
+<span class="token keyword">public</span> event EventHandler PreSendRequestHeaders<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the handler is selected to respond to the request.</span>
+<span class="token keyword">public</span> event EventHandler MapRequestHandler<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the application is disposed.</span>
+<span class="token keyword">public</span> event EventHandler Disposed<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs as the first event in the HTTP pipeline chain of execution when ASP.NET</span>
+<span class="token comment" spellcheck="true">//     responds to a request.</span>
+<span class="token keyword">public</span> event EventHandler BeginRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when a security module has established the identity of the user.</span>
+<span class="token keyword">public</span> event EventHandler AuthenticateRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when a security module has established the identity of the user.</span>
+<span class="token keyword">public</span> event EventHandler PostAuthenticateRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when a security module has verified user authorization.</span>
+<span class="token keyword">public</span> event EventHandler AuthorizeRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the user for the current request has been authorized.</span>
+<span class="token keyword">public</span> event EventHandler PostAuthorizeRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET finishes an authorization event to let the caching modules</span>
+<span class="token comment" spellcheck="true">//     serve requests from the cache, bypassing execution of the event handler (for</span>
+<span class="token comment" spellcheck="true">//     example, a page or an XML Web service).</span>
+<span class="token keyword">public</span> event EventHandler ResolveRequestCache<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET bypasses execution of the current event handler and allows</span>
+<span class="token comment" spellcheck="true">//     a caching module to serve a request from the cache.</span>
+<span class="token keyword">public</span> event EventHandler PostResolveRequestCache<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs just before ASP.NET sends content to the client.</span>
+<span class="token keyword">public</span> event EventHandler PreSendRequestContent<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET has mapped the current request to the appropriate event handler.</span>
+<span class="token keyword">public</span> event EventHandler PostMapRequestHandler<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET has completed processing all the event handlers for the System.Web.HttpApplication.LogRequest</span>
+<span class="token comment" spellcheck="true">//     event.</span>
+<span class="token keyword">public</span> event EventHandler PostLogRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the managed objects that are associated with the request have been</span>
+<span class="token comment" spellcheck="true">//     released.</span>
+<span class="token keyword">public</span> event EventHandler RequestCompleted<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the request state (for example, session state) that is associated</span>
+<span class="token comment" spellcheck="true">//     with the current request has been obtained.</span>
+<span class="token keyword">public</span> event EventHandler PostAcquireRequestState<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs just before ASP.NET starts executing an event handler (for example, a</span>
+<span class="token comment" spellcheck="true">//     page or an XML Web service).</span>
+<span class="token keyword">public</span> event EventHandler PreRequestHandlerExecute<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when the ASP.NET event handler (for example, a page or an XML Web service)</span>
+<span class="token comment" spellcheck="true">//     finishes execution.</span>
+<span class="token keyword">public</span> event EventHandler PostRequestHandlerExecute<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs after ASP.NET finishes executing all request event handlers. This event</span>
+<span class="token comment" spellcheck="true">//     causes state modules to save the current state data.</span>
+<span class="token keyword">public</span> event EventHandler ReleaseRequestState<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET has completed executing all request event handlers and the</span>
+<span class="token comment" spellcheck="true">//     request state data has been stored.</span>
+<span class="token keyword">public</span> event EventHandler PostReleaseRequestState<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET finishes executing an event handler in order to let caching</span>
+<span class="token comment" spellcheck="true">//     modules store responses that will be used to serve subsequent requests from the</span>
+<span class="token comment" spellcheck="true">//     cache.</span>
+<span class="token keyword">public</span> event EventHandler UpdateRequestCache<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET finishes updating caching modules and storing responses that</span>
+<span class="token comment" spellcheck="true">//     are used to serve subsequent requests from the cache.</span>
+<span class="token keyword">public</span> event EventHandler PostUpdateRequestCache<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs just before ASP.NET performs any logging for the current request.</span>
+<span class="token keyword">public</span> event EventHandler LogRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when ASP.NET acquires the current state (for example, session state) that</span>
+<span class="token comment" spellcheck="true">//     is associated with the current request.</span>
+<span class="token keyword">public</span> event EventHandler AcquireRequestState<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs as the last event in the HTTP pipeline chain of execution when ASP.NET</span>
+<span class="token comment" spellcheck="true">//     responds to a request.</span>
+<span class="token keyword">public</span> event EventHandler EndRequest<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     Occurs when an unhandled exception is thrown.</span>
+<span class="token keyword">public</span> event EventHandler Error<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>执行顺序如下：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/*
+BeginRequest              Asp.net处理的第一个事件，表示处理的开始
+AuthenticateRequest          验证请求，一般用来取得请求用户的信息
+PostAuthenticateRequest      已经获取请求用户的信息
+AuthorizeRequest          授权，一般用来检查用户的请求是否获得权限
+PostAuthorizeRequest      用户请求已经得到授权
+ResolveRequestCache          获取以前处理缓存的处理结果，如果以前缓存过，那么，不必再进行请求的处理工作，直接返回缓存结果
+PostResolveRequestCache      已经完成缓存的获取操作
+PostMapRequestHandler      已经根据用户的请求，创建了处理请求的处理器对象
+AcquireRequestState          取得请求的状态，一般用于Session
+PostAcquireRequestState      已经取得了Session
+PreRequestHandlerExecute  准备执行处理程序
+PostRequestHandlerExecute 已经执行了处理程序
+ReleaseRequestState         释放请求的状态
+PostReleaseRequestState     已经释放了请求的状态
+UpdateRequestCache         更新缓存
+PostUpdateRequestCache    已经更新了缓存
+LogRequest                请求的日志操作
+PostLogRequest            已经完成了请求的日志操作
+EndRequest                本次请求处理完成
+*/</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>请求并非所有事件都会执行，例如<code>Error</code>。</p>
+<h2 id="HttpModule"><a href="#HttpModule" class="headerlink" title="HttpModule"></a>HttpModule</h2><p><code>ASP.NET</code> 请求处理过程是基于管道模型的，这个管道模型是由多个<code>HttpModule</code>和<code>HttpHandler</code>组成，<code>ASP.NET</code> 把<code>http</code>请求依次传递给管道中各个<code>HttpModule</code>，最终被<code>HttpHandler</code>处理，处理完成后，再次经过管道中的<code>HTTP</code>模块，把结果返回给客户端。我们可以在每个<code>HttpModule</code>中都可以干预请求的处理过程。</p>
+<p><img src="https://raw.githubusercontent.com/TaffyBlog/TaffyBlog.github.io/master/images/pip3.gif" alt="图片"></p>
+<p>当请求到达<code>HttpModule</code>的时候，系统还没有对这个请求真正处理，但是我们可以在这个请求传递到处理中心（<code>HttpHandler</code>）之前附加一些其它信息，或者截获的这个请求并作一些额外的工作，也或者终止请求等。在<code>HttpHandler</code>处理完请求之后，我们可以再在相应的<code>HttpModule</code>中把请求处理的结果进行再次加工返回客户端。</p>
+<h3 id="系统自带的HttpModule"><a href="#系统自带的HttpModule" class="headerlink" title="系统自带的HttpModule"></a>系统自带的HttpModule</h3><ol>
+<li><p><code>OutputCacheModule</code>完成Asp.net的输出缓存管理工作：<br><code>OutputCacheModule</code>的配置参数通过<code>system.we</code>b配置元素的<code>caching</code>子元素的<code>outputCache</code>元素进行定义。当启用输出缓存之后(启用还是通过配置文件，下同)，<code>OutputCacheModule</code>将注册<code>HttpApplication</code>的<code>ResolveRequestCache</code>和<code>UpdateRequestCache</code>两个事件完成输出缓存的管理。</p>
+</li>
+<li><p>SessionStateModule完成Session的管理工作：<br>这个<code>Module</code>的配置参数通过配置文件中的<code>system.web</code>配置元素的<code>sessionState</code>子元素进行配置。当启用<code>Session</code>状态管理之后，<code>SessionStateModule</code>将注册<code>HttpApplication</code>的<code>AcquireRequestState、ReleaseRequestState、EndRequest</code>三个事件完成<code>Session</code>状态的管理工作。</p>
+</li>
+<li><code>ProfileModule</code>提供个性化数据管理：<br>这是一个自定义的类似于<code>Session</code>的会话状态管理，但是，个性化数据的读取和保存可以由程序员完全控制，并且提供了强类型的数据访问方式。这个<code>Module</code>的配置参数在<code>system.web</code>的子元素<code>profile</code>中进行说明。当启用了个性化数据管理之后，<code>Module</code>将注册<code>HttpApplication</code>的<code>AcquireRequestState</code>和<code>EndRequest</code>事件处理。</li>
+<li><code>AnonymousIdentificationModule</code>提供匿名用户的标志：<br>是否启用匿名用户标志在配置文件的<code>system.web</code>配置元素的子元素<code>anonymousIdentification</code>中定义，还可以配置匿名标识的管理方式。由于在<code>AuthenticateRequest</code>事件中将验证用户，获取用户名，所以这个<code>Module</code>注册了<code>PostAuthenticateRequest</code>的事件处理，当用户没有经过验证的时候，为用户分配一个唯一的匿名标识。</li>
+<li><p><code>WindowsAuthenticationModule、FormsAuthenticationModule</code>和<code>PassportAuthenticationModule</code>用来完成用户的验证工作。<br> 它们通过配置文件中<code>system.web</code>的子元素<code>authentication</code>子元素定义，<code>mode</code>属性用来指定网站当前使用的验证方式，也就是哪一个<code>Module</code>将被用来完成验证工作。在启用验证的情况下，<code>FormsAuthenticationModule</code>和<code>PassportAuthenticationModule</code>将注册<code>HttpApplication</code>的<code>AuthenticateRequest</code>和<code>EndRequest</code>事件进行用户的验证处理。<code>WindowsAuthenticationModule</code>将注册<code>AuthenticateRequest</code>的事件处理。</p>
+<ol start="6">
+<li><code>RoleManagerModule、UrlAuthorizationModule、FileAuthorizationModule</code>用来完成用户的授权管理：<br>授权管理的配置参数来自<code>system.web</code>的<code>authorization</code>子元素。<code>UrlAuthorizationModule</code>和<code>FileAuthorizationModule</code>注册了<code>HttpApplication</code>的<code>AuthorizeRequest</code>事件处理，用来检查<code>Url</code>和文件的访问授权。<code>RoleManagerModule</code>在<code>Url</code>和文件访问授权检查通过之后，通过用户的标识和角色来完成用户的授权检查，<code>RoleManagerModule</code>注册了<code>HttpApplication</code>的<code>PostAuthenticateRequest</code>和<code>EndRequest</code>事件处理。</li>
+</ol>
+</li>
+</ol>
+<h3 id="自定义HttpModule"><a href="#自定义HttpModule" class="headerlink" title="自定义HttpModule"></a>自定义HttpModule</h3><ol>
+<li>编写一个类实现IHttpModule接口。</li>
+<li>在<code>Init</code>事件中注册事件，并实现事件处理方法。</li>
+<li>在<code>Web.Conofig</code>中注册这个<code>HttpModule</code>模块。</li>
+</ol>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// 防盗链</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ImageHandler</span> <span class="token operator">:</span> IHttpHandler
+<span class="token punctuation">{</span>
+    #region IHttpHandler Members
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">ProcessRequest</span><span class="token punctuation">(</span>HttpContext context<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 如果UrlReferrer为空，则显示一张默认的禁止盗链的图片</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>UrlReferrer <span class="token operator">==</span> null <span class="token operator">||</span> context<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>UrlReferrer<span class="token punctuation">.</span>Host <span class="token operator">==</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>ContentType <span class="token operator">=</span> <span class="token string">"image/JPEG"</span><span class="token punctuation">;</span>
+            context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">WriteFile</span><span class="token punctuation">(</span><span class="token string">"/Content/Image/Forbidden.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果 UrlReferrer中不包含自己站点主机域名，则显示一张默认的禁止盗链的图片</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>UrlReferrer<span class="token punctuation">.</span>Host<span class="token punctuation">.</span><span class="token function">Contains</span><span class="token punctuation">(</span><span class="token string">"localhost"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 获取文件服务器端物理路径</span>
+                string FileName <span class="token operator">=</span> context<span class="token punctuation">.</span>Server<span class="token punctuation">.</span><span class="token function">MapPath</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>FilePath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>ContentType <span class="token operator">=</span> <span class="token string">"image/JPEG"</span><span class="token punctuation">;</span>
+                context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">WriteFile</span><span class="token punctuation">(</span>FileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span>ContentType <span class="token operator">=</span> <span class="token string">"image/JPEG"</span><span class="token punctuation">;</span>
+                context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">WriteFile</span><span class="token punctuation">(</span><span class="token string">"/Content/Image/Forbidden.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    #endregion
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'ASP.NET管道模型'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/bitoperator/">汇编学习(四)--位运算之四则运算</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/07/02/encryption/">加密和解密</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/jinzhi/">汇编学习(一)--简单理解进制</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/lock/">浅谈lock关键字</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/task_async/">C#多线程</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/16/vueJsEvent/">VueJs事件操作</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/12/vuejstemplete/">VueJs表单数据操作</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2018/10/11/aspnetPipleline/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2018/10/11/aspnetPipleline/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2018/10/11/aspnetPipleline/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 13.55123951555688px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 11.533434675141937px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 15.568964401947593px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 15.387930107355427px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 19.604792301257596px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 19.756706569922645px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 17.129144875092013px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 18.918325637755217px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 13.528359472008418px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 18.356757532397385px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 14.173515558413001px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 19.270231272129028px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 15.289507257043486px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 12.28447369044078px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 15.077354435559027px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 14.761408852247534px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 14.047377868247423px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 12.29240888366072px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Thu Oct 11 2018 20:42:19 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Thu Oct 11 2018 20:42:19 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

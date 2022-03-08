@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>HTTP协议与WebSocket | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>HTTP协议与WebSocket</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/09/17/httpAndWebSocket/">HTTP协议与WebSocket</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-09-17
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/09/17/httpAndWebSocket/">HTTP协议与WebSocket</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-09-17
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTP协议简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">HTTP协议简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTP消息结构"><span class="post-toc-number">2.</span> <span class="post-toc-text">HTTP消息结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#请求消息结构"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">请求消息结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#响应消息结构"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">响应消息结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Http协议特点"><span class="post-toc-number">3.</span> <span class="post-toc-text">Http协议特点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WebSocket协议"><span class="post-toc-number">4.</span> <span class="post-toc-text">WebSocket协议</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用WebSocket实现的简单聊天室"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">用WebSocket实现的简单聊天室</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h2 id="HTTP协议简介"><a href="#HTTP协议简介" class="headerlink" title="HTTP协议简介"></a>HTTP协议简介</h2><p>HTTP协议是Hyper Text Transfer Protocol（超文本传输协议）的缩写,是用于从万维网（WWW:World Wide Web ）服务器传输超文本到本地浏览器的传送协议。</p>
+<p>HTTP是一个基于TCP/IP通信协议来传递数据（HTML 文件, 图片文件, 查询结果等）。</p>
+<p>HTTP是一个属于应用层的面向对象的协议，由于其简捷、快速的方式，适用于分布式超媒体信息系统。它于1990年提出，经过几年的使用与发展，得到不断地完善和扩展。目前在WWW中使用的是HTTP/1.0的第六版，HTTP/1.1的规范化工作正在进行之中，而且HTTP-NG(Next Generation of HTTP)的建议已经提出。</p>
+<p>HTTP协议工作于客户端-服务端架构为上。浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。Web服务器根据接收到的请求后，向客户端发送响应信息。</p>
+<p>HTTP协议是无状态协议。</p>
+<h2 id="HTTP消息结构"><a href="#HTTP消息结构" class="headerlink" title="HTTP消息结构"></a>HTTP消息结构</h2><h3 id="请求消息结构"><a href="#请求消息结构" class="headerlink" title="请求消息结构"></a>请求消息结构</h3><ol>
+<li>第一部分：请求行，用来说明请求类型,要访问的资源以及所使用的HTTP版本.</li>
+<li>第二部分：请求头部，紧接着请求行（即第一行）之后的部分，用来说明服务器要使用的附加信息,从第二行起为请求头部,HOST将指出请求的目的地.User-Agent,服务器端和客户端脚本都能访问它,它是浏览器类型检测逻辑的重要基础.该信息由你的3. 浏览器来定义,并且在每个请求中自动发送等等</li>
+<li>第三部分：空行，请求头部后面的空行是必须的,即使第四部分的请求数据为空，也必须有空行。</li>
+<li>第四部分：请求数据也叫主体，可以添加任意的其他数据。</li>
+</ol>
+<p>结构图如下:</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/2012072810301161.png" alt="image"></p>
+<p>示例如下:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">GET /hello.txt HTTP/1.1
+User-Agent: curl/7.16.3 libcurl/7.16.3 OpenSSL/0.9.7l zlib/1.2.3
+Host: www.example.com
+Accept-Language: en, mi
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>此示例中无数据部分</p>
+</blockquote>
+<h3 id="响应消息结构"><a href="#响应消息结构" class="headerlink" title="响应消息结构"></a>响应消息结构</h3><p>HTTP响应也由四个部分组成，分别是：状态行、消息报头、空行和响应正文。</p>
+<ol>
+<li><p>第一部分：状态行，由HTTP协议版本号， 状态码， 状态消息 三部分组成，第一行为状态行，（HTTP/1.1）表明HTTP版本为1.1版本，状态码为200，状态消息为（ok）</p>
+</li>
+<li><p>第二部分：消息报头，用来说明客户端要使用的一些附加信息</p>
+</li>
+<li><p>第二行和第三行为消息报头，Date:生成响应的日期和时间；Content-Type:指定了MIME类型的HTML(text/html),编码类型是UTF-8</p>
+</li>
+<li><p>第三部分：空行，消息报头后面的空行是必须的</p>
+</li>
+<li><p>第四部分：响应正文，服务器返回给客户端的文本信息，空行后面的部分为响应正文。</p>
+</li>
+</ol>
+<p>结构图如下:</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/httpmessage.jpg" alt="image"></p>
+<p>示例如下:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">HTTP/1.1 200 OK
+
+Date: Mon, 27 Jul 2009 12:28:53 GMT
+
+Server: Apache
+
+Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
+
+ETag: <span class="token string">"34aa387-d-1568eb00"</span>
+
+Accept-Ranges: bytes
+
+Content-Length: 51
+
+Vary: Accept-Encoding
+
+Content-Type: text/plain
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">Hello World<span class="token operator">!</span> My payload includes a trailing CRLF.
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="Http协议特点"><a href="#Http协议特点" class="headerlink" title="Http协议特点"></a>Http协议特点</h2><ol>
+<li>支持客户/服务器模式。</li>
+<li>简单快速：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有GET、HEAD、POST。每种方法规定了客户与服务器联系的类型不同。由于HTTP协议简单，使得HTTP服务器的程序规模小，因而通信速度很快。</li>
+<li>灵活：HTTP允许传输任意类型的数据对象。正在传输的类型由Content-Type加以标记。</li>
+<li>无连接：无连接的含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并收到客户的应答后，即断开连接。采用这种方式可以节省传输时间。</li>
+<li>无状态：HTTP协议是无状态协议。无状态是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快，不过也可以实现服务器集群，不同的服务器都可以以相同的逻辑处理相同的请求。</li>
+</ol>
+<h2 id="WebSocket协议"><a href="#WebSocket协议" class="headerlink" title="WebSocket协议"></a>WebSocket协议</h2><p>有时候需要服务器与浏览器实现双工通信；即除了浏览器主动向服务器请求之外，服务器也需要主动向客户端发送消息，而http协议是无连接、无状态的，在一次请求结束后服务器和客户端就会断开连接，因此，通过http协议通常是用ajax轮询以及LongPool，过一段时间又向服务器询问是否需要改变界面数据。  这种方式比较消耗服务器资源。</p>
+<blockquote>
+<p>使用WebSocket浏览器必须支持Html5,服务器必须是IIS8以上。</p>
+</blockquote>
+<h3 id="用WebSocket实现的简单聊天室"><a href="#用WebSocket实现的简单聊天室" class="headerlink" title="用WebSocket实现的简单聊天室"></a>用WebSocket实现的简单聊天室</h3><p>前台代码如下:</p>
+<pre class="line-numbers language-javascript"><code class="language-javascript"><span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"jumbotron"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"txt_Ip"</span> type<span class="token operator">=</span><span class="token string">"text"</span> <span class="token operator">/</span><span class="token operator">></span><span class="token operator">&amp;</span>nbsp<span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnConnect"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"btn btn-primary btn-lg"</span> type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"连接"</span> <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnClose"</span> type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"关闭"</span> <span class="token operator">/</span><span class="token operator">></span><span class="token operator">&lt;</span>br <span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>span id<span class="token operator">=</span><span class="token string">"tips"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+    <span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"txt_Message"</span> type<span class="token operator">=</span><span class="token string">"text"</span> <span class="token operator">/</span><span class="token operator">></span><span class="token operator">&amp;</span>nbsp<span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span>input id<span class="token operator">=</span><span class="token string">"btnSend"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"btn btn-primary btn-lg"</span> type<span class="token operator">=</span><span class="token string">"button"</span> value<span class="token operator">=</span><span class="token string">"发送"</span> <span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"view"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>ul<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+        <span class="token keyword">var</span> url <span class="token operator">=</span> <span class="token string">"ws://localhost:63151/MyWebSocketHandler.ashx"</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> ws<span class="token punctuation">;</span>
+        <span class="token keyword">function</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> userName <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#txt_Ip"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            url <span class="token operator">=</span> url <span class="token operator">+</span> <span class="token string">"?UserName="</span> <span class="token operator">+</span> userName<span class="token punctuation">;</span>
+            <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#tips"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token string">"正在连接..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ws <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WebSocket</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//连接打开</span>
+            ws<span class="token punctuation">.</span>onopen <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#tips"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token string">"已连接"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> 
+            <span class="token comment" spellcheck="true">//接收到消息</span>
+            ws<span class="token punctuation">.</span>onmessage <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#view ul"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"&lt;li>"</span> <span class="token operator">+</span> evt<span class="token punctuation">.</span>data <span class="token operator">+</span> <span class="token string">"&lt;/li>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//发生异常</span>
+            ws<span class="token punctuation">.</span>onerror <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#tips"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>evt<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">//关闭</span>
+            ws<span class="token punctuation">.</span>onclose <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#tips"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token string">"已经关闭"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnSend"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ws<span class="token punctuation">.</span>readyState <span class="token operator">==</span> WebSocket<span class="token punctuation">.</span>OPEN<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                ws<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#txt_Message"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#tips"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token string">"已经关闭"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnClose"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            ws<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btnConnect"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>后台一般处理程序代码如下:</p>
+<pre class="line-numbers language-java"><code class="language-java">
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyWebSocketHandler</span> <span class="token operator">:</span> IHttpHandler<span class="token punctuation">,</span> System<span class="token punctuation">.</span>Web<span class="token punctuation">.</span>SessionState<span class="token punctuation">.</span>IRequiresSessionState
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> string _UserName <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">ProcessRequest</span><span class="token punctuation">(</span>HttpContext context<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//是否是AspNetWebSocket请求</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>context<span class="token punctuation">.</span>IsWebSocketRequest<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>_UserName <span class="token operator">=</span> context<span class="token punctuation">.</span>Request<span class="token punctuation">.</span>QueryString<span class="token punctuation">[</span><span class="token string">"UserName"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">//传入委托处理AspNetWebSocket请求</span>
+            context<span class="token punctuation">.</span><span class="token function">AcceptWebSocketRequest</span><span class="token punctuation">(</span>ProcessChat<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span>
+        <span class="token punctuation">{</span>
+            context<span class="token punctuation">.</span>Response<span class="token punctuation">.</span><span class="token function">Write</span><span class="token punctuation">(</span><span class="token string">"Test  Handler"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> async Task <span class="token function">ProcessChat</span><span class="token punctuation">(</span>AspNetWebSocketContext context<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        WebSocket socket <span class="token operator">=</span> context<span class="token punctuation">.</span>WebSocket<span class="token punctuation">;</span>
+        CancellationToken cancellationToken <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CancellationToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ChatManager<span class="token punctuation">.</span><span class="token function">AddUser</span><span class="token punctuation">(</span>_UserName<span class="token punctuation">,</span> socket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">//某人登陆后，给群里其他人发  登陆消息</span>
+        await ChatManager<span class="token punctuation">.</span><span class="token function">SendMessage</span><span class="token punctuation">(</span>cancellationToken<span class="token punctuation">,</span> $<span class="token string">"{DateTime.Now.ToString("</span>yyyyMMdd<span class="token operator">-</span>HHmmss<span class="token operator">:</span>fff<span class="token string">")} {this._UserName} 进入聊天室"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>socket<span class="token punctuation">.</span>State <span class="token operator">==</span> WebSocketState<span class="token punctuation">.</span>Open<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            ArraySegment<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token operator">></span> buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArraySegment</span><span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token number">2048</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            WebSocketReceiveResult result <span class="token operator">=</span> await socket<span class="token punctuation">.</span><span class="token function">ReceiveAsync</span><span class="token punctuation">(</span>buffer<span class="token punctuation">,</span> cancellationToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>MessageType <span class="token operator">==</span> WebSocketMessageType<span class="token punctuation">.</span>Close<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//如果输入帧为取消帧，发送close命令</span>
+            <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//放在前面移除和发消息，  因为直接关浏览器会导致CloseAsync异常</span>
+                ChatManager<span class="token punctuation">.</span><span class="token function">RemoveUser</span><span class="token punctuation">(</span>_UserName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                await ChatManager<span class="token punctuation">.</span><span class="token function">SendMessage</span><span class="token punctuation">(</span>cancellationToken<span class="token punctuation">,</span> $<span class="token string">"{DateTime.Now.ToString("</span>yyyyMMdd<span class="token operator">-</span>HHmmss<span class="token operator">:</span>fff<span class="token string">")} {this._UserName} 离开聊天室"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                await socket<span class="token punctuation">.</span><span class="token function">CloseAsync</span><span class="token punctuation">(</span>WebSocketCloseStatus<span class="token punctuation">.</span>NormalClosure<span class="token punctuation">,</span> String<span class="token punctuation">.</span>Empty<span class="token punctuation">,</span> cancellationToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">else</span><span class="token comment" spellcheck="true">//获取字符串</span>
+            <span class="token punctuation">{</span>
+                string userMsg <span class="token operator">=</span> Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">.</span><span class="token function">GetString</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span>Array<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>Count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                string content <span class="token operator">=</span> $<span class="token string">"{DateTime.Now.ToString("</span>yyyyMMdd<span class="token operator">-</span>HHmmss<span class="token operator">:</span>fff<span class="token string">")} {this._UserName} 发送了：{userMsg}"</span><span class="token punctuation">;</span>
+                await ChatManager<span class="token punctuation">.</span><span class="token function">SendMessage</span><span class="token punctuation">(</span>cancellationToken<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> bool IsReusable
+    <span class="token punctuation">{</span>
+        get
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ChatManager</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> ConcurrentDictionary<span class="token operator">&lt;</span>string<span class="token punctuation">,</span> WebSocket<span class="token operator">></span> _UserDictionary <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentDictionary</span><span class="token operator">&lt;</span>string<span class="token punctuation">,</span> WebSocket<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">AddUser</span><span class="token punctuation">(</span>string name<span class="token punctuation">,</span> WebSocket socket<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _UserDictionary<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token operator">=</span> socket<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">RemoveUser</span><span class="token punctuation">(</span>string name<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        WebSocket socket <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//_UserDictionary.TryRemove(name, out WebSocket socket);</span>
+        _UserDictionary<span class="token punctuation">.</span><span class="token function">TryRemove</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> out socket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> async Task <span class="token function">SendMessage</span><span class="token punctuation">(</span>CancellationToken cancellationToken<span class="token punctuation">,</span> string content<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ArraySegment<span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token operator">></span> buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArraySegment</span><span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span><span class="token number">2048</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        buffer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArraySegment</span><span class="token operator">&lt;</span><span class="token keyword">byte</span><span class="token operator">></span><span class="token punctuation">(</span>Encoding<span class="token punctuation">.</span>UTF8<span class="token punctuation">.</span><span class="token function">GetBytes</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">foreach</span> <span class="token punctuation">(</span>var socket in _UserDictionary<span class="token punctuation">.</span><span class="token function">Select</span><span class="token punctuation">(</span>d <span class="token operator">=</span><span class="token operator">></span> d<span class="token punctuation">.</span>Value<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            await socket<span class="token punctuation">.</span><span class="token function">SendAsync</span><span class="token punctuation">(</span>buffer<span class="token punctuation">,</span> WebSocketMessageType<span class="token punctuation">.</span>Text<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> cancellationToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>效果图:</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/chat1.png" alt="image"></p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/chat2.png" alt="image"></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'HTTP协议与WebSocket'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/14/Crawler/">爬虫初探</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/14/ToolsNotes/">工具及、知识点及外链收集</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httpclient/">HttpClient类的使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/jinzhi/">汇编学习(一)--简单理解进制</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/16/oracletrigger/">Oracle触发器及包创建</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/thisOfJs/">this关键字</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/09/17/httpAndWebSocket/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/17/httpAndWebSocket/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/09/17/httpAndWebSocket/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 13.823278128275453px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 16.935406365341375px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 17.544065050289536px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 8.036133947338875px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 10.597454049914063px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 8.930709565774848px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 18.129274349516898px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 18.84554458730368px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 15.665272158431065px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 12.95470406161952px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 9.340770967417182px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 11.063492114390076px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 9.022342607724251px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 9.1703547931249px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 19.756458237527237px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 8.685094725275196px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 12.428508278890828px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 15.589605724733449px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sun Sep 17 2017 10:16:13 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sun Sep 17 2017 10:16:13 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

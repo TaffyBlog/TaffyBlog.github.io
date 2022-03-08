@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>EF高级特性 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>EF高级特性</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2018/01/22/EFAdvancedFeatures/">EF高级特性</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/EF6/">EF6</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2018-01-22
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2018/01/22/EFAdvancedFeatures/">EF高级特性</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2018-01-22
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/EF6/">EF6</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DBContext类"><span class="post-toc-number">1.</span> <span class="post-toc-text">DBContext类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#理解DBContext"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">理解DBContext</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#本地缓存"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">本地缓存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#删除操作"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">删除操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#修改操作"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">修改操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#查询"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">查询</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Database类"><span class="post-toc-number">2.</span> <span class="post-toc-text">Database类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#打印执行的Sql语句"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">打印执行的Sql语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#直接执行Sql语句以及开启数据库事物"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">直接执行Sql语句以及开启数据库事物</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#导航属性延迟加载、子查询"><span class="post-toc-number">3.</span> <span class="post-toc-text">导航属性延迟加载、子查询</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#延迟加载"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">延迟加载</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h2 id="DBContext类"><a href="#DBContext类" class="headerlink" title="DBContext类"></a>DBContext类</h2><h3 id="理解DBContext"><a href="#理解DBContext" class="headerlink" title="理解DBContext"></a>理解DBContext</h3><ol>
+<li>是数据库的映射，包含全部的表</li>
+<li>管理了数据库链接，一个实例是一个链接</li>
+<li>本地缓存属性：查询数据后是放入本地缓存；修改操作是本地属性；删除也是修改本地属性；savechange的时候是一次性保存本地属性的全部变化，默认是开启事务的</li>
+</ol>
+<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><p>由于对数据库实体的操作都是在本地缓存中执行的，所以如果直接new出来的对象是无法进行修改和删除的，示例如下:</p>
+<pre class="line-numbers language-java"><code class="language-java"> User userNew <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Account <span class="token operator">=</span> <span class="token string">"Admin"</span><span class="token punctuation">,</span>
+    State <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    CompanyId <span class="token operator">=</span> <span class="token number">4</span><span class="token punctuation">,</span>
+    CompanyName <span class="token operator">=</span> <span class="token string">"万达集团"</span><span class="token punctuation">,</span>
+    CreateTime <span class="token operator">=</span> DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">,</span>
+    CreatorId <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    Email <span class="token operator">=</span> <span class="token string">"57265177@qq.com"</span><span class="token punctuation">,</span>
+    LastLoginTime <span class="token operator">=</span> null<span class="token punctuation">,</span>
+    LastModifierId <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    LastModifyTime <span class="token operator">=</span> DateTime<span class="token punctuation">.</span>Now<span class="token punctuation">,</span>
+    Mobile <span class="token operator">=</span> <span class="token string">"18664876671"</span><span class="token punctuation">,</span>
+    Name <span class="token operator">=</span> <span class="token string">"yoyo"</span><span class="token punctuation">,</span>
+    Password <span class="token operator">=</span> <span class="token string">"12356789"</span><span class="token punctuation">,</span>
+    UserType <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h4><p>以上代码将<code>userNew</code>插入了数据库,接下来对其进行删除：</p>
+<pre class="line-numbers language-java"><code class="language-java">dbContext<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>这样就会报一个错：<code>无法删除此对象，因为未在ObjectStateManager中找到它。</code></p>
+<p>如何解决？</p>
+<pre class="line-numbers language-java"><code class="language-java">context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Attach</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>删除之前先<code>Attach</code>一下就可以了。</p>
+<h4 id="修改操作"><a href="#修改操作" class="headerlink" title="修改操作"></a>修改操作</h4><p>接下来对其进行修改:</p>
+<pre class="line-numbers language-java"><code class="language-java">userNew<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"安德鲁"</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<blockquote>
+<p>直接这样操作将不会记录到数据库。</p>
+</blockquote>
+<p>如何解决?</p>
+<pre class="line-numbers language-java"><code class="language-java">context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Attach</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+userNew<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"安德鲁"</span><span class="token punctuation">;</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>修改之前<code>Attach</code>一下就可以了，<code>必须在修改之前</code>,否则将不会生效。</p>
+<p>但是如果非要在修改之后再<code>Attach</code>，也是可以的,但需要设置状态:</p>
+<pre class="line-numbers language-java"><code class="language-java">
+userNew<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"安德鲁"</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Attach</span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">;</span>
+context<span class="token punctuation">.</span>Entry<span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">(</span>userNew<span class="token punctuation">)</span><span class="token punctuation">.</span>State <span class="token operator">=</span> EntityState<span class="token punctuation">.</span>Modified<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//需要指定状态  或者Attach后修改</span>
+dbContext<span class="token punctuation">.</span><span class="token function">SaveChanges</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>删除也是一样的。</p>
+<h4 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h4><p>单个查询时，在查询一次之后，如果以同样的条件查询，会从缓存中查询，不会再去查询数据库：</p>
+<pre class="line-numbers language-java"><code class="language-java"> var user1 <span class="token operator">=</span> context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ var user2 <span class="token operator">=</span> context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>u <span class="token operator">=</span><span class="token operator">></span> u<span class="token punctuation">.</span>Id <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ var user3 <span class="token operator">=</span> context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ var user4 <span class="token operator">=</span> context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>u <span class="token operator">=</span><span class="token operator">></span> u<span class="token punctuation">.</span>Id <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上代码只会查询一次。</p>
+<p>如果数据库有改变，程序中需要重新查询数据库,可以使用<code>AsNoTracking</code>方法：</p>
+<pre class="line-numbers language-java"><code class="language-java"> var user1 <span class="token operator">=</span> context<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">AsNoTracking</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="Database类"><a href="#Database类" class="headerlink" title="Database类"></a>Database类</h2><h3 id="打印执行的Sql语句"><a href="#打印执行的Sql语句" class="headerlink" title="打印执行的Sql语句"></a>打印执行的Sql语句</h3><p>使用Database类的Log属性,这是一个委托，示例如下:</p>
+<pre class="line-numbers language-java"><code class="language-java">
+ <span class="token function">using</span> <span class="token punctuation">(</span>JDContext dbContext <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JDContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    dbContext<span class="token punctuation">.</span>Database<span class="token punctuation">.</span>Log <span class="token operator">+=</span> c <span class="token operator">=</span><span class="token operator">></span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">{</span>   
+        User user2 <span class="token operator">=</span> dbContext<span class="token punctuation">.</span>User<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这将在每次进行数据库操作时打印对应的Sql语句。</p>
+<h3 id="直接执行Sql语句以及开启数据库事物"><a href="#直接执行Sql语句以及开启数据库事物" class="headerlink" title="直接执行Sql语句以及开启数据库事物"></a>直接执行Sql语句以及开启数据库事物</h3><p>使用<code>ExecuteSqlCommand</code>方法进行增删改操作，使用<code>SqlQuery</code>方法进行查询操作，使用<code>DbContextTransaction</code>开启数据库事物。</p>
+<p>示例代码如下:</p>
+<pre class="line-numbers language-java"><code class="language-java"> DbContextTransaction trans <span class="token operator">=</span> null<span class="token punctuation">;</span>
+<span class="token keyword">try</span>
+<span class="token punctuation">{</span>
+    trans <span class="token operator">=</span> dbContext<span class="token punctuation">.</span>Database<span class="token punctuation">.</span><span class="token function">BeginTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string sql <span class="token operator">=</span> <span class="token string">"Update [User] Set Name='小新' WHERE Id=@Id"</span><span class="token punctuation">;</span>
+    SqlParameter parameter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SqlParameter</span><span class="token punctuation">(</span><span class="token string">"@Id"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dbContext<span class="token punctuation">.</span>Database<span class="token punctuation">.</span><span class="token function">ExecuteSqlCommand</span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameter<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    trans<span class="token punctuation">.</span><span class="token function">Commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>trans <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        trans<span class="token punctuation">.</span><span class="token function">Rollback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">throw</span> ex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">finally</span>
+<span class="token punctuation">{</span>
+    trans<span class="token punctuation">.</span><span class="token function">Dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+DbContextTransaction trans <span class="token operator">=</span> null<span class="token punctuation">;</span>
+<span class="token keyword">try</span>
+<span class="token punctuation">{</span>
+    trans <span class="token operator">=</span> dbContext<span class="token punctuation">.</span>Database<span class="token punctuation">.</span><span class="token function">BeginTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string sql <span class="token operator">=</span> <span class="token string">"SELECT * FROM [User] WHERE Id=@Id"</span><span class="token punctuation">;</span>
+    SqlParameter parameter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SqlParameter</span><span class="token punctuation">(</span><span class="token string">"@Id"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>User<span class="token operator">></span> userList <span class="token operator">=</span> dbContext<span class="token punctuation">.</span>Database<span class="token punctuation">.</span>SqlQuery<span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">(</span>sql<span class="token punctuation">,</span> parameter<span class="token punctuation">)</span><span class="token punctuation">.</span>ToList<span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    trans<span class="token punctuation">.</span><span class="token function">Commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>trans <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        trans<span class="token punctuation">.</span><span class="token function">Rollback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">throw</span> ex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">finally</span>
+<span class="token punctuation">{</span>
+    trans<span class="token punctuation">.</span><span class="token function">Dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="导航属性延迟加载、子查询"><a href="#导航属性延迟加载、子查询" class="headerlink" title="导航属性延迟加载、子查询"></a>导航属性延迟加载、子查询</h2><h3 id="延迟加载"><a href="#延迟加载" class="headerlink" title="延迟加载"></a>延迟加载</h3><p>设置是否延迟加载:</p>
+<pre class="line-numbers language-java"><code class="language-java">context<span class="token punctuation">.</span>Configuration<span class="token punctuation">.</span>LazyLoadingEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//默认是true  针对导航属性的</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>导航属性在查询父表时，不会同时查询子表，只有在使用子表数据(即导航属性)时才会去查询子表数据。</p>
+<p>示例如下:</p>
+<pre class="line-numbers language-java"><code class="language-java"> <span class="token function">using</span> <span class="token punctuation">(</span>JDContext context <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JDContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    context<span class="token punctuation">.</span>Database<span class="token punctuation">.</span>Log <span class="token operator">+=</span> c <span class="token operator">=</span><span class="token operator">></span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//实体类型包含其它实体类型（POCO类）的属性（也可称为导航属性），且同时满足如下条件即可实列延迟加载，</span>
+    <span class="token comment" spellcheck="true">//1.该属性的类型必需为public且不能为Sealed；</span>
+    <span class="token comment" spellcheck="true">//2.属性标记为Virtual</span>
+    context<span class="token punctuation">.</span>Configuration<span class="token punctuation">.</span>LazyLoadingEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//默认是true  针对导航属性的</span>
+    var companyList <span class="token operator">=</span> context<span class="token punctuation">.</span>Set<span class="token operator">&lt;</span>Company<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>c <span class="token operator">=</span><span class="token operator">></span> c<span class="token punctuation">.</span>Id <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">foreach</span> <span class="token punctuation">(</span>var company in companyList<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Company id={0} name={1}"</span><span class="token punctuation">,</span> company<span class="token punctuation">.</span>Id<span class="token punctuation">,</span> company<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">foreach</span> <span class="token punctuation">(</span>var item in company<span class="token punctuation">.</span>User<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//这个时候才去数据库查询user</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"User name={0}"</span><span class="token punctuation">,</span> item<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样每个<code>company</code>都会去数据库查询一次，但如果想要一次性查询出来呢？</p>
+<p>有如下几种方式：</p>
+<ol>
+<li>使用<code>Include</code>方法</li>
+</ol>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 摘要:</span>
+<span class="token comment" spellcheck="true">//     指定要包括在查询结果中的相关对象。</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 参数:</span>
+<span class="token comment" spellcheck="true">//   path:</span>
+<span class="token comment" spellcheck="true">//     要在查询结果中返回的相关对象列表（以点号分隔）。</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// 返回结果:</span>
+<span class="token comment" spellcheck="true">//     一个新的 System.Data.Entity.Infrastructure.DbQuery`1，它具有定义的查询路径。</span>
+<span class="token keyword">public</span> virtual DbQuery<span class="token operator">&lt;</span>TResult<span class="token operator">></span> <span class="token function">Include</span><span class="token punctuation">(</span>string path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>示例如下：</p>
+<pre class="line-numbers language-java"><code class="language-java">
+ <span class="token function">using</span> <span class="token punctuation">(</span>JDContext context <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JDContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    context<span class="token punctuation">.</span>Database<span class="token punctuation">.</span>Log <span class="token operator">+=</span> c <span class="token operator">=</span><span class="token operator">></span> Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//指定Include，一次性加载出来</span>
+    var companyList <span class="token operator">=</span> context<span class="token punctuation">.</span>Set<span class="token operator">&lt;</span>Company<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Include</span><span class="token punctuation">(</span><span class="token string">"User"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Where</span><span class="token punctuation">(</span>c <span class="token operator">=</span><span class="token operator">></span> c<span class="token punctuation">.</span>Id <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">foreach</span> <span class="token punctuation">(</span>var company in companyList<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Company id={0} name={1}"</span><span class="token punctuation">,</span> company<span class="token punctuation">.</span>Id<span class="token punctuation">,</span> company<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">foreach</span> <span class="token punctuation">(</span>var item in company<span class="token punctuation">.</span>User<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"User name={0}"</span><span class="token punctuation">,</span> item<span class="token punctuation">.</span>Name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'EF高级特性'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/06/22/DestructuringAssignment/">Javascript解构赋值</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/26/GitErrors/">Git使用过程中遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/12/17/cssSelector/">CSS选择器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/easyfactory/">设计模式(一)--简单工厂模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/gethtmlimg/">从富文本(HTML字符串)中获取图片</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/prototypeAndInherit/">原型和继承</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/22/validateImage/">JavaScript绘制图片验证码</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/26/vueJswebpack/">VueJs通过webpack启服务运行VUE模块文件</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2018/01/22/EFAdvancedFeatures/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2018/01/22/EFAdvancedFeatures/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2018/01/22/EFAdvancedFeatures/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 13.228187517787205px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 14.826434685687992px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 19.445211943322338px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 13.331899755839089px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 10.036153816960821px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 14.995498388738909px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 15.336684421365035px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 19.84413999177327px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 9.855792923363854px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 17.313604043106704px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 19.07571800111123px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 9.937517663536145px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 19.564831545569657px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 10.349337477169152px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 17.89040768709695px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 15.283322547573782px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 10.357729650030713px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 18.854223690740753px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Mon Jan 22 2018 20:54:26 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Mon Jan 22 2018 20:54:26 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

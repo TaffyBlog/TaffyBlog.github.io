@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>归档 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="current">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         <article class="article well article-body" id="article-archive">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>归档</span>
+    </div>
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/archives">归档</a>
+            </h1>
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/archives">归档</a>
+                </h4>
+            </div>
+        </center>
+    </div>
+    <div class="content-article" style="margin-top: 30px;">
+        
+        
+            <h1 style="font-size: 24px; margin-top: 40px;">2019年</h1>
+            
+        <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
+            
+             
+             
+                        <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                        <br>
+            
+             
+                        <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                        <br>
+            
+             
+                        </div>
+                    <h1 style="font-size: 24px; margin-top: 40px;">2018年</h1>
+                    <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
+                 
+             
+                        <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                        <br>
+            
+             
+                        <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                        <br>
+            
+             
+                        <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                        <br>
+            
+             
+                        <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                        <br>
+            
+             
+                        <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                        <br>
+            
+             
+                        <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                        <br>
+            
+             
+                        <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/30/vueJsComponentSendData/">VueJs组件插槽、动态组件、缓存组件</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/26/vueJswebpack/">VueJs通过webpack启服务运行VUE模块文件</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/25/vuejscmd/">VueJs自定义指令和组件</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/25/vueAttr/">VueJs实例属性</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/20/vueLifeCycle/">VueJs生命周期、计算属性和侦听器</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/17/vueJsFilter/">VueJs过滤器</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/16/vueJsEvent/">VueJs事件操作</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/12/vuejstemplete/">VueJs表单数据操作</a>
+                        <br>
+            
+             
+                        <a href="/2018/07/10/vuejsInInstruct/">VueJs内置指令入门</a>
+                        <br>
+            
+             
+                        <a href="/2018/06/26/jsPromise/">Promise 异步优化</a>
+                        <br>
+            
+             
+                        <a href="/2018/06/22/varPromote/">JS变量提升</a>
+                        <br>
+            
+             
+                        <a href="/2018/06/22/DestructuringAssignment/">Javascript解构赋值</a>
+                        <br>
+            
+             
+                        <a href="/2018/05/21/DotNetCommonFramework/">.NET平台常用的框架整理</a>
+                        <br>
+            
+             
+                        <a href="/2018/05/13/varAndletDifference/">var和let的作用域区别</a>
+                        <br>
+            
+             
+                        <a href="/2018/05/13/jsFactoryAndObserver/">JS简单工厂和观察者模式</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/29/jsRegExp/">正则表达式</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/29/thisOfJs/">this关键字</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/29/jsSingleton/">Js单例模式</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/29/jsAjax/">原生Js使用Ajax</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/09/prototypeAndInherit/">原型和继承</a>
+                        <br>
+            
+             
+                        <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                        <br>
+            
+             
+                        <a href="/2018/01/22/EFAdvancedFeatures/">EF高级特性</a>
+                        <br>
+            
+             
+                        <a href="/2018/01/16/EntityFramework/">EntityFramework建立的三种方式</a>
+                        <br>
+            
+             
+                        <a href="/2018/01/16/EFDatabaseOperation/">EntityFramework操作数据库</a>
+                        <br>
+            
+             
+                        <a href="/2018/01/16/Orm/">ORM概念</a>
+                        <br>
+            
+             
+                        </div>
+                    <h1 style="font-size: 24px; margin-top: 40px;">2017年</h1>
+                    <div class="alert alert-info" style="font-size: 14px; line-height: 2; font-weight: bold;">
+                 
+             
+                        <a href="/2017/12/17/cssSelector/">CSS选择器</a>
+                        <br>
+            
+             
+                        <a href="/2017/12/12/JavaScriptOO/">Javascript 面向对象</a>
+                        <br>
+            
+             
+                        <a href="/2017/10/22/validateImage/">JavaScript绘制图片验证码</a>
+                        <br>
+            
+             
+                        <a href="/2017/10/14/ToolsNotes/">工具及、知识点及外链收集</a>
+                        <br>
+            
+             
+                        <a href="/2017/10/14/Crawler/">爬虫初探</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/28/remotegit/">使用远程Git仓库</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/26/GitErrors/">Git使用过程中遇到的问题</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/26/locationgit/">创建本地版本库及新增、修改、提交和回退</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/17/httpAndWebSocket/">HTTP协议与WebSocket</a>
+                        <br>
+            
+             
+                        <a href="/2017/09/02/ExpressionVisitor/">lambda表达式树解析并拼装Sql</a>
+                        <br>
+            
+             
+                        <a href="/2017/08/31/FirstCoreApp/">第一个.Net Core程序</a>
+                        <br>
+            
+             
+                        <a href="/2017/08/31/Expression/">lambda表达式树拼装</a>
+                        <br>
+            
+             
+                        <a href="/2017/08/30/installCore/">在Ubuntu 16.04安装.Net Core</a>
+                        <br>
+            
+             
+                        <a href="/2017/08/19/Ioc/">控制反转/依赖注入（Unity容器使用）</a>
+                        <br>
+            
+             
+                        <a href="/2017/07/10/DecoratorPattern/">装饰器模式</a>
+                        <br>
+            
+             
+                        <a href="/2017/07/02/encryption/">加密和解密</a>
+                        <br>
+            
+             
+                        <a href="/2017/06/03/abstractFactory/">设计模式(三)--抽象工厂模式</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/29/linuxInstallOracle/">在Linux中安装Oracle数据库</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/24/bitoperator/">汇编学习(四)--位运算之四则运算</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/24/symbolnumber/">汇编学习(三)--有符号数和无符号数</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/24/datawidth/">汇编学习(二)--数据宽度</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/24/jinzhi/">汇编学习(一)--简单理解进制</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/22/nlog/">简单使用NLog进行日志记录</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/21/easyfactory/">设计模式(一)--简单工厂模式</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/21/factorymethod/">设计模式(二)--工厂方法模式</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/20/serializable/">对象序列化</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/19/dbUtility/">使用DbProviderFactory 打造一个通用的数据访问类库</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/16/oracletrigger/">Oracle触发器及包创建</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/15/lock/">浅谈lock关键字</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/15/task_async/">C#多线程</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/14/reflection/">反射的简单使用</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/14/httprequestheader/">Http请求头参数</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/14/httpclient/">HttpClient类的使用</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/13/dynamic/">dynamic类型</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/12/aspdownbigfile/">ASP.NET断点续传大文件</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/12/gethtmlimg/">从富文本(HTML字符串)中获取图片</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/11/operator/">使用operator进行运算符重载</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/10/assemblies/">程序集和应用程序域</a>
+                        <br>
+            
+             
+                        <a href="/2017/05/10/yield/">使用yield语句创建枚举器</a>
+                        <br>
+            
+                    </div>
+        
+    </div>
+</article>
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/24/bitoperator/">汇编学习(四)--位运算之四则运算</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/prototypeAndInherit/">原型和继承</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/13/varAndletDifference/">var和let的作用域区别</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/thisOfJs/">this关键字</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/10/vuejsInInstruct/">VueJs内置指令入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/12/vuejstemplete/">VueJs表单数据操作</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/archives/2018/09/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/archives/2018/09/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/archives/2018/09/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 18.802720195502147px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 18.64712803787532px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 15.284223963695563px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 14.435271656468547px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 11.577144673398719px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 13.181050305293006px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 9.455705987897339px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 17.30023248456517px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 14.429056226387669px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 9.71850163343099px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 11.743217779312468px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 11.925147850859966px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 16.16967777638225px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 9.269352772549102px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 11.413590894420903px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 15.513267924400292px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 11.440050553388847px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 9.658460316935392px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'undefined'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'undefined',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

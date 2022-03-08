@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>加密和解密 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>加密和解密</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/07/02/encryption/">加密和解密</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/加密/">加密</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-07-02
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/07/02/encryption/">加密和解密</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-07-02
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/加密/">加密</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对称加密和非对称加密"><span class="post-toc-number">1.</span> <span class="post-toc-text">对称加密和非对称加密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优缺点"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">优缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MD5不可逆加密"><span class="post-toc-number">2.</span> <span class="post-toc-text">MD5不可逆加密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#算法介绍"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">算法介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MD5功能"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">MD5功能</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MD5属不属于加密算法"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">MD5属不属于加密算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MD5的用途"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">MD5的用途</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#防止被篡改"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">防止被篡改</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#防止直接看到明文"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">防止直接看到明文</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#防止抵赖（数字签名）"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">防止抵赖（数字签名）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DES对称可逆加密"><span class="post-toc-number">3.</span> <span class="post-toc-text">DES对称可逆加密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DES算法介绍"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">DES算法介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RSA非对称可逆加密"><span class="post-toc-number">4.</span> <span class="post-toc-text">RSA非对称可逆加密</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RSA算法介绍"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">RSA算法介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数字签名"><span class="post-toc-number">5.</span> <span class="post-toc-text">数字签名</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#数字签名介绍"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">数字签名介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#特点"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">特点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数字证书"><span class="post-toc-number">6.</span> <span class="post-toc-text">数字证书</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#证书的验证"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">证书的验证</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SSL基本原理"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">SSL基本原理</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h3 id="对称加密和非对称加密"><a href="#对称加密和非对称加密" class="headerlink" title="对称加密和非对称加密"></a>对称加密和非对称加密</h3><p>对称加密<br>对称加密的思路非常简单，就是含有一个称为密钥的东西，在消息发送前使用密钥对消息进行加密，在对方收到消息之后，使用相同的密钥进行解密。根据密钥来产生加密后的消息（密文）的这一加工过程，由加密算法来完成，加密算法通常是公开的。它的流程如下：</p>
+<ol>
+<li>发送方使用密钥对消息进行加密。</li>
+<li>接收方使用同样的密钥对消息进行解密。</li>
+</ol>
+<p>对称加密存在这样两个问题：</p>
+<ol>
+<li>虽然可以通过密钥来保证消息安全地进行传递，但是如何确保密钥安全地进行传递？因为发送者和接收者总有一次初始的通信，用来传递密钥，此时的安全如何保证？</li>
+<li>接收者虽然可以根据密钥来解密消息，但因为存在上面的问题，消息有可能是由第三方（非法获得密钥）发来的，而接收方无法辨别。<br>为了解决上面两个问题，就需要介绍一下非对称加密。</li>
+</ol>
+<p>非对称加密<br>非对称加密的接收者和发送者都持有两个密钥，一个是对外公开的，称为公钥，一个是自行保管的，称为私钥。非对称加密的规则是由某人A的公钥加密的消息，只能由A的私钥进行解密；由A的私钥加密的消息只能由A的公钥解密。此时我们可以得出接收方、发送方有两个公钥两个私钥一共四个密钥，我们先看看两种简单的方式，这两种方式都是只使用两个密钥。<br>第一种模式只使用接收方的公钥和私钥，称为加密模式。<br>加密模式<br>在加密模式中，由消息的接收方发布公钥，持有私钥。比如发送方要发送消息“hello,jimmy”到接收方，它的步骤是：</p>
+<ol>
+<li>发送方使用接收者的公钥进行加密消息，然后发送。</li>
+<li>接收方使用自己的私钥对消息进行解密。</li>
+</ol>
+<p>在这种模式下，如果第三方截获了发送者发出的消息，因为他没有接收者的私钥，所以这个消息对他来说毫无意义。可见，它能够满足本文最开始提出的消息安全传递的要点一：消息的发送方能够确定消息只有预期的接收方可以解密(不保证第三方无法获得，但保证第三方无法解密)。<br>除此以外，因为接收方的公钥是公开的，任何人都可以使用这个公钥来加密消息并发往接收者，而接收者无法对消息进行判别，无法知道是由谁发送来的。所以，它不满足我们开始提出的消息安全传递的要点二：消息的接收方可以确定消息是由谁发送的（消息的接收方可以确定消息的发送方）。</p>
+<p>认证模式<br>在认证模式中，由消息的发送方发布公钥，持有私钥。比如发送者要发送消息“Welcome to Tracefact.net”到接收者，它的步骤是：</p>
+<ol>
+<li>发送者使用自己的私钥对消息进行加密，然后发送。</li>
+<li>接收者使用发送者的公钥对消息进行解密。</li>
+</ol>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>对称加密算法的优点是速度快，缺点是密钥管理不方便，要求共享密钥。</p>
+<p>非对称加密算法的优点是密钥管理很方便，缺点是速度慢。</p>
+<h3 id="MD5不可逆加密"><a href="#MD5不可逆加密" class="headerlink" title="MD5不可逆加密"></a>MD5不可逆加密</h3><h4 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h4><p>MD5（单向散列算法）的全称是Message-Digest Algorithm 5（信息-摘要算法），经MD2、MD3和MD4发展而来。MD5算法的使用不需要支付任何版权费用。</p>
+<h4 id="MD5功能"><a href="#MD5功能" class="headerlink" title="MD5功能"></a>MD5功能</h4><ul>
+<li>输入任意长度的信息，经过处理，输出为128位的信息（数字指纹）；</li>
+<li>不同的输入得到的不同的结果（唯一性）；</li>
+<li>根据128位的输出结果不可能反推出输入的信息（不可逆）； </li>
+</ul>
+<h4 id="MD5属不属于加密算法"><a href="#MD5属不属于加密算法" class="headerlink" title="MD5属不属于加密算法"></a>MD5属不属于加密算法</h4><ul>
+<li>认为不属于的人是因为他们觉得不能从密文（散列值）反过来得到原文，即没有解密算法，所以这部分人认为MD5只能属于算法，不能称为加密算法；</li>
+<li>认为属于的人是因为他们觉得经过MD5处理后看不到原文，即已经将原文加密，所以认为MD5属于加密算法。</li>
+</ul>
+<h4 id="MD5的用途"><a href="#MD5的用途" class="headerlink" title="MD5的用途"></a>MD5的用途</h4><h5 id="防止被篡改"><a href="#防止被篡改" class="headerlink" title="防止被篡改"></a>防止被篡改</h5><ol>
+<li>比如发送一个电子文档，发送前，我先得到MD5的输出结果a。然后在对方收到电子文档后，对方也得到一个MD5的输出结果b。如果a与b一样就代表中途未被篡改。</li>
+<li>比如我提供文件下载，为了防止不法分子在安装程序中添加木马，我可以在网站上公布由安装文件得到的MD5输出结果。</li>
+<li>SVN在检测文件是否在CheckOut后被修改过，也是用到了MD5.   </li>
+</ol>
+<h5 id="防止直接看到明文"><a href="#防止直接看到明文" class="headerlink" title="防止直接看到明文"></a>防止直接看到明文</h5><p>现在很多网站在数据库存储用户的密码的时候都是存储用户密码的MD5值。这样就算不法分子得到数据库的用户密码的MD5值，也无法知道用户的密码(其实这样是不安全的)。（比如在UNIX系统中用户的密码就是以MD5（或其它类似的算法）经加密后存储在文件系统中。当用户登录的时候，系统把用户输入的密码计算成MD5值，然后再去和保存在文件系统中的MD5值进行比较，进而确定输入的密码是否正确。通过这样的步骤，系统在并不知道用户密码的明码的情况下就可以确定用户登录系统的合法性。这不但可以避免用户的密码被具有系统管理员权限的用户知道，而且还在一定程度上增加了密码被破解的难度。）</p>
+<h5 id="防止抵赖（数字签名）"><a href="#防止抵赖（数字签名）" class="headerlink" title="防止抵赖（数字签名）"></a>防止抵赖（数字签名）</h5><p>这需要一个第三方认证机构。例如A写了一个文件，认证机构对此文件用MD5算法产生摘要信息并做好记录。若以后A说这文件不是他写的，权威机构只需对此文件重新产生摘要信息，然后跟记录在册的摘要信息进行比对，相同的话，就证明是A写的了。这就是所谓的“数字签名”。</p>
+<h3 id="DES对称可逆加密"><a href="#DES对称可逆加密" class="headerlink" title="DES对称可逆加密"></a>DES对称可逆加密</h3><h4 id="DES算法介绍"><a href="#DES算法介绍" class="headerlink" title="DES算法介绍"></a>DES算法介绍</h4><p>美国国家标准局1973年开始研究除国防部外的其它部门的计算机系统的数据加密标准，于1973年5月15日和1974年8月27日先后两次向公众发出了征求加密算法的公告。加密算法要达到的目的（通常称为DES 密码算法要求）主要为以下四点： </p>
+<ul>
+<li>提供高质量的数据保护，防止数据未经授权的泄露和未被察觉的修改； </li>
+<li>具有相当高的复杂性，使得破译的开销超过可能获得的利益，同时又要便于理解和掌握； </li>
+<li>DES密码体制的安全性应该不依赖于算法的保密，其安全性仅以加密密钥的保密为基础； </li>
+<li>实现经济，运行有效，并且适用于多种完全不同的应用。<br>1977年1月，美国政府颁布：采纳IBM公司设计的方案作为非机密数据的正式数据加密标准（DES?Data Encryption Standard）。<br>　　目前在国内，随着三金工程尤其是金卡工程的启动，DES算法在POS、ATM、磁卡及智能卡（IC卡）、加油站、高速公路收费站等领域被广泛应用，以此来实现关键数据的保密，如信用卡持卡人的PIN的加密传输，IC卡与POS间的双向认证、金融交易数据包的MAC校验等，均用到DES算法。</li>
+</ul>
+<h3 id="RSA非对称可逆加密"><a href="#RSA非对称可逆加密" class="headerlink" title="RSA非对称可逆加密"></a>RSA非对称可逆加密</h3><h4 id="RSA算法介绍"><a href="#RSA算法介绍" class="headerlink" title="RSA算法介绍"></a>RSA算法介绍</h4><p>它是第一个既能用于数据加密也能用于数字签名的算法。它易于理解和操作，也很流行。算法的名字以发明者的名字命名：Ron Rivest, Adi Shamir 和Leonard Adleman。但RSA的安全性一直未能得到理论上的证明。它经历了各种攻击，至今未被完全攻破。 </p>
+<p>加密和解密不是用的同一个密钥，其中一个称为公钥（public key），另一个称为私钥（private key）。公钥就是公开的，大家都知道，而私钥只有你自己知道。这两个密钥在数学上是有联系的，用公钥加密的内容只能由相应的私钥来解密，反过来，用私钥加密的内容只能由相应的公钥来解密。另外很重要的一点是， 不能从公钥推导出私钥，或者说很困难。常用的非对称加密算法有RSA，ECC等等。举个例子，你想要把一篇文章发送给你的朋友，但是不想让别人看到这篇文章。除了用上面讲的方法以外，你还可以用非对称加密来实现。在发送之前，你把文章用你朋友的公钥加密（公钥是公开的，每个人都知道），然后把加密过后的文章发送给你的朋友，你的朋友可以用他的私钥来解密。其他人获得了你传送的内容都是没有用的，因为只有你朋友有私钥可以解密。 非对称加密算法的优点是密钥管理很方便，缺点是速度慢。</p>
+<h3 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h3><h4 id="数字签名介绍"><a href="#数字签名介绍" class="headerlink" title="数字签名介绍"></a>数字签名介绍</h4><p>数字签名所用的技术是散列和非对称加密。数字签名的假设是： 只有你自己有你的私钥。根据前面对散列的介绍，我们先为你要签名的信息生成一个Hash字串，Hash1，然后用你的私钥加密得到Encrypted(Hash1)，这就是你对这个文档的数字签名。当别人需要验证某个文档是否是你签名的时候，只需要用你的公钥解密你的签名得到Hash1，并和该文档计算出来的Hash2对比，查看是否一致。如果一致则说明你确实对该文档签过名，否则就是没有。下面来分析一下，数字签名是如何保证上面所讲的签名的特点的。</p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ol>
+<li>不可伪造<br>因为只有你有你自己的私钥，所以任何其他人都无法产生用你的私钥加密过的Hash1。 </li>
+<li>不可移植，复制<br>你对文档A的签名不可能对文档B也有效，因为你对文档B的签名必然和对A的签名不一样，这是由Hash的唯一性保证的。拿你对A的签名去验证B是不可能通过的。 </li>
+<li>不可否认<br>因为不可伪造，不可移植，不可复制，所以不可否认。 </li>
+</ol>
+<h3 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h3><p>我们的身份证是由公安机关颁发的，并加有很多防伪技术，不能伪造（或者说很难）。同样的，数字证书也有专门的发证机关（Certificate Authority，简称CA，其实是一些商业公司啦）。比较常见的发证机关是 VeriSign。数字证书的发证机关会对自己发放的证书加上自己的数字签名，以保证证书不能被伪造。那数字证书到底包含了些什么呢？</p>
+<ul>
+<li>持有者姓名（Common Name）</li>
+<li>发证机关（Issuer）</li>
+<li>有效日期（Validity）</li>
+<li>证书持有人的公钥（Subject’s Public Key Info）</li>
+<li>扩展信息 （Extension）</li>
+<li>用发证机关对该证书的数字签名（Certificate Signature）  前5点信息MD5摘要，然后用CA的私钥(加密下)</li>
+</ul>
+<h4 id="证书的验证"><a href="#证书的验证" class="headerlink" title="证书的验证"></a>证书的验证</h4><ol>
+<li><p>验证发证机关</p>
+<p> 当浏览器拿到一个数字证书，先看发证机关，然后找到相应的发证机关的证书，获得发证机关的公钥，用此公钥解密被加密的MD5，这样就获得了此证书的MD5值，我们称它为Hash1。然后浏览器用MD5算法对此证书重新计算一遍MD5，获得Hash2。然后比较Hash1和Hash2是否相等。如果相等就证明这张证书是由发证机关颁发的，并且没有被篡改过。</p>
+</li>
+<li><p>验证服务器（所有者）</p>
+</li>
+</ol>
+<p>使用证书所有者（注意，我这里指的是所有者，而不是持有者！）公钥加密一段信息发送给证书的持有者，如果持有者能发送回（可以是被私钥加密，也可以是明文，没有关系）被加密的这段信息的话就证明该持有者拥有该证书对应的私钥，也就是说，该持有者就是该证书的所有者。</p>
+<ol start="3">
+<li>验证持有者姓名</li>
+</ol>
+<h4 id="SSL基本原理"><a href="#SSL基本原理" class="headerlink" title="SSL基本原理"></a>SSL基本原理</h4><p>SSL全称是 Secure Sockets Layer，它是一种间于传输层（比如TCP/IP）和应用层（比如HTTP）的协议。</p>
+<p>最简单的方法来保证通信安全是用非对称加密。我们前面讲过数字证书的认证，如果双方都认证了对方的数字证书，那么每次传输信息的时候都用对方的公钥加密，这样就只有对方能解密，从而保证了信息的安全，但是对于日常应用（比如网页浏览）有两个问题：</p>
+<ol>
+<li>非对称加密速度缓慢，消耗资源<br>如果客户端和服务器之间传输文件用非对称加密的话，速度一定慢的忍无可忍。 </li>
+<li>不可能要求每个用户都去申请数字证书<br>申请数字证书是一个相当麻烦的过程，要求每个上网的用户都拥有证书是不可能的事情。 </li>
+</ol>
+<p>SSL通过“握手协议”和“传输协议”来解决上述问题。握手协议是基于非对称加密的，而传输协议是基于对称加密的。根据不同的应用，SSL对证书的要求也是不一样的，可以是单方认证（比如HTTP, FTP），也可以是双方认证（比如网上银行）。通常情况下，服务器端的证书是一定要具备的，客户端的证书不是必须的。下面两张图片显示了SSL握手的过程。</p>
+<p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/ssl.png" alt="image"></p>
+<pre><code>                    单边认证
+</code></pre><p><img src="https://github.com/TaffyBlog/TaffyBlog.github.io/raw/master/images/ssl1.png" alt="image"></p>
+<pre><code>                    双边认证
+</code></pre><p>在通信双方协商出一个对称密钥以后，他们用这个密钥来加密传输的数据。同时为每个消息生成时间戳，用此密钥为消息和相应的时间戳生成消息认证码（MAC）。也就是说，每次发送的内容包括 Encrypt(message) + MAC(message + timestamp)。</p>
+<p>这么做有几个好处：</p>
+<ol>
+<li>防止消息的篡改<br>所谓消息篡改就是有第三者插在通信双方之间，篡改往来的消息。由于消息是加密的，第三者不能获得消息的内容，但是他可以闭着眼睛瞎改。如果没有MAC的话，接受者就无法判断此消息是否被篡改过。</li>
+<li>防止消息重放<br>消息的重放是只第三者记录下通信双方的每一次发送的消息，虽然他不能获得消息的内容。但是它可以通过重新发送客户端或者服务端的信息来把自己装成是客户端或者服务端。如果在MAC里面加上了时间戳，消息接收方验证时间戳就可以阻止消息的重放攻击。<br>SSL的基本思想是用非对称加密来建立链接（握手阶段），用对称加密来传输数据（传输阶段）。这样既保证了密钥分发的安全，也保证了通信的效率。<br>通过上面对SSL的分析，我们可以看到，SSL并不能阻止别人获得你传输的数据，但是由于你传输的数据都是加密过的，别人拿到了毫无用处，一样可以保护信息的安全。还有一点需要强调一下，SSL并不依赖于TCP，它可以建立在任何可靠的传输层协议（比如TCP）之上。也就是说SSL是不能建立在UDP之上的。这是显然的，如果传输都不可靠，偶尔丢两个包或者包的顺序换一换的话，怎么保证安全呢？</li>
+</ol>
+<p><a href="http://blog.csdn.net/forgotaboutgirl/article/details/7258109" target="_blank" rel="noopener">参考链接</a><br><a href="http://www.iplaysoft.com/encrypt-arithmetic.html" target="_blank" rel="noopener">参考链接</a></p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '加密和解密'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/12/17/cssSelector/">CSS选择器</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/13/dynamic/">dynamic类型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsRegExp/">正则表达式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsSingleton/">Js单例模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/lock/">浅谈lock关键字</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/reflection/">反射的简单使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/25/vueAttr/">VueJs实例属性</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/12/vuejstemplete/">VueJs表单数据操作</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/20/webapi/">关于WebAPI的创建、调用、权限验证和跨域问题</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/07/02/encryption/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/07/02/encryption/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/07/02/encryption/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 8.718266124778985px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 13.893352152043047px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 16.569707536451602px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 11.624044214752352px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 18.242737000838737px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 10.283832531907919px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 13.336674130818253px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 11.989931221117924px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 17.364069299845767px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 13.728457321981242px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 9.763682739717275px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 10.823516925761329px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 18.581933931288297px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 8.379710437377955px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 9.625378312761406px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 13.651516419728733px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 12.967987826724793px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 8.46549429290198px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sun Jul 02 2017 13:54:26 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sun Jul 02 2017 13:54:26 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

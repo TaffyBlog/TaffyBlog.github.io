@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>对象序列化 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>对象序列化</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/20/serializable/">对象序列化</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/XML/">XML</a>
+                
+            </span>
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-20
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/20/serializable/">对象序列化</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-20
+            </p>
+            <p>
+                
+                <i class="fa fa-tags"></i>
+                
+                <a href="/tags/XML/">XML</a>
+                
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#序列化的含义"><span class="post-toc-number">1.</span> <span class="post-toc-text">序列化的含义</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#XML序列化"><span class="post-toc-number">2.</span> <span class="post-toc-text">XML序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#XML序列化-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">XML序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#序列化数组"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">序列化数组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#XML反序列化"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">XML反序列化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#soap序列化"><span class="post-toc-number">3.</span> <span class="post-toc-text">soap序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#soap序列化-1"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">soap序列化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二进制序列化"><span class="post-toc-number">4.</span> <span class="post-toc-text">二进制序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二进制序列化-1"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">二进制序列化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二进制反序列化"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">二进制反序列化</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#json序列化"><span class="post-toc-number">5.</span> <span class="post-toc-text">json序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#json序列化-1"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">json序列化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用-net框架自带的方法"><span class="post-toc-number">5.1.1.</span> <span class="post-toc-text">使用.net框架自带的方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用第三方库Newtonsoft-json"><span class="post-toc-number">5.1.2.</span> <span class="post-toc-text">使用第三方库Newtonsoft.json</span></a></li></ol></li></ol></li></ol>
+    <div class="content-article">
+        <h2 id="序列化的含义"><a href="#序列化的含义" class="headerlink" title="序列化的含义"></a>序列化的含义</h2><p>序列化是将对象状态转换为可保持或传输的格式的过程。与序列化相对的是反序列化，它将流转换为对象。这两个过程结合起来，可以轻松地存储和传输数据。例如，可以序列化一个对象，然后使用 HTTP 通过 Internet 在客户端和服务器之间传输该对象。反之，反序列化根据流重新构造对象。此外还可以将对象序列化后保存到本地，再次运行的时候可以从本地文件中“恢复”对象到序列化之前的状态。</p>
+<h2 id="XML序列化"><a href="#XML序列化" class="headerlink" title="XML序列化"></a>XML序列化</h2><h3 id="XML序列化-1"><a href="#XML序列化-1" class="headerlink" title="XML序列化"></a>XML序列化</h3><p>将对象通过二进制流序列化为XML文件，对象必须指定<code>Serializable</code>特性：</p>
+<pre class="line-numbers language-java"><code class="language-java">Person p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">using</span> <span class="token punctuation">(</span>FileStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span><span class="token string">"person.xml"</span><span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Create<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    XmlSerializer xs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XmlSerializer</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xs<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>stream<span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>序列化得到的XML文档如下:</p>
+<pre class="line-numbers language-XML"><code class="language-XML"><?xml version="1.0"?>
+<Person xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>张三</Name>
+  <Sex>男</Sex>
+  <Age>25</Age>
+</Person>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="序列化数组"><a href="#序列化数组" class="headerlink" title="序列化数组"></a>序列化数组</h3><p>对数组进行序列化时，必须对需要序列化的对象及其属性设置几个特性：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">//定义序列化根节点名为people</span>
+ <span class="token punctuation">[</span><span class="token function">XmlRoot</span><span class="token punctuation">(</span><span class="token string">"people"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">static</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> f <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token string">"游泳"</span><span class="token punctuation">,</span><span class="token string">"跑步"</span><span class="token punctuation">,</span><span class="token string">"打球"</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">[</span>XmlAttribute<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//将Name作为people的一个属性</span>
+    <span class="token keyword">public</span> string Name <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token string">"张三"</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">[</span>XmlIgnore<span class="token punctuation">]</span> <span class="token comment" spellcheck="true">//不序列化Sex</span>
+    <span class="token keyword">public</span> string Sex <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token string">"男"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">int</span> Age <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment" spellcheck="true">//序列化数组为hobbys节点，元素为hobby节点</span>
+    <span class="token punctuation">[</span><span class="token function">XmlArray</span><span class="token punctuation">(</span><span class="token string">"hobbys"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">XmlArrayItem</span><span class="token punctuation">(</span><span class="token string">"hobby"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+    <span class="token keyword">public</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> Hobby <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token operator">=</span> f<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>调用方式和前面一样，得到的Xml文档如下:</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>people</span> <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>xsd</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema<span class="token punctuation">"</span></span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>张三<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Age</span><span class="token punctuation">></span></span>25<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Age</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hobbys</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hobby</span><span class="token punctuation">></span></span>游泳<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hobby</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hobby</span><span class="token punctuation">></span></span>跑步<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hobby</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hobby</span><span class="token punctuation">></span></span>打球<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hobby</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hobbys</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>people</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>xml序列化的方式只能保存public的字段和可读写的属性，对于private等类型的字段不能进行序列化</p>
+</blockquote>
+<h3 id="XML反序列化"><a href="#XML反序列化" class="headerlink" title="XML反序列化"></a>XML反序列化</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token function">using</span> <span class="token punctuation">(</span>FileStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span><span class="token string">"person.xml"</span><span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Open<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    XmlSerializer xs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XmlSerializer</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    var person<span class="token operator">=</span>  xs<span class="token punctuation">.</span><span class="token function">Deserialize</span><span class="token punctuation">(</span>stream<span class="token punctuation">)</span> as Person<span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Name :{0} , sex : {1} , age: {2}"</span><span class="token punctuation">,</span> person<span class="token punctuation">.</span>Name<span class="token punctuation">,</span> person<span class="token punctuation">.</span>Sex<span class="token punctuation">,</span> person<span class="token punctuation">.</span>Age<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果如下:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">Name :张三 , sex <span class="token keyword">:</span> 男 , age: 25
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="soap序列化"><a href="#soap序列化" class="headerlink" title="soap序列化"></a>soap序列化</h2><h3 id="soap序列化-1"><a href="#soap序列化-1" class="headerlink" title="soap序列化"></a>soap序列化</h3><p>将对象通过二进制流序列化为soap文档，要序列化的对象必须指定<code>Serializable</code>特性：</p>
+<pre class="line-numbers language-java"><code class="language-java">Person p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">using</span> <span class="token punctuation">(</span>FileStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span><span class="token string">"soap.xml"</span><span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Create<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    SoapFormatter sf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SoapFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    sf<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>stream<span class="token punctuation">,</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>得到的soap文档如下:</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">SOAP-ENV:</span>Envelope</span> <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>xsd</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>SOAP-ENC</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://schemas.xmlsoap.org/soap/encoding/<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>SOAP-ENV</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://schemas.xmlsoap.org/soap/envelope/<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>clr</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/soap/encoding/clr/1.0<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">SOAP-ENV:</span>encoding</span><span class="token style-attr language-css"><span class="token attr-name"><span class="token attr-name">Style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">http</span><span class="token punctuation">:</span>//schemas<span class="token number">.</span>xmlsoap<span class="token number">.</span>org/soap/encoding/</span><span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">SOAP-ENV:</span>Body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">a1:</span>Person</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ref-1<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>a1</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://schemas.microsoft.com/clr/nsassem/ConsoleApplication2/ConsoleApplication2%2C%20Version%3D1.0.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3Dnull<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>_x003C_Name_x003E_k__BackingField</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ref-3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>张三<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>_x003C_Name_x003E_k__BackingField</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>_x003C_Sex_x003E_k__BackingField</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ref-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>男<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>_x003C_Sex_x003E_k__BackingField</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>_x003C_Age_x003E_k__BackingField</span><span class="token punctuation">></span></span>25<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>_x003C_Age_x003E_k__BackingField</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">a1:</span>Person</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">SOAP-ENV:</span>Body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">SOAP-ENV:</span>Envelope</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>使用之前需要应用System.Runtime.Serialization.Formatters.Soap.dll（.net自带的）</p>
+</blockquote>
+<p>简单对象访问协议（Simple Object Access Protocol，SOAP），是一种轻量的、简单的、基于XML的协议，它被设计成在WEB上交换结构化的和固化的信息。 SOAP 可以和现存的许多因特网协议和格式结合使用，包括超文本传输协议（HTTP），简单邮件传输协议（SMTP），多用途网际邮件扩充协议（MIME）。它还支持从消息系统到远程过程调用（RPC）等大量的应用程序。SOAP使用基于XML的数据结构和超文本传输协议(HTTP)的组合定义了一个标准的方法来使用Internet上各种不同操作环境中的分布式对象。<br>调用反序列化之后的结果和XML相同</p>
+<h2 id="二进制序列化"><a href="#二进制序列化" class="headerlink" title="二进制序列化"></a>二进制序列化</h2><h3 id="二进制序列化-1"><a href="#二进制序列化-1" class="headerlink" title="二进制序列化"></a>二进制序列化</h3><p>将对象通过二进制流序列化为文件，要使用二进制序列化的对象必须指定<code>Serializable</code>特性：</p>
+<p><strong>Person实体类</strong></p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token punctuation">[</span>Serializable<span class="token punctuation">]</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> string Name <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token string">"张三"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> string Sex <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token string">"男"</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> Age <span class="token punctuation">{</span> get<span class="token punctuation">;</span> set<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token number">25</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>调用</strong></p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span>string<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   <span class="token keyword">try</span>
+   <span class="token punctuation">{</span>
+     Person p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token function">using</span> <span class="token punctuation">(</span>FileStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span><span class="token string">"person.obj"</span><span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Create<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//</span>
+        <span class="token comment" spellcheck="true">// 摘要:</span>
+        <span class="token comment" spellcheck="true">//     以二进制格式将对象或整个连接对象图形序列化和反序列化。</span>
+        BinaryFormatter binary <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BinaryFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        binary<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>stream<span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"序列化已成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+   <span class="token punctuation">}</span>
+   <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span><span class="token punctuation">)</span>
+   <span class="token punctuation">{</span>
+
+       <span class="token keyword">throw</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+
+   Console<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p><code>BinaryFormatter</code>位于<code>System.Runtime.Serialization.Formatters.Binary</code>命名空间,序列化文件格式自定。</p>
+</blockquote>
+<h3 id="二进制反序列化"><a href="#二进制反序列化" class="headerlink" title="二进制反序列化"></a>二进制反序列化</h3><p>使用BinaryFormatter下的<code>Deserialize</code>方法进行反序列化:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span>string<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">try</span>
+    <span class="token punctuation">{</span>
+      <span class="token function">using</span> <span class="token punctuation">(</span>FileStream stream <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileStream</span><span class="token punctuation">(</span><span class="token string">"person.obj"</span><span class="token punctuation">,</span> FileMode<span class="token punctuation">.</span>Open<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">{</span>
+        BinaryFormatter binary <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BinaryFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        var person<span class="token operator">=</span>  binary<span class="token punctuation">.</span><span class="token function">Deserialize</span><span class="token punctuation">(</span>stream<span class="token punctuation">)</span> as Person<span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"Name :{0} , sex : {1} , age: {2}"</span><span class="token punctuation">,</span>person<span class="token punctuation">.</span>Name<span class="token punctuation">,</span>person<span class="token punctuation">.</span>Sex<span class="token punctuation">,</span>person<span class="token punctuation">.</span>Age<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+
+
+    <span class="token punctuation">}</span>
+    <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+
+        <span class="token keyword">throw</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    Console<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果如下:</p>
+<p>Name :张三 , sex : 男 , age: 25</p>
+<h2 id="json序列化"><a href="#json序列化" class="headerlink" title="json序列化"></a>json序列化</h2><h3 id="json序列化-1"><a href="#json序列化-1" class="headerlink" title="json序列化"></a>json序列化</h3><h4 id="使用-net框架自带的方法"><a href="#使用-net框架自带的方法" class="headerlink" title="使用.net框架自带的方法"></a>使用<code>.net</code>框架自带的方法</h4><p>封装的操作帮助类如下:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// json转换成集合</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token comment" spellcheck="true">/// &lt;typeparam name="T">&lt;/typeparam></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="JsonStr">&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> List<span class="token operator">&lt;</span>T<span class="token operator">></span> JsonStringToList<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">this</span> string JsonStr<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//js操作对象</span>
+    JavaScriptSerializer Serializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JavaScriptSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    List<span class="token operator">&lt;</span>T<span class="token operator">></span> objs <span class="token operator">=</span> Serializer<span class="token punctuation">.</span>Deserialize<span class="token operator">&lt;</span>List<span class="token operator">&lt;</span>T<span class="token operator">>></span><span class="token punctuation">(</span>JsonStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> objs<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// 对象转换成json</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token comment" spellcheck="true">/// &lt;typeparam name="T">&lt;/typeparam></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="model">&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> string ModelToJsonString<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>T model<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    JavaScriptSerializer serializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JavaScriptSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> serializer<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>model<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// json转换成对象</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token comment" spellcheck="true">/// &lt;typeparam name="T">&lt;/typeparam></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="JsonStr">&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> T JsonStringToModel<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>string JsonStr<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    JavaScriptSerializer Serializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JavaScriptSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    T objs <span class="token operator">=</span> Serializer<span class="token punctuation">.</span>Deserialize<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>JsonStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> objs<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/// &lt;summary></span>
+<span class="token comment" spellcheck="true">/// 集合转换成json</span>
+<span class="token comment" spellcheck="true">/// &lt;/summary></span>
+<span class="token comment" spellcheck="true">/// &lt;typeparam name="T">&lt;/typeparam></span>
+<span class="token comment" spellcheck="true">/// &lt;param name="list">&lt;/param></span>
+<span class="token comment" spellcheck="true">/// &lt;returns>&lt;/returns></span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> string ListModelToJsonString<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>IList<span class="token operator">&lt;</span>T<span class="token operator">></span> list<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    JavaScriptSerializer Serializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JavaScriptSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string result <span class="token operator">=</span> Serializer<span class="token punctuation">.</span><span class="token function">Serialize</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>JavaScriptSerializer</code>位于<code>System.Web.Script.Serialization</code>命名空间下。</p>
+<h4 id="使用第三方库Newtonsoft-json"><a href="#使用第三方库Newtonsoft-json" class="headerlink" title="使用第三方库Newtonsoft.json"></a>使用第三方库<code>Newtonsoft.json</code></h4><p>使用框架自带的方法并没有<code>Newtonsoft</code>效率高，所以<code>Newtonsoft</code>的使用更为普遍，支持序列化和反序列化DataTable,DataSet,Entity Framework和NHibernate。</p>
+<ol>
+<li>安装：<br> 在NunGet中搜索安装</li>
+<li><p>简单使用：<br>序列化使用<code>JsonConvert.SerializeObject()</code>方法，反序列化使用<code>JsonConvert.DeserializeObject</code>方法</p>
+<p>更复杂的使用后面再单独做研究。</p>
+</li>
+</ol>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = '对象序列化'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/05/21/DotNetCommonFramework/">.NET平台常用的框架整理</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/01/16/Orm/">ORM概念</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/21/factorymethod/">设计模式(二)--工厂方法模式</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/14/httpclient/">HttpClient类的使用</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/identityrun/">WinForm启动时自动以管理员身份运行</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/jsAjax/">原生Js使用Ajax</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/09/28/remotegit/">使用远程Git仓库</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/30/vueJsComponentSendData/">VueJs组件插槽、动态组件、缓存组件</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/25/vuejscmd/">VueJs自定义指令和组件</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/20/serializable/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/20/serializable/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/20/serializable/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 18.500142133978635px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 9.794850172108127px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 12.52298638718094px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 9.421152132007924px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 15.314771485297385px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 16.793212736751517px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 16.383623480399148px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 9.918958375685142px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 8.896233371733391px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 11.820736526096747px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 9.499266669543726px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 14.136496256476232px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 11.850041116717199px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 19.401053629547178px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 11.253480757295446px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 9.402681833522013px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 19.397272115355936px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 16.4458146406211px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Sat May 20 2017 19:05:13 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Sat May 20 2017 19:05:13 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>

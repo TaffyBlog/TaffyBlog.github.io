@@ -1,0 +1,1509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+    
+    
+    
+    
+    
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/10/yield/</loc>
+    <lastmod>2022-03-08T07:51:05.965Z</lastmod>
+    <data>
+        <display>
+        <title>使用yield语句创建枚举器</title>
+        <pubTime>2017-05-10T13:47:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/20/webapi/</loc>
+    <lastmod>2022-03-08T07:51:05.964Z</lastmod>
+    <data>
+        <display>
+        <title>关于WebAPI的创建、调用、权限验证和跨域问题</title>
+        <pubTime>2017-09-20T08:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Web相关" url="https://taffyblog.github.io/categories/Web%E7%9B%B8%E5%85%B3/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/09/11/webappback/</loc>
+    <lastmod>2022-03-08T07:51:05.964Z</lastmod>
+    <data>
+        <display>
+        <title>解决WebApp手机返回键直接退出问题</title>
+        <pubTime>2018-09-11T13:16:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/12/vuejstemplete/</loc>
+    <lastmod>2022-03-08T07:51:05.963Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs表单数据操作</title>
+        <pubTime>2018-07-12T13:13:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/25/vuejscmd/</loc>
+    <lastmod>2022-03-08T07:51:05.961Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs自定义指令和组件</title>
+        <pubTime>2018-07-25T13:16:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/20/vueLifeCycle/</loc>
+    <lastmod>2022-03-08T07:51:05.960Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs生命周期、计算属性和侦听器</title>
+        <pubTime>2018-07-20T13:13:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/10/vuejsInInstruct/</loc>
+    <lastmod>2022-03-08T07:51:05.960Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs内置指令入门</title>
+        <pubTime>2018-07-10T13:13:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/26/vueJswebpack/</loc>
+    <lastmod>2022-03-08T07:51:05.959Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs通过webpack启服务运行VUE模块文件</title>
+        <pubTime>2018-07-26T12:13:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/08/14/vueJsRoute/</loc>
+    <lastmod>2022-03-08T07:51:05.958Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs路由入门</title>
+        <pubTime>2018-08-14T13:15:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/16/vueJsEvent/</loc>
+    <lastmod>2022-03-08T07:51:05.943Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs事件操作</title>
+        <pubTime>2018-07-16T13:15:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/17/vueJsFilter/</loc>
+    <lastmod>2022-03-08T07:51:05.943Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs过滤器</title>
+        <pubTime>2018-07-17T13:15:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/31/vueJsCompoentData/</loc>
+    <lastmod>2022-03-08T07:51:05.942Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs组件间的数据交换</title>
+        <pubTime>2018-07-31T13:11:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/30/vueJsComponentSendData/</loc>
+    <lastmod>2022-03-08T07:51:05.942Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs组件插槽、动态组件、缓存组件</title>
+        <pubTime>2018-07-30T12:16:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/06/22/varPromote/</loc>
+    <lastmod>2022-03-08T07:51:05.941Z</lastmod>
+    <data>
+        <display>
+        <title>JS变量提升</title>
+        <pubTime>2018-06-22T08:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/07/25/vueAttr/</loc>
+    <lastmod>2022-03-08T07:51:05.941Z</lastmod>
+    <data>
+        <display>
+        <title>VueJs实例属性</title>
+        <pubTime>2018-07-25T12:10:16.000Z</pubTime>
+        
+        <tag>VueJs</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/05/13/varAndletDifference/</loc>
+    <lastmod>2022-03-08T07:51:05.940Z</lastmod>
+    <data>
+        <display>
+        <title>var和let的作用域区别</title>
+        <pubTime>2018-05-13T10:13:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+        <tag>ES6</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/10/22/validateImage/</loc>
+    <lastmod>2022-03-08T07:51:05.939Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript绘制图片验证码</title>
+        <pubTime>2017-10-22T09:34:26.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/29/thisOfJs/</loc>
+    <lastmod>2022-03-08T07:51:05.939Z</lastmod>
+    <data>
+        <display>
+        <title>this关键字</title>
+        <pubTime>2018-04-29T04:12:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/15/task_async/</loc>
+    <lastmod>2022-03-08T07:51:05.938Z</lastmod>
+    <data>
+        <display>
+        <title>C#多线程</title>
+        <pubTime>2017-05-15T12:34:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/18/str-encryption/</loc>
+    <lastmod>2022-03-08T07:51:05.937Z</lastmod>
+    <data>
+        <display>
+        <title>字符串加密类</title>
+        <pubTime>2017-05-18T08:42:15.000Z</pubTime>
+        
+        <tag>加密</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/24/symbolnumber/</loc>
+    <lastmod>2022-03-08T07:51:05.937Z</lastmod>
+    <data>
+        <display>
+        <title>汇编学习(三)--有符号数和无符号数</title>
+        <pubTime>2017-05-24T03:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="汇编学习" url="https://taffyblog.github.io/categories/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/20/serializable/</loc>
+    <lastmod>2022-03-08T07:51:05.936Z</lastmod>
+    <data>
+        <display>
+        <title>对象序列化</title>
+        <pubTime>2017-05-20T11:05:13.000Z</pubTime>
+        
+        <tag>XML</tag>
+         
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/14/reflection/</loc>
+    <lastmod>2022-03-08T07:51:05.935Z</lastmod>
+    <data>
+        <display>
+        <title>反射的简单使用</title>
+        <pubTime>2017-05-14T13:26:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/28/remotegit/</loc>
+    <lastmod>2022-03-08T07:51:05.935Z</lastmod>
+    <data>
+        <display>
+        <title>使用远程Git仓库</title>
+        <pubTime>2017-09-28T12:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Git笔记" url="https://taffyblog.github.io/categories/Git%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/16/oracletrigger/</loc>
+    <lastmod>2022-03-08T07:51:05.934Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle触发器及包创建</title>
+        <pubTime>2017-05-16T13:02:26.000Z</pubTime>
+        
+        <tag>Oracle</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/09/prototypeAndInherit/</loc>
+    <lastmod>2022-03-08T07:51:05.934Z</lastmod>
+    <data>
+        <display>
+        <title>原型和继承</title>
+        <pubTime>2018-04-09T13:10:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/09/17/oracleCreadUser/</loc>
+    <lastmod>2022-03-08T07:51:05.933Z</lastmod>
+    <data>
+        <display>
+        <title>Oracle创建表空间和用户</title>
+        <pubTime>2018-09-17T03:54:26.000Z</pubTime>
+        
+        <tag>Oracle</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="https://taffyblog.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/11/operator/</loc>
+    <lastmod>2022-03-08T07:51:05.932Z</lastmod>
+    <data>
+        <display>
+        <title>使用operator进行运算符重载</title>
+        <pubTime>2017-05-11T13:47:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/22/nlog/</loc>
+    <lastmod>2022-03-08T07:51:05.932Z</lastmod>
+    <data>
+        <display>
+        <title>简单使用NLog进行日志记录</title>
+        <pubTime>2017-05-22T09:37:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2019/01/12/nginxTurn/</loc>
+    <lastmod>2022-03-08T07:51:05.931Z</lastmod>
+    <data>
+        <display>
+        <title>nginx实现二级域名转发</title>
+        <pubTime>2019-01-12T09:37:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="https://taffyblog.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/15/lock/</loc>
+    <lastmod>2022-03-08T07:51:05.930Z</lastmod>
+    <data>
+        <display>
+        <title>浅谈lock关键字</title>
+        <pubTime>2017-05-15T14:37:16.000Z</pubTime>
+        
+        <tag>多线程</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/29/linuxInstallOracle/</loc>
+    <lastmod>2022-03-08T07:51:05.916Z</lastmod>
+    <data>
+        <display>
+        <title>在Linux中安装Oracle数据库</title>
+        <pubTime>2017-05-29T09:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="https://taffyblog.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/26/locationgit/</loc>
+    <lastmod>2022-03-08T07:51:05.916Z</lastmod>
+    <data>
+        <display>
+        <title>创建本地版本库及新增、修改、提交和回退</title>
+        <pubTime>2017-09-26T13:10:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Git笔记" url="https://taffyblog.github.io/categories/Git%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/29/jsRegExp/</loc>
+    <lastmod>2022-03-08T07:51:05.915Z</lastmod>
+    <data>
+        <display>
+        <title>正则表达式</title>
+        <pubTime>2018-04-29T04:13:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/29/jsSingleton/</loc>
+    <lastmod>2022-03-08T07:51:05.915Z</lastmod>
+    <data>
+        <display>
+        <title>Js单例模式</title>
+        <pubTime>2018-04-29T04:11:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/05/13/jsFactoryAndObserver/</loc>
+    <lastmod>2022-03-08T07:51:05.913Z</lastmod>
+    <data>
+        <display>
+        <title>JS简单工厂和观察者模式</title>
+        <pubTime>2018-05-13T10:10:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/06/26/jsPromise/</loc>
+    <lastmod>2022-03-08T07:51:05.913Z</lastmod>
+    <data>
+        <display>
+        <title>Promise 异步优化</title>
+        <pubTime>2018-06-26T08:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/24/jinzhi/</loc>
+    <lastmod>2022-03-08T07:51:05.912Z</lastmod>
+    <data>
+        <display>
+        <title>汇编学习(一)--简单理解进制</title>
+        <pubTime>2017-05-24T02:44:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="汇编学习" url="https://taffyblog.github.io/categories/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/29/jsAjax/</loc>
+    <lastmod>2022-03-08T07:51:05.912Z</lastmod>
+    <data>
+        <display>
+        <title>原生Js使用Ajax</title>
+        <pubTime>2018-04-29T04:10:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/08/30/installCore/</loc>
+    <lastmod>2022-03-08T07:51:05.911Z</lastmod>
+    <data>
+        <display>
+        <title>在Ubuntu 16.04安装.Net Core</title>
+        <pubTime>2017-08-30T02:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="DotNet Core" url="https://taffyblog.github.io/categories/DotNet-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2019/01/12/installNg/</loc>
+    <lastmod>2022-03-08T07:51:05.911Z</lastmod>
+    <data>
+        <display>
+        <title>Centos7安装nginx</title>
+        <pubTime>2019-01-12T10:37:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Linux" url="https://taffyblog.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/12/identityrun/</loc>
+    <lastmod>2022-03-08T07:51:05.910Z</lastmod>
+    <data>
+        <display>
+        <title>WinForm启动时自动以管理员身份运行</title>
+        <pubTime>2017-05-12T02:16:13.000Z</pubTime>
+        
+        <tag>WinForm</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/14/httpclient/</loc>
+    <lastmod>2022-03-08T07:51:05.909Z</lastmod>
+    <data>
+        <display>
+        <title>HttpClient类的使用</title>
+        <pubTime>2017-05-14T04:00:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/14/httprequestheader/</loc>
+    <lastmod>2022-03-08T07:51:05.909Z</lastmod>
+    <data>
+        <display>
+        <title>Http请求头参数</title>
+        <pubTime>2017-05-14T04:08:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/12/gethtmlimg/</loc>
+    <lastmod>2022-03-08T07:51:05.908Z</lastmod>
+    <data>
+        <display>
+        <title>从富文本(HTML字符串)中获取图片</title>
+        <pubTime>2017-05-12T02:19:13.000Z</pubTime>
+        
+        <tag>javascript</tag>
+         
+        <tag>正则表达式</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/17/httpAndWebSocket/</loc>
+    <lastmod>2022-03-08T07:51:05.908Z</lastmod>
+    <data>
+        <display>
+        <title>HTTP协议与WebSocket</title>
+        <pubTime>2017-09-17T02:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/18/fanxing/</loc>
+    <lastmod>2022-03-08T07:51:05.907Z</lastmod>
+    <data>
+        <display>
+        <title>C#中的泛型</title>
+        <pubTime>2017-05-18T02:42:10.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/07/02/encryption/</loc>
+    <lastmod>2022-03-08T07:51:05.906Z</lastmod>
+    <data>
+        <display>
+        <title>加密和解密</title>
+        <pubTime>2017-07-02T05:54:26.000Z</pubTime>
+        
+        <tag>加密</tag>
+         
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/21/factorymethod/</loc>
+    <lastmod>2022-03-08T07:51:05.906Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(二)--工厂方法模式</title>
+        <pubTime>2017-05-21T03:41:13.000Z</pubTime>
+        
+        <tag>创建型设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="https://taffyblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/21/easyfactory/</loc>
+    <lastmod>2022-03-08T07:51:05.905Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(一)--简单工厂模式</title>
+        <pubTime>2017-05-21T03:41:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="设计模式" url="https://taffyblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/09/17/efcoreLinkOracle/</loc>
+    <lastmod>2022-03-08T07:51:05.905Z</lastmod>
+    <data>
+        <display>
+        <title>EF Core连接Oracle</title>
+        <pubTime>2018-09-17T02:54:26.000Z</pubTime>
+        
+        <tag>EF6</tag>
+         
+         
+           
+             
+              <breadCrumb title="DotNet Core" url="https://taffyblog.github.io/categories/DotNet-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/13/dynamic/</loc>
+    <lastmod>2022-03-08T07:51:05.904Z</lastmod>
+    <data>
+        <display>
+        <title>dynamic类型</title>
+        <pubTime>2017-05-13T03:00:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/19/dbUtility/</loc>
+    <lastmod>2022-03-08T07:51:05.903Z</lastmod>
+    <data>
+        <display>
+        <title>使用DbProviderFactory 打造一个通用的数据访问类库</title>
+        <pubTime>2017-05-19T06:45:15.000Z</pubTime>
+        
+        <tag>数据库</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/dockerImageDel/</loc>
+    <lastmod>2022-03-08T07:51:05.903Z</lastmod>
+    <data>
+        <display>
+        <title>Docker 容器镜像删除</title>
+        <pubTime>2018-11-04T13:42:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title=".Net Core" url="https://taffyblog.github.io/categories/Net-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/12/17/cssSelector/</loc>
+    <lastmod>2022-03-08T07:51:05.902Z</lastmod>
+    <data>
+        <display>
+        <title>CSS选择器</title>
+        <pubTime>2017-12-17T05:03:13.000Z</pubTime>
+        
+        <tag>CSS</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/24/datawidth/</loc>
+    <lastmod>2022-03-08T07:51:05.902Z</lastmod>
+    <data>
+        <display>
+        <title>汇编学习(二)--数据宽度</title>
+        <pubTime>2017-05-24T03:03:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="汇编学习" url="https://taffyblog.github.io/categories/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/04/09/closureScope/</loc>
+    <lastmod>2022-03-08T07:51:05.901Z</lastmod>
+    <data>
+        <display>
+        <title>作用域和闭包</title>
+        <pubTime>2018-04-09T04:10:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/10/assemblies/</loc>
+    <lastmod>2022-03-08T07:51:05.900Z</lastmod>
+    <data>
+        <display>
+        <title>程序集和应用程序域</title>
+        <pubTime>2017-05-10T14:47:13.000Z</pubTime>
+        
+        <tag>程序集</tag>
+         
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/24/bitoperator/</loc>
+    <lastmod>2022-03-08T07:51:05.900Z</lastmod>
+    <data>
+        <display>
+        <title>汇编学习(四)--位运算之四则运算</title>
+        <pubTime>2017-05-24T08:57:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="汇编学习" url="https://taffyblog.github.io/categories/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/10/11/aspnetPipleline/</loc>
+    <lastmod>2022-03-08T07:51:05.899Z</lastmod>
+    <data>
+        <display>
+        <title>ASP.NET管道模型</title>
+        <pubTime>2018-10-11T12:42:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Web相关" url="https://taffyblog.github.io/categories/Web%E7%9B%B8%E5%85%B3/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/11/04/aspnetDockerError/</loc>
+    <lastmod>2022-03-08T07:51:05.898Z</lastmod>
+    <data>
+        <display>
+        <title>ASP.NET Core发布到Docker遇到的问题</title>
+        <pubTime>2018-11-04T12:42:19.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title=".Net Core" url="https://taffyblog.github.io/categories/Net-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/06/03/abstractFactory/</loc>
+    <lastmod>2022-03-08T07:51:05.897Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式(三)--抽象工厂模式</title>
+        <pubTime>2017-06-03T03:41:13.000Z</pubTime>
+        
+        <tag>创建型设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="https://taffyblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/05/12/aspdownbigfile/</loc>
+    <lastmod>2022-03-08T07:51:05.897Z</lastmod>
+    <data>
+        <display>
+        <title>ASP.NET断点续传大文件</title>
+        <pubTime>2017-05-12T02:42:19.000Z</pubTime>
+        
+        <tag>代码段</tag>
+         
+        <tag>ASP.NET</tag>
+         
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/10/14/ToolsNotes/</loc>
+    <lastmod>2022-03-08T07:51:05.896Z</lastmod>
+    <data>
+        <display>
+        <title>工具及、知识点及外链收集</title>
+        <pubTime>2017-10-14T06:34:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/12/12/JavaScriptOO/</loc>
+    <lastmod>2022-03-08T07:51:05.895Z</lastmod>
+    <data>
+        <display>
+        <title>Javascript 面向对象</title>
+        <pubTime>2017-12-12T03:41:13.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/01/16/Orm/</loc>
+    <lastmod>2022-03-08T07:51:05.895Z</lastmod>
+    <data>
+        <display>
+        <title>ORM概念</title>
+        <pubTime>2018-01-16T11:54:26.000Z</pubTime>
+        
+        <tag>EF6</tag>
+         
+         
+           
+             
+              <breadCrumb title="ORM" url="https://taffyblog.github.io/categories/ORM/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/26/GitErrors/</loc>
+    <lastmod>2022-03-08T07:51:05.894Z</lastmod>
+    <data>
+        <display>
+        <title>Git使用过程中遇到的问题</title>
+        <pubTime>2017-09-26T13:10:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Git笔记" url="https://taffyblog.github.io/categories/Git%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/08/19/Ioc/</loc>
+    <lastmod>2022-03-08T07:51:05.894Z</lastmod>
+    <data>
+        <display>
+        <title>控制反转/依赖注入（Unity容器使用）</title>
+        <pubTime>2017-08-19T03:47:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/09/02/ExpressionVisitor/</loc>
+    <lastmod>2022-03-08T07:51:05.893Z</lastmod>
+    <data>
+        <display>
+        <title>lambda表达式树解析并拼装Sql</title>
+        <pubTime>2017-09-02T07:54:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/08/31/FirstCoreApp/</loc>
+    <lastmod>2022-03-08T07:51:05.893Z</lastmod>
+    <data>
+        <display>
+        <title>第一个.Net Core程序</title>
+        <pubTime>2017-08-31T02:16:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="DotNet Core" url="https://taffyblog.github.io/categories/DotNet-Core/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/01/16/EntityFramework/</loc>
+    <lastmod>2022-03-08T07:51:05.892Z</lastmod>
+    <data>
+        <display>
+        <title>EntityFramework建立的三种方式</title>
+        <pubTime>2018-01-16T12:54:26.000Z</pubTime>
+        
+        <tag>EF6</tag>
+         
+         
+           
+             
+              <breadCrumb title="ORM" url="https://taffyblog.github.io/categories/ORM/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/08/31/Expression/</loc>
+    <lastmod>2022-03-08T07:51:05.892Z</lastmod>
+    <data>
+        <display>
+        <title>lambda表达式树拼装</title>
+        <pubTime>2017-08-31T01:54:26.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="C#高级编程" url="https://taffyblog.github.io/categories/C-%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/01/16/EFDatabaseOperation/</loc>
+    <lastmod>2022-03-08T07:51:05.891Z</lastmod>
+    <data>
+        <display>
+        <title>EntityFramework操作数据库</title>
+        <pubTime>2018-01-16T12:54:26.000Z</pubTime>
+        
+        <tag>EF6</tag>
+         
+         
+           
+             
+              <breadCrumb title="ORM" url="https://taffyblog.github.io/categories/ORM/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/05/21/DotNetCommonFramework/</loc>
+    <lastmod>2022-03-08T07:51:05.890Z</lastmod>
+    <data>
+        <display>
+        <title>.NET平台常用的框架整理</title>
+        <pubTime>2018-05-21T12:13:16.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="随笔" url="https://taffyblog.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/01/22/EFAdvancedFeatures/</loc>
+    <lastmod>2022-03-08T07:51:05.890Z</lastmod>
+    <data>
+        <display>
+        <title>EF高级特性</title>
+        <pubTime>2018-01-22T12:54:26.000Z</pubTime>
+        
+        <tag>EF6</tag>
+         
+         
+           
+             
+              <breadCrumb title="ORM" url="https://taffyblog.github.io/categories/ORM/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2018/06/22/DestructuringAssignment/</loc>
+    <lastmod>2022-03-08T07:51:05.889Z</lastmod>
+    <data>
+        <display>
+        <title>Javascript解构赋值</title>
+        <pubTime>2018-06-22T04:10:16.000Z</pubTime>
+        
+        <tag>Javascript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="https://taffyblog.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/07/10/DecoratorPattern/</loc>
+    <lastmod>2022-03-08T07:51:05.888Z</lastmod>
+    <data>
+        <display>
+        <title>装饰器模式</title>
+        <pubTime>2017-07-10T07:06:15.000Z</pubTime>
+        
+        <tag>结构型设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="https://taffyblog.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://taffyblog.github.io/2017/10/14/Crawler/</loc>
+    <lastmod>2022-03-08T07:51:05.887Z</lastmod>
+    <data>
+        <display>
+        <title>爬虫初探</title>
+        <pubTime>2017-10-14T05:03:13.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="Web相关" url="https://taffyblog.github.io/categories/Web%E7%9B%B8%E5%85%B3/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+</urlset>

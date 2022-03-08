@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Taffy">
+    
+    <meta name="description" content="纸上得来终觉浅，绝知此事要躬行！">
+    
+    
+    
+    
+    
+    
+    <title>C#中的泛型 | 标签 | 阿飞</title>
+    <link href=”https://taffyblog.github.io“ rel=”prefetch” />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/aos.css">
+<link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <style type="text/css">
+        @media (max-width: 768px) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+    </style>
+    
+    <!--<script type="text/javascript">
+      if (document.images) {
+        var avatar = new Image();
+        avatar.src = '/imgs/avatar.jpg'
+        var previews = 'preview1.jpg,preview2.jpg,preview3.jpg,preview4.jpg'.split(',')
+        var previewsPreLoad = []
+        for(var i = 0; i < length; i++) {
+          previewsPreLoad.push(new Image())
+          previewsPreLoad[previewsPreLoad.length - 1].src = '/imgs/preview' + previews[i]
+        }
+      }
+    </script>-->
+<link rel="stylesheet" href="/css/prism-vs.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<body>
+    <!-- 背景轮播图功能 -->
+    <section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>我为</span></li>
+        <li><span>长者</span></li>
+        <li><span>续一秒</span></li>
+    </ul>
+</section>
+    <!-- 欧尼酱功能, 谁用谁知道 -->
+    
+    <div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="https://taffyblog.github.io" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+    
+    <header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target=".bs-navbar-collapse"
+                    aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a href="https://taffyblog.github.io">
+                
+                <style>
+                    #gal-header .navbar-brand {
+                        height: 54px;
+                        line-height: 24px;
+                        font-size: 28px;
+                        opacity: 1;
+                        background-color: rgba(0,0,0,0);
+                        text-shadow: 0 0 5px #fff,0 0 10px #fff,0 0 15px #fff,0 0 20px #228DFF,0 0 35px #228DFF,0 0 40px #228DFF,0 0 50px #228DFF,0 0 75px #228DFF;
+                    }
+                </style>
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand">小飞</div>
+                
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                
+                
+                <li class="">
+                    <a href="/">
+                        <i class="fa fa-home"></i>首页
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>归档
+                    </a>
+                </li>
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-list"></i>分类
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/categories/设计模式/">设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/Web相关/">Web相关</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/前端/">前端</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/categories">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
+                        <i class="fa fa-tags"></i>标签
+                    </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/结构型设计模式/">结构型设计模式</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/Javascript/">Javascript</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/tags/EF6/">EF6</a>
+                        </li>
+                        
+                        
+                        <li>
+                            <a href="/tags">...</a>
+                        </li>
+                        
+                        
+                    </ul>
+                </li>
+                
+                
+                
+                
+                <li class="">
+                    <a href="/links">
+                        <i class="fa fa-meanpath"></i>外链
+                    </a>
+                </li>
+                
+                
+                
+                <li class="">
+                    <a href="/about">
+                        <i class="fa fa-user"></i>关于我
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</header>
+    <div id="gal-body">
+        <div class="container">
+            <div class="row">
+                 <!-- link页面不显示侧边栏 -->
+                
+                    <div class="col-md-8 gal-right" id="mainstay">
+                         
+<article class="article well article-body" id="article">
+    <div class="breadcrumb">
+        <i class="fa fa-home"></i>
+        <a href="https://taffyblog.github.io">阿飞</a>
+        >
+        <span>C#中的泛型</span>
+    </div>
+    
+    <!-- 大型设备详细文章 -->
+    <div class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+            </h1>
+        </div>
+        <div class="tag-article">
+            
+            <span class="label label-gal">
+                <i class="fa fa-calendar"></i> 2017-05-18
+            </span>
+            
+        </div>
+    </div>
+    <!-- 小型设备详细文章 -->
+    <div class="visible-xs">
+        <center>
+            <div class="title-article">
+                <h4>
+                    <a href="/2017/05/18/fanxing/">C#中的泛型</a>
+                </h4>
+            </div>
+            <p>
+                <i class="fa fa-calendar"></i> 2017-05-18
+            </p>
+            <p>
+                
+                
+            </p>
+        </center>
+    </div>
+     <!-- 文章 目录 -->
+    <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概念"><span class="post-toc-number">1.</span> <span class="post-toc-text">概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型类"><span class="post-toc-number">2.</span> <span class="post-toc-text">泛型类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型接口"><span class="post-toc-number">3.</span> <span class="post-toc-text">泛型接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">泛型方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型委托"><span class="post-toc-number">5.</span> <span class="post-toc-text">泛型委托</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型约束"><span class="post-toc-number">6.</span> <span class="post-toc-text">泛型约束</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#default关键字"><span class="post-toc-number">7.</span> <span class="post-toc-text">default关键字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#协变和逆变"><span class="post-toc-number">8.</span> <span class="post-toc-text">协变和逆变</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#协变"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">协变</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#逆变"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">逆变</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#泛型的一些实际应用"><span class="post-toc-number">9.</span> <span class="post-toc-text">泛型的一些实际应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#泛型用作缓存"><span class="post-toc-number">9.1.</span> <span class="post-toc-text">泛型用作缓存</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#泛型单例"><span class="post-toc-number">9.2.</span> <span class="post-toc-text">泛型单例</span></a></li></ol></li></ol>
+    <div class="content-article">
+        <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>msdn中对泛型的描述：<br>泛型是 2.0 版 C# 语言和公共语言运行库 (CLR) 中的一个新功能。泛型将类型参数的概念引入 .NET Framework，类型参数使得设计如下类和方法成为可能：这些类和方法将一个或多个类型的指定推迟到客户端代码声明并实例化该类或方法的时候。例如，通过使用泛型类型参数 T，您可以编写其他客户端代码能够使用的单个类，而不致引入运行时强制转换或装箱操作的成本或风险。</p>
+<blockquote>
+<p>泛型是.NET Framework中定义的一个语法糖，将类型指定推迟。</p>
+</blockquote>
+<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><p>在类名后指定<t>即可创建泛型类，示例代码如下:</t></p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> T _t<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> T t
+    <span class="token punctuation">{</span>
+        get
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> _t<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        set
+        <span class="token punctuation">{</span>
+            _t <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> string Name
+    <span class="token punctuation">{</span>
+        get
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> _name<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        set
+        <span class="token punctuation">{</span>
+            _name <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> string _name<span class="token punctuation">;</span>
+
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"My name is "</span><span class="token operator">+</span>_name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在控制台应用程序中调用:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span>string<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//示例1</span>
+    Person<span class="token operator">&lt;</span>Program<span class="token operator">></span> p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>Program<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    p<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"Tom"</span><span class="token punctuation">;</span>
+    p<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//示例2</span>
+    Person<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> pi <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pi<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"Taffy"</span><span class="token punctuation">;</span>
+    pi<span class="token punctuation">.</span><span class="token function">Show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果如下:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">ConsoleApplication2.Program
+My name is Tom
+
+System.Int32
+My name is Taffy
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>注意：在声明泛型类型T的时候，并不一定要叫T,且可以有多个泛型类型，如：</p>
+<pre class="line-numbers language-java"><code class="language-java">Person<span class="token operator">&lt;</span>T t<span class="token punctuation">,</span>TFirst tf<span class="token punctuation">,</span>TLast tl<span class="token operator">></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</blockquote>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p>和泛型类类似</p>
+<h3 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>给方法名后指定<t>则可以声明泛型方法，可在参数、方法体和返回值中使用，<br>示例如下：</t></p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Person</span>
+<span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> string Name
+    <span class="token punctuation">{</span>
+        get
+        <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> _name<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        set
+        <span class="token punctuation">{</span>
+            _name <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> string _name<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">void</span> Show<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token function">typeof</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"My name is {0}\n"</span><span class="token punctuation">,</span> _name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>调用方式:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span>string<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    Person p <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    p<span class="token punctuation">.</span>Name <span class="token operator">=</span> <span class="token string">"Tom"</span><span class="token punctuation">;</span>
+    p<span class="token punctuation">.</span>Show<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">52</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Console<span class="token punctuation">.</span><span class="token function">Read</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出结果如下:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">System.Int32
+52
+My name is Tom
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="泛型委托"><a href="#泛型委托" class="headerlink" title="泛型委托"></a>泛型委托</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> delegate <span class="token keyword">void</span> Del<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span>T item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Notify</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+Del<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> m2 <span class="token operator">=</span> Notify<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>预定义的泛型委托:Func,Action,Predicate, 其中，Func一般用来处理有返回值的情况，Action处理无返回值的情况，Predicate一般用作判断条件。</p>
+<p>Predicate的示例用法如下：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Program</span>  
+<span class="token punctuation">{</span>  
+    bool <span class="token function">IsGreaterThan50</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span>  
+    <span class="token punctuation">{</span>  
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">></span> <span class="token number">50</span><span class="token punctuation">)</span>  
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>  
+        <span class="token keyword">else</span>  
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">Main</span><span class="token punctuation">(</span>string<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span>  
+    <span class="token punctuation">{</span>  
+        Program p<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Program</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+
+        List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> lstInt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">List</span><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        lstInt<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        lstInt<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        lstInt<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token number">90</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+
+        Predicate<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> pred <span class="token operator">=</span> p<span class="token punctuation">.</span>IsGreaterThan50<span class="token punctuation">;</span>  
+
+        <span class="token keyword">int</span> i <span class="token operator">=</span> lstInt<span class="token punctuation">.</span><span class="token function">Find</span><span class="token punctuation">(</span>pred<span class="token punctuation">)</span><span class="token punctuation">;</span>                         <span class="token comment" spellcheck="true">// 找到匹配的第一个元素，此处为50  </span>
+        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"大于50的第一个元素为{0}"</span><span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+
+
+
+        List<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> all <span class="token operator">=</span> lstInt<span class="token punctuation">.</span><span class="token function">FindAll</span><span class="token punctuation">(</span>pred<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> all<span class="token punctuation">.</span><span class="token function">Count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>  
+        <span class="token punctuation">{</span>  
+            Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"大于50的数组中元素为{0}"</span><span class="token punctuation">,</span> all<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 找出所有匹配条件的  </span>
+        <span class="token punctuation">}</span>  
+
+        Console<span class="token punctuation">.</span><span class="token function">ReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>  
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a href="http://blog.csdn.net/woshixuye/article/details/8228258" target="_blank" rel="noopener">参考链接</a></p>
+<h3 id="泛型约束"><a href="#泛型约束" class="headerlink" title="泛型约束"></a>泛型约束</h3><p>在泛型类名或泛型方法名后指定 where T:约束条件 ，可给泛型类型添加约束，<br>约束条件如下:</p>
+<ul>
+<li>where T : struct -类型T必须是值类型</li>
+<li>where T : class -类型T必须是引用类型</li>
+<li>where T : Ifoo -类型T必须实现接口Ifoo</li>
+<li>where T : foo -类型T必须继承自 foo</li>
+<li>where T : new() -类型T必须有一个无参构造函数</li>
+<li>where T : U -指定泛型类型T必须派生于U。</li>
+</ul>
+<blockquote>
+<p>约束可设置多个，以逗号隔开</p>
+</blockquote>
+<h3 id="default关键字"><a href="#default关键字" class="headerlink" title="default关键字"></a>default关键字</h3><p>在泛型类和泛型方法中产生的一个问题是，在预先未知以下情况时，如何将默认值分配给参数化类型 T：</p>
+<ul>
+<li>T 是引用类型还是值类型。</li>
+<li>如果 T 为值类型，则它是数值还是结构。</li>
+</ul>
+<p>给定参数化类型 T 的一个变量 t，只有当 T 为引用类型时，语句 t = null 才有效；只有当 T 为数值类型而不是结构时，语句 t = 0 才能正常使用。解决方案是使用 default 关键字，此关键字对于引用类型会返回空，对于数值类型会返回零。对于结构，此关键字将返回初始化为零或空的每个结构成员，具体取决于这些结构是值类型还是引用类型。</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GenericList</span><span class="token operator">&lt;</span>T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">class</span> <span class="token class-name">Node</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//...</span>
+
+        <span class="token keyword">public</span> Node Next<span class="token punctuation">;</span>
+        <span class="token keyword">public</span> T Data<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> Node head<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//...</span>
+
+    <span class="token keyword">public</span> T <span class="token function">GetNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        T temp <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        Node current <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>current <span class="token operator">!=</span> null<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            temp <span class="token operator">=</span> current<span class="token punctuation">.</span>Data<span class="token punctuation">;</span>
+            current <span class="token operator">=</span> current<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> temp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="协变和逆变"><a href="#协变和逆变" class="headerlink" title="协变和逆变"></a>协变和逆变</h3><h4 id="协变"><a href="#协变" class="headerlink" title="协变"></a>协变</h4><p>如果某个返回的类型可以由其派生类型替换，那么这个类型就是支持协变的。在C#4.0之前是不支持的。</p>
+<p>通俗点说就是，左边泛型类型可用父类，右边可用子类.</p>
+<blockquote>
+<p>协变的泛型参数只能作为接口成员或泛型委托的返回值。</p>
+</blockquote>
+<p>实现方式：<br>在泛型形参前面加上out关键字即可</p>
+<p>示例代码:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">interface</span> <span class="token class-name">IPerson</span><span class="token operator">&lt;</span>out T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">:</span>IPerson<span class="token operator">&lt;</span>T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BaseClass</span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SonClass</span><span class="token operator">:</span>BaseClass
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>效果如下:</p>
+<pre class="line-numbers language-java"><code class="language-java">IPerson<span class="token operator">&lt;</span>BaseClass<span class="token operator">></span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>SonClass<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="逆变"><a href="#逆变" class="headerlink" title="逆变"></a>逆变</h4><p>如果某个参数类型可以由其基类替换，那么这个类型就是支持逆变的。</p>
+<p>即：左边的泛型类型可以是子类，右边是父类。</p>
+<blockquote>
+<p>逆变的泛型参数只能作为接口成员的传入参数</p>
+</blockquote>
+<p>在泛型形参前面加上in关键字即可,</p>
+<p>示例代码:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">interface</span> <span class="token class-name">IPerson</span><span class="token operator">&lt;</span>in T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token operator">:</span>IPerson<span class="token operator">&lt;</span>T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BaseClass</span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SonClass</span><span class="token operator">:</span>BaseClass
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>效果如下:</p>
+<pre class="line-numbers language-java"><code class="language-java">IPerson<span class="token operator">&lt;</span>SonClass<span class="token operator">></span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token operator">&lt;</span>BaseClass<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">+</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>协变和逆变只可以用于泛型接口和泛型委托，只能用于引用类型的转换，当方法的参数使用了<code>ref</code>或<code>out</code>关键字时将禁止协变和逆变。</p>
+<h3 id="泛型的一些实际应用"><a href="#泛型的一些实际应用" class="headerlink" title="泛型的一些实际应用"></a>泛型的一些实际应用</h3><h4 id="泛型用作缓存"><a href="#泛型用作缓存" class="headerlink" title="泛型用作缓存"></a>泛型用作缓存</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GenericCache</span><span class="token operator">&lt;</span>T<span class="token operator">></span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">static</span> T instance<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> T Instance
+    <span class="token punctuation">{</span>
+        get <span class="token punctuation">{</span> <span class="token keyword">return</span> instance<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        set
+        <span class="token punctuation">{</span>
+            instance <span class="token operator">=</span> value<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li><p>原理</p>
+<p>这运用了C#的一些基础知识:定义为静态的任何东西，永远不可能被回收，除非你自己将其设置为null，将引用去掉了，才可能被GC回收，如果遇到奇怪的现象，请检查代码其它地方。</p>
+</li>
+<li><p>缺点</p>
+<p>无法清除缓存，一个类型只能有一个缓存，不过可以定义为集合。</p>
+</li>
+</ol>
+<h4 id="泛型单例"><a href="#泛型单例" class="headerlink" title="泛型单例"></a>泛型单例</h4><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span><span class="token operator">&lt;</span>T<span class="token operator">></span> where T <span class="token operator">:</span> <span class="token keyword">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 单例实例</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> T instance<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 线程锁</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> object obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">/// &lt;summary></span>
+    <span class="token comment" spellcheck="true">/// 静态单例</span>
+    <span class="token comment" spellcheck="true">/// &lt;/summary></span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> T Instance
+    <span class="token punctuation">{</span>
+        get
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">lock</span> <span class="token punctuation">(</span>obj<span class="token punctuation">)</span>
+                <span class="token punctuation">{</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span>
+                    <span class="token punctuation">{</span>
+                        instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">T</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当其他类继承这个类时，便自动拥有了父类的单例属性。</p>
+<p>缺点：</p>
+<p>  子类的无参构造方法必须是公共的，意味着子类可以被实例化，无法强制让其使用单例。</p>
+
+    </div>
+</article>
+
+
+<div id="comments-template"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+	if(!window.commentConfig) {
+      window.commentConfig = {}
+      window.commentConfig.title = 'C#中的泛型'
+    }
+</script>
+
+                    </div>
+                    <aside class="col-md-4 gal-left" id="sidebar">
+    <!-- 此为sidebar的搜索框, 非搜索结果页面 -->
+<aside id="sidebar-search">
+    <div class="search hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <form class="form-inline clearfix" id="search-form" method="get"
+              action="/search/index.html">
+            <input type="text" name="s" class="form-control" id="searchInput" placeholder="搜索文章~">
+            <button class="btn btn-danger btn-gal" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+    </div>
+</aside>
+    <aside id="sidebar-author">
+    <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
+        <div class="panel-heading" style="text-align: center">
+            <i class="fa fa-quote-left"></i>
+            Taffy
+            <i class="fa fa-quote-right"></i>
+        </div>
+        <div class="author-panel text-center">
+            <img src="/imgs/avatar.jpg" width="140" height="140"
+                 alt="个人头像" class="author-image">
+            <p class="author-description"><p>纸上得来终觉浅，绝知此事要躬行！</p>
+</p>
+        </div>
+    </div>
+</aside>
+    
+    <aside id="sidebar-recent_comments">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-comments"></i>
+            最新评论
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush"></ul>
+    </div>
+</aside>
+    
+    <!-- 要配置好leancloud才能开启此小工具 -->
+    
+    
+    <aside id="sidebar-recent_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            近期文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/aspnetDockerError/">ASP.NET Core发布到Docker遇到的问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/10/11/aspnetPipleline/">ASP.NET管道模型</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/oracleCreadUser/">Oracle创建表空间和用户</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/17/efcoreLinkOracle/">EF Core连接Oracle</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/09/11/webappback/">解决WebApp手机返回键直接退出问题</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/08/14/vueJsRoute/">VueJs路由入门</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/07/31/vueJsCompoentData/">VueJs组件间的数据交换</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="sidebar-rand_posts">
+    <div class="panel panel-gal recent hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+        <div class="panel-heading">
+            <i class="fa fa-refresh"></i>
+            随机文章
+            <i class="fa fa-times-circle panel-remove"></i>
+            <i class="fa fa-chevron-circle-up panel-toggle"></i>
+        </div>
+        <ul class="list-group list-group-flush">
+            
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/10/14/Crawler/">爬虫初探</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/09/closureScope/">作用域和闭包</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/11/04/dockerImageDel/">Docker 容器镜像删除</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/12/gethtmlimg/">从富文本(HTML字符串)中获取图片</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/installNg/">Centos7安装nginx</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2019/01/12/nginxTurn/">nginx实现二级域名转发</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/11/operator/">使用operator进行运算符重载</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/18/str-encryption/">字符串加密类</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2017/05/15/task_async/">C#多线程</a>
+                </span>
+            </li>
+            
+            <li class="list-group-item">
+                <span class="post-title">
+                    <a href="/2018/04/29/thisOfJs/">this关键字</a>
+                </span>
+            </li>
+            
+        </ul>
+    </div>
+</aside>
+    
+    
+    <aside id="gal-sets">
+        <div class="panel panel-gal hidden-xs" data-aos="fade-up" data-aos-duration="2000">
+            <ul class="nav nav-pills pills-gal">
+                <li class="">
+                    <a href="/2017/05/18/fanxing/index.html#sidebar-tags" data-toggle="tab" id="tags-tab">热门标签</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/18/fanxing/index.html#sidebar-friend-links" data-toggle="tab" id="friend-links-tab">友情链接</a>
+                </li>
+                <li class="">
+                    <a href="/2017/05/18/fanxing/index.html#sidebar-links" data-toggle="tab" id="links-tab">个人链接</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
+    
+    <a href="/tags/结构型设计模式/" style="font-size: 15.553085167884916px;" class="tag-cloud-link">结构型设计模式</a>
+    
+    <a href="/tags/Javascript/" style="font-size: 16.844941617602892px;" class="tag-cloud-link">Javascript</a>
+    
+    <a href="/tags/EF6/" style="font-size: 8.526801712878472px;" class="tag-cloud-link">EF6</a>
+    
+    <a href="/tags/创建型设计模式/" style="font-size: 9.04266638511342px;" class="tag-cloud-link">创建型设计模式</a>
+    
+    <a href="/tags/代码段/" style="font-size: 10.593787906724376px;" class="tag-cloud-link">代码段</a>
+    
+    <a href="/tags/ASP-NET/" style="font-size: 13.430068955218164px;" class="tag-cloud-link">ASP.NET</a>
+    
+    <a href="/tags/程序集/" style="font-size: 13.009944698123343px;" class="tag-cloud-link">程序集</a>
+    
+    <a href="/tags/CSS/" style="font-size: 12.733331429607958px;" class="tag-cloud-link">CSS</a>
+    
+    <a href="/tags/数据库/" style="font-size: 11.323544910096853px;" class="tag-cloud-link">数据库</a>
+    
+    <a href="/tags/加密/" style="font-size: 10.263411147526254px;" class="tag-cloud-link">加密</a>
+    
+    <a href="/tags/javascript/" style="font-size: 14.651941273060693px;" class="tag-cloud-link">javascript</a>
+    
+    <a href="/tags/正则表达式/" style="font-size: 17.56822268148992px;" class="tag-cloud-link">正则表达式</a>
+    
+    <a href="/tags/WinForm/" style="font-size: 18.6763429168792px;" class="tag-cloud-link">WinForm</a>
+    
+    <a href="/tags/多线程/" style="font-size: 15.045516097372825px;" class="tag-cloud-link">多线程</a>
+    
+    <a href="/tags/Oracle/" style="font-size: 19.376322071514707px;" class="tag-cloud-link">Oracle</a>
+    
+    <a href="/tags/XML/" style="font-size: 18.257480730413356px;" class="tag-cloud-link">XML</a>
+    
+    <a href="/tags/ES6/" style="font-size: 16.85186993726768px;" class="tag-cloud-link">ES6</a>
+    
+    <a href="/tags/VueJs/" style="font-size: 19.078938780529576px;" class="tag-cloud-link">VueJs</a>
+    
+</div>
+                <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
+    
+    <li>
+        <a href="http://www.baidu.com/" target="_blank">百度</a>
+    </li>
+    
+</div>
+                <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
+    
+    <li>
+        <a href="https://github.com/TaffyBlog" target="_blank">Github</a>
+    </li>
+    
+    <li>
+        <a href="https://www.zhihu.com/people/fei-ge-ge-2-8/activities" target="_blank">知乎</a>
+    </li>
+    
+</div>
+            </div>
+        </div>
+    </aside>
+    
+</aside>
+                
+            </div>
+        </div>
+    </div>
+    <footer id="gal-footer">
+    <div class="container">
+        Copyright © 2018 Taffy Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+    </div>
+</footer>
+
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hibiki.model.json"},"display":{"superSample":1.5,"width":150,"height":300,"position":"right","hOffset":0,"vOffset":0},"mobile":{"show":true,"scale":0.1},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"tagMode":false});</script></body>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+
+    // 配置highslide
+	hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        opacity: 0.75,
+        position: "bottom center",
+        hideOnMouseOut: true
+      }
+    })
+
+    // 初始化aos
+    AOS.init({
+      duration: 1000,
+      delay: 0,
+      easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+	POWERMODE.colorful = 'true';    // make power mode colorful
+	POWERMODE.shake = 'true';       // turn off shake
+	// TODO 这里根据具体情况修改
+	document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+      prefix: '/imgs/slide/background',
+      ext: 'jpg',
+      maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+
+<script src="/js/oni.js"></script>
+
+
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    if(window.commentConfig) {
+      window.commentConfig.id = 'Thu May 18 2017 10:42:10 GMT+0800'
+      window.commentConfig.owner = 'TaffyBlog'
+      window.commentConfig.repo = 'taffyblogcomments'
+      window.commentConfig.client_id = 'fd4a3c1821147e2a3dfe'
+      window.commentConfig.client_secret = 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24'
+      window.commentConfig.redirect_uri = 'https://taffyblog.github.io'
+    } else {
+      window.commentConfig = {
+      	id: 'Thu May 18 2017 10:42:10 GMT+0800',
+        owner: 'TaffyBlog',
+        repo: 'taffyblogcomments',
+        client_id: 'fd4a3c1821147e2a3dfe',
+        client_secret: 'de6bc8eec3ca751089ca7cca196515cb6a4a7c24',
+        redirect_uri: 'https://taffyblog.github.io'
+      }
+    }
+</script>
+<script src="/js/comment/gitment.js"></script>
+
+</html>
